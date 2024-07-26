@@ -82,6 +82,9 @@ alias vim='nvim'
 alias c='clear'
 alias fv='nvim $(fzf -m --preview="bat --color=always {}")'
 
+# ADD Env
+
+export PATH="$HOME/dotfiles:$PATH"
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
