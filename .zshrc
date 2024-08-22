@@ -95,7 +95,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 alias ls='ls --color'
 alias vim='nvim'
 alias c='clear'
-alias fv='nvim $(fzf -m --preview="bat --color=always {}")'
+alias fv='nvim $(find ~ | fzf --algo=v1 -m --preview="bat --color=always {}")'
 
 # ADD Env
 
