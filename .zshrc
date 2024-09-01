@@ -45,7 +45,6 @@ zinit snippet OMZP::command-not-found
 zinit snippet OMZP::zoxide
 zinit snippet OMZP::tmux
 zinit snippet OMZP::ssh
-zinit snippet OMZP::rust
 zinit snippet OMZP::rsync
 zinit snippet OMZP::ansible
 
