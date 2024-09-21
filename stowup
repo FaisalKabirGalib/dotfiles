@@ -2,7 +2,7 @@
 
 echo "stowing dotfiles....."
 
-for folder in $(echo "bin,tmux,nvim,zsh,alacritty" | sed "s/,/ /g"); do
+for folder in $(echo "bin,p10k,tmux,nvim,zsh,alacritty" | sed "s/,/ /g"); do
   echo "stowing $folder"
   stow -D $folder
   stow $folder
