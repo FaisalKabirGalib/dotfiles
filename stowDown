@@ -1,9 +1,7 @@
 #!/usr/bin/env zsh
 
-echo "stowing dotfiles....."
 
 for folder in $(echo "bin,tmux,nvim,zsh,alacritty" | sed "s/,/ /g"); do
-  echo "stowing $folder"
+  echo "Removing $folder"
   stow -D $folder
-  stow $folder
 done
