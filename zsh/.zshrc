@@ -101,6 +101,7 @@ alias fv='nvim $(fd . -H ~ | fzf --algo=v1 -m --preview="bat --color=always {}")
 # ADD Env
 
 export PATH="$HOME/dotfiles:$PATH"
+export PATH="$HOME/.local/script:$PATH"
 # Shell integrations
 
 

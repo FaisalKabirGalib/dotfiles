@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+
+if [[ -z $STOW_FOLDER ]]; then
+  STOW_FOLDERS="bin,tmux,nvim,zsh,alacritty"
+fi
+
+if [[ -z $DOTFILES ]]; then
+  DOTFILES=$HOME/dotfiles  
+fi
+
+STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES
+
+
+
