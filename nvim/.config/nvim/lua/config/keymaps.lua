@@ -8,8 +8,3 @@ keymap.set("i", "jj", "<ESC>", { desc = "Exit insert mode with jj", noremap = tr
 keymap.set("n", "cs", ":nohls<CR>", { desc = "Clear high light search", noremap = true, silent = true })
 keymap.set("n", "<leader>ns", ":source %<CR>", { desc = "Source current lua config", noremap = true, silent = true })
 keymap.set("n", "<leader>rr", "<cmd>Rest run<CR>", { noremap = true, silent = true })
-keymap.set("n", "<leader>ss", function()
-  require("telescope.builtin").lsp_dynamic_workspace_symbols({
-    symbols = LazyVim.config.get_kind_filter(),
-  })
-end, { desc = "find Symbols", noremap = true, silent = true })
