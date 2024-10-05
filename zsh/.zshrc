@@ -102,7 +102,7 @@ alias fv='nvim $(fd . -H ~ | fzf --algo=v1 -m --preview="bat --color=always {}")
 
 export PATH="$HOME/dotfiles:$PATH"
 export PATH="$HOME/.local/script:$PATH"
-export PATH="~/development/flutter/bin:$PATH"
+export PATH="$HOME/development/flutter/bin:$PATH"
 # Shell integrations
 
 
