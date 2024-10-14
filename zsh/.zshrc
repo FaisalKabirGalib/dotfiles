@@ -93,8 +93,9 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Aliases
 
 alias ls='eza --color=always --long --git --no-permissions --no-user --no-time  --no-filesize  --icons=always'
-alias vim='nvim'
+alias v='nvim .'
 alias cd='z'
+alias t='tmux-se'
 alias c='clear'
 alias fv='nvim $(fd . -H ~ | fzf --algo=v1 -m --preview="bat --color=always {}")'
 

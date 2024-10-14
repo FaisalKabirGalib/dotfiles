@@ -6,8 +6,12 @@ return {
     { "<leader>/", false },
     { "<leader>ss", false },
     { "<leader>sS", false },
+
     -- change a keymap
-    { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+    { "<leader><space>", "<cmd>Telescope git_files<cr>", desc = "Find Files (git-files)" },
+    { "<leader>fg", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
+    { "<leader>cf", "<cmd>Telescope flutter commands<cr>", desc = "Show flutter commands" },
+
     -- add a keymap to browse plugin files
     {
       "<leader>fp",
