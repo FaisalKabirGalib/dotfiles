@@ -11,6 +11,30 @@ return {
     { "<leader><space>", "<cmd>Telescope git_files<cr>", desc = "Find Files (git-files)" },
     { "<leader>fg", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
     { "<leader>cf", "<cmd>Telescope flutter commands<cr>", desc = "Show flutter commands" },
+    -- New Keymap
+    {
+      "<leader>fW",
+      function()
+        require("telescope.builtin").live_grep({
+          additional_args = function()
+            return { "--no-ignore", "--hidden" }
+          end,
+        })
+      end,
+      desc = "Find word in File",
+    },
+
+    {
+      "<leader>fw",
+      function()
+        require("telescope.builtin").live_grep({
+          additional_args = function()
+            return { "--no-ignore", "--hidden", "--glob", "!**/node_modules/*", "--glob", "!**/.git/*" }
+          end,
+        })
+      end,
+      desc = "Find word in git tracked files",
+    },
 
     -- add a keymap to browse plugin files
     {

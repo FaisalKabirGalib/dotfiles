@@ -48,6 +48,7 @@ zinit snippet OMZP::ssh
 zinit snippet OMZP::rust
 zinit snippet OMZP::rsync
 zinit snippet OMZP::ansible
+zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/pass/_pass
 
 # Programming 
 zinit snippet OMZP::python
@@ -94,6 +95,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 alias ls='eza --color=always --long --git --no-permissions --no-user --no-time  --no-filesize  --icons=always'
 alias v='nvim .'
+alias vi='nvim'
 alias cd='z'
 alias t='tmux-se'
 alias c='clear'
