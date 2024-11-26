@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-if [[ -f "/opt/homebrew/bin/brew" ]] then
+if [[ -f "/opt/homebrew/bin/brew" ]];then
   # If you're using macOS, you'll want this enabled
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
@@ -47,6 +47,7 @@ zinit snippet OMZP::tmux
 zinit snippet OMZP::ssh
 zinit snippet OMZP::rsync
 zinit snippet OMZP::ansible
+zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/pass/_pass
 
 # Programming 
 zinit snippet OMZP::python
@@ -92,14 +93,18 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Aliases
 
 alias ls='eza --color=always --long --git --no-permissions --no-user --no-time  --no-filesize  --icons=always'
-alias vim='nvim'
+alias v='nvim .'
+alias vi='nvim'
 alias cd='z'
+alias t='tmux-se'
 alias c='clear'
 alias fv='nvim $(fd . -H ~ | fzf --algo=v1 -m --preview="bat --color=always {}")'
 
 # ADD Env
 
 export PATH="$HOME/dotfiles:$PATH"
+export PATH="$HOME/.local/script:$PATH"
+export PATH="$HOME/development/flutter/bin:$PATH"
 # Shell integrations
 
 
