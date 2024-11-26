@@ -1,0 +1,11 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": "ctrl+cmd+f",
+    "command": "find-it-faster.findFiles"
+  },
+  {
+    "key": "shift+cmd+j",
+    "command": "-find-it-faster.findFiles"
+  }
+]
