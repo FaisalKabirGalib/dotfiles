@@ -47,7 +47,7 @@ zinit snippet OMZP::tmux
 zinit snippet OMZP::ssh
 zinit snippet OMZP::rsync
 zinit snippet OMZP::ansible
-zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/pass/_pass
+# zinit snippet https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/pass/_pass
 
 # Programming 
 zinit snippet OMZP::python
@@ -99,6 +99,8 @@ alias cd='z'
 alias t='tmux-se'
 alias c='clear'
 alias fv='nvim $(fd . -H ~ | fzf --algo=v1 -m --preview="bat --color=always {}")'
+alias fp='tmux-se'
+
 
 # ADD Env
 
