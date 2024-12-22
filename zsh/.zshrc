@@ -71,6 +71,10 @@ bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
+# set key bindings for fzf-tab
+bindkey '^R' fzf-tab-history-widget
+bindkey '^T' fzf-tab-files-widget
+
 
 # History
 HISTSIZE=5000
