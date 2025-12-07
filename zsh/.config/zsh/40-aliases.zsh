@@ -13,7 +13,7 @@ alias fv='nvim $(fd . -H ~ | fzf --algo=v1 -m --preview="bat --color=always {}")
 alias fp='tmux-se'
 
 # === SSH/Remote Access ===
-alias vps='ssh -i ~/.ssh/id_rsa galib@147.93.153.135'
+alias vps='ssh -vv galib@147.93.154.129'
 alias kube_vps='ssh -i ~/.ssh/kube_rsa faisal@13.126.197.249'
 alias local_vps='ssh -i ~/.ssh/kube_rsa root@vm.softcellbd.net -p 65535'
 
