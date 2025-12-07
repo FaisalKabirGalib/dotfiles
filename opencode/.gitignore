@@ -1,0 +1,4 @@
+# Environment variables
+.config/opencode/.env
+.config/opencode/.env.local
+.config/opencode/.env.*.local

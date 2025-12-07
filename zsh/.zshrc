@@ -23,6 +23,13 @@ done
 # source "$ZSH_CONFIG_DIR/50-tools.zsh"
 # source "$ZSH_CONFIG_DIR/60-functions.zsh"
 # source "$ZSH_CONFIG_DIR/70-theme.zsh"
+
+# NVM Configuration - Load after all other configurations
 export NVM_DIR="$HOME/.config/nvm"
+# Fix NPM_CONFIG_PREFIX issue before and after loading NVM
+unset NPM_CONFIG_PREFIX
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Ensure NVM default is loaded and NPM_CONFIG_PREFIX is unset
+unset NPM_CONFIG_PREFIX
+nvm use default > /dev/null 2>&1
