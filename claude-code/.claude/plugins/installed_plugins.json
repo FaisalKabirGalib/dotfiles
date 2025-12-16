@@ -1,13 +1,16 @@
 {
-  "version": 1,
+  "version": 2,
   "plugins": {
-    "security-pro@claude-code-templates": {
-      "version": "unknown",
-      "installedAt": "2025-10-30T09:22:30.352Z",
-      "lastUpdated": "2025-10-30T09:22:30.352Z",
-      "installPath": "/home/galib/.claude/plugins/marketplaces/claude-code-templates/",
-      "gitCommitSha": "a7385cddf52317f1c2711d83a2a304025a4b8521",
-      "isLocal": true
-    }
+    "security-pro@claude-code-templates": [
+      {
+        "scope": "user",
+        "installPath": "/home/galib/.claude/plugins/cache/claude-code-templates/security-pro/unknown",
+        "version": "unknown",
+        "installedAt": "2025-10-30T09:22:30.352Z",
+        "lastUpdated": "2025-10-30T09:22:30.352Z",
+        "gitCommitSha": "a7385cddf52317f1c2711d83a2a304025a4b8521",
+        "isLocal": true
+      }
+    ]
   }
 }

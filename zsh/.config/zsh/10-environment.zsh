@@ -11,6 +11,7 @@ fi
 # Custom PATH entries
 export PATH="$HOME/dotfiles:$PATH"
 export PATH="$HOME/.local/script:$PATH"
+export PATH="$PATH:/home/galib/.local/bin"
 export PATH="$HOME/development/flutter/bin:$PATH"
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 

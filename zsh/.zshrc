@@ -33,3 +33,9 @@ unset NPM_CONFIG_PREFIX
 # Ensure NVM default is loaded and NPM_CONFIG_PREFIX is unset
 unset NPM_CONFIG_PREFIX
 nvm use default > /dev/null 2>&1
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /home/galib/.config/.dart-cli-completion/zsh-config.zsh ]] && . /home/galib/.config/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+

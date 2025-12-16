@@ -22,5 +22,13 @@
     },
     "installLocation": "/home/galib/.claude/plugins/marketplaces/claude-code-workflows",
     "lastUpdated": "2025-12-02T18:07:32.594Z"
+  },
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/home/galib/.claude/plugins/marketplaces/claude-plugins-official",
+    "lastUpdated": "2025-12-14T09:09:55.144Z"
   }
 }
