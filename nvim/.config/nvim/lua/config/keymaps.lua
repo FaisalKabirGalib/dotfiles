@@ -58,8 +58,83 @@ keymap.set("n", "<leader>ff", function()
   require("telescope.builtin").find_files()
 end, { desc = "Find files" })
 
+-- Smart Flutter Run - detects multiple main*.dart files and shows picker
+local function smart_flutter_run()
+  -- Check if we're in a Flutter project
+  if vim.fn.filereadable("pubspec.yaml") == 0 then
+    vim.notify("Not in a Flutter project (no pubspec.yaml found)", vim.log.levels.WARN)
+    return
+  end
+
+  -- Check if lib directory exists
+  if vim.fn.isdirectory("lib") == 0 then
+    vim.notify("No lib/ directory found", vim.log.levels.WARN)
+    return
+  end
+
+  -- Scan for main*.dart files
+  local main_files = vim.fn.globpath("lib", "main*.dart", false, true)
+
+  -- Handle no main files
+  if #main_files == 0 then
+    vim.notify("No main*.dart files found in lib/", vim.log.levels.WARN)
+    return
+  end
+
+  -- If only main.dart exists, run directly
+  if #main_files == 1 and main_files[1] == "lib/main.dart" then
+    vim.cmd("FlutterRun")
+    return
+  end
+
+  -- Helper function to create user-friendly labels
+  local function format_main_entry(filepath)
+    local env_name = filepath:match("lib/main_(.-)%.dart")
+    if env_name == "development" then
+      return "Development"
+    elseif env_name == "staging" then
+      return "Staging"
+    elseif env_name == "production" then
+      return "Production"
+    elseif filepath == "lib/main.dart" then
+      return "Default"
+    else
+      return filepath
+    end
+  end
+
+  -- Sort main files: environment-specific first, default last
+  table.sort(main_files, function(a, b)
+    local priority = {
+      ["lib/main_development.dart"] = 1,
+      ["lib/main_staging.dart"] = 2,
+      ["lib/main_production.dart"] = 3,
+      ["lib/main.dart"] = 99,
+    }
+    local priority_a = priority[a] or 50
+    local priority_b = priority[b] or 50
+    return priority_a < priority_b
+  end)
+
+  -- Show picker for multiple main files
+  vim.ui.select(main_files, {
+    prompt = "Select Flutter entry point:",
+    format_item = function(item)
+      return format_main_entry(item)
+    end,
+  }, function(choice)
+    if choice then
+      if choice == "lib/main.dart" then
+        vim.cmd("FlutterRun")
+      else
+        vim.cmd("FlutterRun --target " .. choice)
+      end
+    end
+  end)
+end
+
 -- Flutter keymaps (using <leader>F for Flutter commands)
-keymap.set("n", "<leader>Fr", "<cmd>FlutterRun<CR>", { desc = "Flutter Run" })
+keymap.set("n", "<leader>Fr", smart_flutter_run, { desc = "Flutter Run" })
 keymap.set("n", "<leader>FR", "<cmd>FlutterRestart<CR>", { desc = "Flutter Restart" })
 keymap.set("n", "<leader>Fq", "<cmd>FlutterQuit<CR>", { desc = "Flutter Quit" })
 keymap.set("n", "<leader>Fd", "<cmd>FlutterDevices<CR>", { desc = "Flutter Devices" })

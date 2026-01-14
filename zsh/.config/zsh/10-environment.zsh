@@ -25,6 +25,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Mason (Dart tooling)
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
+#Go path 
+GOPATH=$HOME/go PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+
 # Shorebird
 export PATH="$PATH":"$HOME/.shorebird/bin/shorebird"
 export PATH="/home/galib/.shorebird/bin:$PATH"

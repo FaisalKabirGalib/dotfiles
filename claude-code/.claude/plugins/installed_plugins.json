@@ -11,6 +11,28 @@
         "gitCommitSha": "a7385cddf52317f1c2711d83a2a304025a4b8521",
         "isLocal": true
       }
+    ],
+    "glm-plan-usage@zai-coding-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/home/galib/.claude/plugins/cache/zai-coding-plugins/glm-plan-usage/0.0.1",
+        "version": "0.0.1",
+        "installedAt": "2025-12-24T03:10:08.780Z",
+        "lastUpdated": "2025-12-24T03:10:08.780Z",
+        "gitCommitSha": "6f96d4d800244a953b379096c272288f5b41155b",
+        "isLocal": true
+      }
+    ],
+    "glm-plan-bug@zai-coding-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/home/galib/.claude/plugins/cache/zai-coding-plugins/glm-plan-bug/0.0.1",
+        "version": "0.0.1",
+        "installedAt": "2025-12-24T03:10:16.019Z",
+        "lastUpdated": "2025-12-24T03:10:16.019Z",
+        "gitCommitSha": "6f96d4d800244a953b379096c272288f5b41155b",
+        "isLocal": true
+      }
     ]
   }
 }
