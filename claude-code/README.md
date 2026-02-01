@@ -6,6 +6,8 @@ This package manages global Claude Code configuration using GNU Stow.
 
 - **settings.json**: Global Claude Code settings (plugins, preferences, etc.)
 - **commands/**: Custom slash commands for Claude Code
+- **skills/**: Auto-activating skills that provide contextual expertise
+- **agents/**: Specialized subagents for specific tasks
 - **hooks/**: Event hooks that run on tool calls
 - **.env.template**: Template for environment variables (API tokens, etc.)
 - **.claude.json.template**: Reference template for .claude.json structure with MCP server examples
@@ -40,6 +42,8 @@ stow -t ~ claude-code
 This will symlink:
 - `~/.claude/settings.json` - Global settings
 - `~/.claude/commands/` - Custom slash commands
+- `~/.claude/skills/` - Auto-activating skills
+- `~/.claude/agents/` - Specialized subagents
 - `~/.claude/hooks/` - Event hooks
 
 ## Removal
@@ -62,6 +66,78 @@ echo "Review the code for security vulnerabilities and best practices" > claude-
 ```
 
 Then use with `/review` in Claude Code.
+
+## Adding Skills
+
+Skills auto-activate based on task context (unlike commands which are manually invoked).
+
+Create skill directories with `SKILL.md` files:
+
+```bash
+# Create a new skill
+mkdir -p claude-code/.claude/skills/skill-name
+cat > claude-code/.claude/skills/skill-name/SKILL.md << 'EOF'
+---
+name: skill-name
+description: When this skill should activate
+version: 1.0.0
+---
+
+# Skill Title
+
+Expert guidance for this domain.
+
+## When This Skill Activates
+
+Claude activates this when working on [specific tasks].
+
+## Key Principles
+
+1. Principle one
+2. Principle two
+3. Etc.
+EOF
+```
+
+**Key differences from commands:**
+- Skills auto-activate based on context matching the `description`
+- Must be in subdirectories: `skills/skill-name/SKILL.md`
+- File must be named `SKILL.md` (not `skill-name.md`)
+- Cannot be manually invoked (unlike `/command-name`)
+
+## Adding Agents
+
+Agents are specialized subagents that can be invoked for specific tasks.
+
+Create agent markdown files in `agents/` directory:
+
+```bash
+# Example: .claude/agents/security-expert.md
+cat > claude-code/.claude/agents/security-expert.md << 'EOF'
+---
+description: Security specialist for identifying vulnerabilities, implementing secure coding practices, and conducting security audits
+tools: Read, Grep, Bash
+model: sonnet
+---
+
+You are a security expert specializing in application security.
+
+When invoked:
+1. Analyze the code for security vulnerabilities
+2. Check for OWASP Top 10 issues
+3. Review authentication and authorization
+4. Identify potential security risks
+
+Focus on:
+- Input validation and sanitization
+- Authentication and authorization
+- SQL injection, XSS, CSRF vulnerabilities
+- Secure data handling
+- Cryptographic best practices
+EOF
+```
+
+**Usage:** Agents can be invoked automatically by Claude or manually via the Task tool.
 
 ## Adding Event Hooks
 
@@ -163,6 +239,8 @@ claude mcp add
 **What Syncs Automatically:**
 - ✅ Global settings (settings.json)
 - ✅ Custom slash commands
+- ✅ Auto-activating skills
+- ✅ Specialized agents
 - ✅ Event hooks
 - ✅ Environment variable template (.env.template)
 
@@ -177,7 +255,7 @@ claude mcp add
 
 This package takes a **minimal approach** to Claude Code configuration:
 
-- **Settings, commands, and hooks are shared** - These are portable and work the same across machines
+- **Settings, commands, skills, agents, and hooks are shared** - These are portable and work the same across machines
 - **Environment variables stay local** - API tokens and credentials are machine-specific and managed via .env files
 - **MCP servers stay local** - Server paths, API keys, and configurations are machine-specific and managed locally
 - **Clean separation** - Dotfiles handle the shareable parts, sensitive data stays on each machine

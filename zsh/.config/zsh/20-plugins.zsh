@@ -44,13 +44,6 @@ zinit snippet OMZP::ssh
 zinit snippet OMZP::rsync
 zinit snippet OMZP::ansible
 
-# Programming
-zinit snippet OMZP::python
-zinit snippet OMZP::pip
-zinit snippet OMZP::postgres
-zinit snippet OMZP::node
-zinit snippet OMZP::npm
-zinit snippet OMZP::yarn
 
 # Development tools
 zinit snippet OMZP::extract
