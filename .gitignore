@@ -1,0 +1,26 @@
+# SSH keys - NEVER commit these
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# Ignore entire .ssh directory by default
+ssh/.ssh/id_*
+ssh/.ssh/*.pem
+ssh/.ssh/*.key
+ssh/.ssh/known_hosts
+ssh/.ssh/known_hosts.old
+ssh/.ssh/authorized_keys
+
+# But DO track SSH config
+!ssh/.ssh/config
+
+# Machine-specific files
+*.local
+.env
+credentials*
+
+# Backup files
+*.bak
+*~
+*.swp
