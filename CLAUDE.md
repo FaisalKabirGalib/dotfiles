@@ -176,6 +176,29 @@ echo "Review code for security vulnerabilities" > claude-code/.claude/commands/s
 - Run shell commands on Claude Code events (tool calls, prompt submit, etc.)
 - Refer to Claude Code documentation for available hook types
 
+### Opencode Configuration
+
+**opencode/**: Opencode CLI configuration with MCP servers
+- Main config at `opencode/.config/opencode/opencode.json`
+- MCP environment variables sourced automatically via zsh wrapper
+- API keys stored in `opencode/mcp-env.sh` (private, not committed)
+
+**MCP Servers Configured:**
+- `context7` - Codebase indexing and search
+- `sequential-thinking` - Advanced reasoning
+- `zai-mcp-server` - Z.AI services
+- `Ref` - Reference tools
+- `web-search-prime` - Web search
+- `web-reader` - Web content reading
+
+**Usage:**
+```bash
+stow opencode              # Install opencode config
+opencode mcp list          # List MCP servers
+```
+
+**Note:** API keys are loaded from `opencode/mcp-env.sh` via the `opencode` function in zsh config. This file contains private keys and should not be committed to git.
+
 ### Configuration Patterns
 
 **Neovim Plugin Management:**
