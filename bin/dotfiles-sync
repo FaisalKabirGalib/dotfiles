@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PACKAGES="${*:-nvim opencode}"
+
+cd "$DOTFILES_DIR"
+
+stow -R -t ~ $PACKAGES 2>/dev/null
+
+echo "✓ Synced: $PACKAGES"

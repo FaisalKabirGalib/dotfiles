@@ -28,6 +28,7 @@ alias ccu='claude update'      # Update Claude Code
 alias ccm='claude mcp'         # MCP server configuration
 
 # === Opencode Aliases ===
+alias dsync='dotfiles-sync'
 opencode() {
   local mcp_env="$HOME/dotfiles/opencode/mcp-env.sh"
   if [[ -f "$mcp_env" ]]; then
