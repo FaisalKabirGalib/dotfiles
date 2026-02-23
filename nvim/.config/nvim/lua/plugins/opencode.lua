@@ -26,6 +26,22 @@ return {
     },
   },
   config = function()
+    local mcp_env = vim.fn.expand("~/dotfiles/opencode/mcp-env.sh")
+    if vim.fn.filereadable(mcp_env) == 1 then
+      local env_vars = {
+        "CONTEXT7_API_KEY",
+        "ZAI_API_KEY",
+        "ZAI_WEB_SEARCH_KEY",
+        "REF_API_KEY",
+      }
+      for _, var in ipairs(env_vars) do
+        if not vim.env[var] then
+          local result = vim.fn.system(string.format("source %s && echo $%s", mcp_env, var))
+          vim.env[var] = vim.fn.trim(result)
+        end
+      end
+    end
+
     vim.g.opencode_opts = {
       provider = {
         enabled = "snacks",
