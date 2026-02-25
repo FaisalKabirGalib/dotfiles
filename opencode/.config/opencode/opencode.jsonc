@@ -14,9 +14,6 @@
     "scroll_speed": 3,
     "diff_style": "auto"
   },
-  "plugin": [
-    "opencode-antigravity-auth@latest"
-  ],
   "mcp": {
     "context7": {
       "type": "local",
