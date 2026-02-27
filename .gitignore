@@ -24,3 +24,7 @@ credentials*
 *.bak
 *~
 *.swp
+
+# Tmux log files
+tmux-client-*.log
+tmux-server-*.log
