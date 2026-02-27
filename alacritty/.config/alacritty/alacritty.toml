@@ -63,3 +63,6 @@ bindings = [
 ]
 
 [terminal]
+
+[terminal]
+osc52 = "CopyPaste"
