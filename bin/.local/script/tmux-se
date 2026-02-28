@@ -7,6 +7,7 @@ else
 fi
 
 selected_name=$(basename "$selected" | tr . _)
+selected_name="${selected_name^}"
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
