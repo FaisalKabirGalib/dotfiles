@@ -10,6 +10,10 @@
   "default_agent": "build",
   "autoupdate": true,
   "share": "manual",
+  "plugin": [
+    "opencode-beads",
+    "@tarquinen/opencode-dcp@latest"
+  ],
   "tui": {
     "scroll_speed": 3,
     "diff_style": "auto"
