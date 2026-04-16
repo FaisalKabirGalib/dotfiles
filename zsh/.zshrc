@@ -39,3 +39,6 @@ nvm use default > /dev/null 2>&1
 [[ -f /home/galib/.config/.dart-cli-completion/zsh-config.zsh ]] && . /home/galib/.config/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
 
+
+# Shopify Hydrogen alias to local projects
+alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
