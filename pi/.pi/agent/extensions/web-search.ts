@@ -8,7 +8,7 @@ const MCP_HEADERS = {
 
 type McpSession = { sessionId: string; baseUrl: string; authHeaders: Record<string, string> };
 
-async function mcpInit(baseUrl: string, authHeaders: Record<string, string>): Promise<McpSession> {
+async function mcpInit(baseUrl: string, authHeaders: Record<string, string>, signal?: AbortSignal): Promise<McpSession> {
   const res = await fetch(baseUrl, {
     method: "POST",
     headers: { ...MCP_HEADERS, ...authHeaders },
@@ -22,6 +22,7 @@ async function mcpInit(baseUrl: string, authHeaders: Record<string, string>): Pr
         clientInfo: { name: "pi", version: "1.0" },
       },
     }),
+    signal,
   });
 
   const sessionId = res.headers.get("mcp-session-id") || "";
@@ -30,6 +31,7 @@ async function mcpInit(baseUrl: string, authHeaders: Record<string, string>): Pr
     method: "POST",
     headers: { ...MCP_HEADERS, ...authHeaders, ...(sessionId ? { "mcp-session-id": sessionId } : {}) },
     body: JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized" }),
+    signal,
   });
 
   return { sessionId, baseUrl, authHeaders };
@@ -71,48 +73,18 @@ async function mcpCall<T>(session: McpSession, toolName: string, args: Record<st
   return content[0].text as T;
 }
 
-interface Keys {
-  zaiKey: string;
-  refApiKey: string;
-  context7ApiKey: string;
-}
-
-function loadEnvKeys(): Keys {
-  const { execSync } = require("node:child_process");
-  const home = process.env.HOME || process.env.HOMEPATH || "/root";
-  const mcpEnvFile = `${home}/dotfiles/opencode/mcp-env.sh`;
-
-  let zaiKey = "";
-  let refApiKey = "";
-  let context7ApiKey = "";
-
-  try {
-    const source = execSync(
-      `bash -c 'source "${mcpEnvFile}" 2>/dev/null && echo "ZAI_KEY=$ZAI_API_KEY" && echo "REF_API_KEY=$REF_API_KEY" && echo "CONTEXT7_API_KEY=$CONTEXT7_API_KEY"'`,
-      { encoding: "utf-8", timeout: 5000 },
-    );
-    for (const line of source.split("\n")) {
-      if (line.startsWith("ZAI_KEY=")) zaiKey = line.split("=").slice(1).join("=");
-      if (line.startsWith("REF_API_KEY=")) refApiKey = line.split("=").slice(1).join("=");
-      if (line.startsWith("CONTEXT7_API_KEY=")) context7ApiKey = line.split("=").slice(1).join("=");
-    }
-  } catch {
-    zaiKey = process.env.ZAI_API_KEY || process.env.ZAI_WEB_SEARCH_KEY || "";
-    refApiKey = process.env.REF_API_KEY || "";
-    context7ApiKey = process.env.CONTEXT7_API_KEY || "";
-  }
-
-  return { zaiKey, refApiKey, context7ApiKey };
+async function getKey(ctx: { modelRegistry: { getApiKeyForProvider(p: string): Promise<string | undefined> } }, provider: string): Promise<string> {
+  const key = await ctx.modelRegistry.getApiKeyForProvider(provider);
+  if (!key) throw new Error(`No API key found for provider "${provider}". Add it to ~/.pi/agent/auth.json with key "!pass ApiKey/${provider}"`);
+  return key;
 }
 
 export default function (pi: ExtensionAPI) {
-  const keys = loadEnvKeys();
-
   const ZAI_SEARCH_URL = "https://api.z.ai/api/mcp/web_search_prime/mcp";
   const ZAI_READER_URL = "https://api.z.ai/api/mcp/web_reader/mcp";
   const ZAI_ZREAD_URL = "https://api.z.ai/api/mcp/zread/mcp";
   const REF_URL = "https://api.ref.tools/mcp";
-  const CTX7_URL = "https://context7.com/api/v1";
+  const CTX7_BASE = "https://context7.com/api/v1";
 
   // ─── web_search ────────────────────────────────────────────────────────
 
@@ -139,29 +111,29 @@ export default function (pi: ExtensionAPI) {
       const results: string[] = [];
 
       // 1. ZAI web search (primary)
-      if (keys.zaiKey) {
-        try {
-          const session = await mcpInit(ZAI_SEARCH_URL, { Authorization: `Bearer ${keys.zaiKey}` });
-          const raw = await mcpCall<string>(session, "web_search_prime", {
-            search_query: params.query,
-            search_domain_filter: params.domain || "",
-            search_recency_filter: params.recency || "noLimit",
-            content_size: "medium",
-          }, ctx.signal);
+      try {
+        const zaiKey = await getKey(ctx, "zai");
+        const session = await mcpInit(ZAI_SEARCH_URL, { Authorization: `Bearer ${zaiKey}` }, ctx.signal);
+        const raw = await mcpCall<string>(session, "web_search_prime", {
+          search_query: params.query,
+          search_domain_filter: params.domain || "",
+          search_recency_filter: params.recency || "noLimit",
+          content_size: "medium",
+        }, ctx.signal);
 
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            for (const r of parsed) {
-              results.push(`**${r.title || ""}**\n${r.url || ""}\n${r.snippet || r.content || r.summary || ""}`);
-            }
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          for (const r of parsed) {
+            results.push(`**${r.title || ""}**\n${r.url || ""}\n${r.snippet || r.content || r.summary || ""}`);
           }
-        } catch { /* ZAI search failed */ }
-      }
+        }
+      } catch { /* ZAI search failed */ }
 
       // 2. Fallback: Ref search
-      if (results.length === 0 && keys.refApiKey) {
+      if (results.length === 0) {
         try {
-          const session = await mcpInit(REF_URL, { "x-ref-api-key": keys.refApiKey });
+          const refKey = await getKey(ctx, "ref");
+          const session = await mcpInit(REF_URL, { "x-ref-api-key": refKey }, ctx.signal);
           const raw = await mcpCall<string>(session, "ref_search_documentation", {
             query: params.query,
           }, ctx.signal);
@@ -211,24 +183,24 @@ export default function (pi: ExtensionAPI) {
       let content = "";
 
       // 1. ZAI web reader
-      if (keys.zaiKey) {
-        try {
-          const session = await mcpInit(ZAI_READER_URL, { Authorization: `Bearer ${keys.zaiKey}` });
-          const raw = await mcpCall<string>(session, "webReader", {
-            url: params.url,
-            return_format: params.format || "markdown",
-            retain_images: false,
-          }, ctx.signal);
+      try {
+        const zaiKey = await getKey(ctx, "zai");
+        const session = await mcpInit(ZAI_READER_URL, { Authorization: `Bearer ${zaiKey}` }, ctx.signal);
+        const raw = await mcpCall<string>(session, "webReader", {
+          url: params.url,
+          return_format: params.format || "markdown",
+          retain_images: false,
+        }, ctx.signal);
 
-          const parsed = JSON.parse(raw);
-          content = parsed.content || raw;
-        } catch { /* ZAI reader failed */ }
-      }
+        const parsed = JSON.parse(raw);
+        content = parsed.content || raw;
+      } catch { /* ZAI reader failed */ }
 
       // 2. Fallback: Ref read_url
-      if (!content && keys.refApiKey) {
+      if (!content) {
         try {
-          const session = await mcpInit(REF_URL, { "x-ref-api-key": keys.refApiKey });
+          const refKey = await getKey(ctx, "ref");
+          const session = await mcpInit(REF_URL, { "x-ref-api-key": refKey }, ctx.signal);
           const raw = await mcpCall<string>(session, "ref_read_url", { url: params.url }, ctx.signal);
           content = raw;
         } catch { /* Ref also failed */ }
@@ -285,61 +257,59 @@ export default function (pi: ExtensionAPI) {
     async execute(_toolCallId, params, _signal, onUpdate, ctx) {
       onUpdate?.({ content: [{ type: "text", text: `${params.action}: ${params.repo}...` }] });
 
-      // 1. Try ZAI Zread
-      if (keys.zaiKey) {
-        try {
-          const session = await mcpInit(ZAI_ZREAD_URL, { Authorization: `Bearer ${keys.zaiKey}` });
+      // 1. ZAI Zread
+      try {
+        const zaiKey = await getKey(ctx, "zai");
+        const session = await mcpInit(ZAI_ZREAD_URL, { Authorization: `Bearer ${zaiKey}` }, ctx.signal);
 
-          let result: string;
-          switch (params.action) {
-            case "search": {
-              result = await mcpCall<string>(session, "search_doc", {
-                repo_name: params.repo,
-                query: params.query || "",
-                language: "en",
-              }, ctx.signal);
-              break;
-            }
-            case "structure": {
-              result = await mcpCall<string>(session, "get_repo_structure", {
-                repo_name: params.repo,
-                dir_path: params.path || "/",
-              }, ctx.signal);
-              break;
-            }
-            case "read_file": {
-              if (!params.path) throw new Error("path is required for read_file action");
-              result = await mcpCall<string>(session, "read_file", {
-                repo_name: params.repo,
-                file_path: params.path,
-              }, ctx.signal);
-              break;
-            }
-            default:
-              throw new Error(`Unknown action: ${params.action}`);
+        let result: string;
+        switch (params.action) {
+          case "search": {
+            result = await mcpCall<string>(session, "search_doc", {
+              repo_name: params.repo,
+              query: params.query || "",
+              language: "en",
+            }, ctx.signal);
+            break;
           }
+          case "structure": {
+            result = await mcpCall<string>(session, "get_repo_structure", {
+              repo_name: params.repo,
+              dir_path: params.path || "/",
+            }, ctx.signal);
+            break;
+          }
+          case "read_file": {
+            if (!params.path) throw new Error("path is required for read_file action");
+            result = await mcpCall<string>(session, "read_file", {
+              repo_name: params.repo,
+              file_path: params.path,
+            }, ctx.signal);
+            break;
+          }
+          default:
+            throw new Error(`Unknown action: ${params.action}`);
+        }
 
-          return {
-            content: [{ type: "text" as const, text: result }],
-            details: { action: params.action, repo: params.repo, source: "zread" },
-          };
-        } catch { /* Zread failed */ }
-      }
+        return {
+          content: [{ type: "text" as const, text: result }],
+          details: { action: params.action, repo: params.repo, source: "zread" },
+        };
+      } catch { /* Zread failed */ }
 
-      // 2. Fallback: Ref search for docs
-      if (keys.refApiKey) {
-        try {
-          const session = await mcpInit(REF_URL, { "x-ref-api-key": keys.refApiKey });
-          const raw = await mcpCall<string>(session, "ref_search_documentation", {
-            query: `${params.repo} ${params.query || ""}`.trim(),
-          }, ctx.signal);
+      // 2. Fallback: Ref search
+      try {
+        const refKey = await getKey(ctx, "ref");
+        const session = await mcpInit(REF_URL, { "x-ref-api-key": refKey }, ctx.signal);
+        const raw = await mcpCall<string>(session, "ref_search_documentation", {
+          query: `${params.repo} ${params.query || ""}`.trim(),
+        }, ctx.signal);
 
-          return {
-            content: [{ type: "text" as const, text: raw }],
-            details: { action: params.action, repo: params.repo, source: "ref" },
-          };
-        } catch { /* Ref also failed */ }
-      }
+        return {
+          content: [{ type: "text" as const, text: raw }],
+          details: { action: params.action, repo: params.repo, source: "ref" },
+        };
+      } catch { /* Ref also failed */ }
 
       return {
         content: [{ type: "text" as const, text: `Could not search ${params.repo}. Ensure the repository exists and is public.` }],
@@ -375,45 +345,43 @@ export default function (pi: ExtensionAPI) {
       const lib = params.library;
 
       // 1. Context7
-      if (keys.context7ApiKey) {
-        try {
-          const qs = [
-            topic ? `topic=${encodeURIComponent(topic)}` : "",
-            `tokens=${tokens}`,
-          ].filter(Boolean).join("&");
-          const url = `https://context7.com/api/v1/${lib}?${qs}`;
+      try {
+        const ctx7Key = await getKey(ctx, "context7");
+        const qs = [
+          topic ? `topic=${encodeURIComponent(topic)}` : "",
+          `tokens=${tokens}`,
+        ].filter(Boolean).join("&");
+        const url = `${CTX7_BASE}/${lib}?${qs}`;
 
-          const res = await fetch(url, {
-            headers: { "x-context7-api-key": keys.context7ApiKey },
-            signal: ctx.signal,
-          });
+        const res = await fetch(url, {
+          headers: { "x-context7-api-key": ctx7Key },
+          signal: ctx.signal,
+        });
 
-          if (res.ok) {
-            const text = await res.text();
-            if (text && !text.includes('"error"')) {
-              return {
-                content: [{ type: "text" as const, text }],
-                details: { library: lib, topic, tokens, source: "context7" },
-              };
-            }
+        if (res.ok) {
+          const text = await res.text();
+          if (text && !text.includes('"error"')) {
+            return {
+              content: [{ type: "text" as const, text }],
+              details: { library: lib, topic, tokens, source: "context7" },
+            };
           }
-        } catch { /* Context7 failed */ }
-      }
+        }
+      } catch { /* Context7 failed */ }
 
       // 2. Fallback: Ref search
-      if (keys.refApiKey) {
-        try {
-          const session = await mcpInit(REF_URL, { "x-ref-api-key": keys.refApiKey });
-          const raw = await mcpCall<string>(session, "ref_search_documentation", {
-            query: `${lib} ${topic}`.trim(),
-          }, ctx.signal);
+      try {
+        const refKey = await getKey(ctx, "ref");
+        const session = await mcpInit(REF_URL, { "x-ref-api-key": refKey }, ctx.signal);
+        const raw = await mcpCall<string>(session, "ref_search_documentation", {
+          query: `${lib} ${topic}`.trim(),
+        }, ctx.signal);
 
-          return {
-            content: [{ type: "text" as const, text: raw }],
-            details: { library: lib, topic, source: "ref" },
-          };
-        } catch { /* Ref also failed */ }
-      }
+        return {
+          content: [{ type: "text" as const, text: raw }],
+          details: { library: lib, topic, source: "ref" },
+        };
+      } catch { /* Ref also failed */ }
 
       return {
         content: [{ type: "text" as const, text: `No documentation found for ${lib}. Try web_search or repo_search for broader results.` }],
