@@ -238,6 +238,15 @@ setup_development() {
     # Install global npm packages
     print_info "Installing global npm packages..."
     npm install -g typescript ts-node eslint prettier nodemon
+
+    # Install pi coding agent
+    if ! command -v pi &> /dev/null; then
+        print_info "Installing pi coding agent..."
+        npm install -g @mariozechner/pi-coding-agent
+        print_success "Pi coding agent installed"
+    else
+        print_success "Pi coding agent already installed"
+    fi
     
     # Setup Git (if not configured)
     if ! git config --global user.name &> /dev/null; then
@@ -284,6 +293,10 @@ post_install() {
     echo "- VS Code: ~/.config/Code"
     echo "- Tmux: ~/.tmux.conf"
     echo "- Zsh: ~/.zshrc"
+    echo "- Pi coding agent: ~/.pi/agent"
+    echo
+    echo "Pi coding agent setup:"
+    echo "  Run 'pi' then '/login' to authenticate (credentials are NOT synced via dotfiles)"
     
     if [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
         echo "- KDE configs: ~/.config/kwin*, ~/.config/plasma*"

@@ -88,6 +88,15 @@ stow -D -t ~ <package-name> # Remove symlinks
 - Machine-specific data (credentials, history) excluded via .gitignore
 - Symlinked configuration keeps settings portable across machines
 
+**pi/**: Pi coding agent configuration
+- Global settings in `.pi/agent/settings.json` (model, thinking level, theme, etc.)
+- Global LLM instructions in `.pi/agent/AGENTS.md`
+- TypeScript extensions in `.pi/agent/extensions/` (auto-loaded on startup)
+- Prompt templates in `.pi/agent/prompts/` (invoke with `/name` inside pi)
+- Skills in `.pi/agent/skills/` (auto-loaded when relevant)
+- Machine-specific data (auth tokens, sessions) excluded via .gitignore
+- Stow symlinks `~/.pi/` so all config is immediately available when pi starts
+
 ### Development Workflow Commands
 
 **Tmux Session Management:**

@@ -1,0 +1,21 @@
+{
+  "defaultProvider": "google-antigravity",
+  "defaultModel": "claude-sonnet-4-6",
+  "defaultThinkingLevel": "medium",
+  "collapseChangelog": true,
+  "quietStartup": false,
+  "theme": "dark",
+  "hideThinkingBlock": false,
+  "doubleEscapeAction": "tree",
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 16384,
+    "keepRecentTokens": 20000
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3,
+    "baseDelayMs": 2000,
+    "maxDelayMs": 60000
+  }
+}
