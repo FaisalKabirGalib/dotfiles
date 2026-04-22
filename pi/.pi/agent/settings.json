@@ -1,6 +1,6 @@
 {
   "defaultProvider": "google-antigravity",
-  "defaultModel": "claude-sonnet-4-6",
+  "defaultModel": "gemini-3-flash",
   "defaultThinkingLevel": "medium",
   "collapseChangelog": true,
   "quietStartup": false,
