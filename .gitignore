@@ -28,3 +28,6 @@ credentials*
 # Tmux log files
 tmux-client-*.log
 tmux-server-*.log
+
+# DCP extension node_modules
+pi/.pi/agent/extensions/pi-dynamic-context-pruning/node_modules/

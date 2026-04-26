@@ -97,6 +97,37 @@ stow -D -t ~ <package-name> # Remove symlinks
 - Machine-specific data (auth tokens, sessions) excluded via .gitignore
 - Stow symlinks `~/.pi/` so all config is immediately available when pi starts
 
+**Pi Extensions:**
+- `confirm-destructive.ts` — Blocks dangerous commands (rm -rf, force push, DROP TABLE)
+- `git-checkpoint.ts` — Auto-stash before each agent turn + `/checkpoint` command
+- `system-notify.ts` — Desktop notification + sound when agent finishes
+- `vision.ts` — Image analysis tools via ZAI MCP (OCR, UI→code, diagrams, charts)
+- `web-search.ts` — Web search + URL reader via ZAI MCP
+- `zread.ts` — GitHub repo search, file read, structure via ZAI MCP
+- `pi-dynamic-context-pruning/` — Vendored DCP extension (see below)
+
+**Pi Prompt Templates:**
+- `/review` — Review staged changes for bugs, security, style
+- `/commit` — Write conventional commit message from staged changes
+- `/explain` — Explain a file or code block
+- `/handoff` — Session handoff note (what done, current state, next steps)
+- `/fix-types` — Fix all TypeScript/ESLint errors
+
+**Dynamic Context Pruning (DCP):**
+- Vendored from `github.com/complexthings/pi-dynamic-context-pruning` (v1.0.7)
+- Located at `.pi/agent/extensions/pi-dynamic-context-pruning/`
+- No `.git` — tracked as regular files in dotfiles repo
+- Config: `~/.config/pi/dcp.jsonc` (auto-created on first run)
+- Commands: `/dcp context`, `/dcp stats`, `/dcp compress`, `/dcp decompress`, `/dcp sweep`, `/dcp manual`
+- To pull upstream updates:
+  ```bash
+  cd /tmp && git clone https://github.com/complexthings/pi-dynamic-context-pruning.git dcp-upstream
+  diff -r /tmp/dcp-upstream/ ~/dotfiles/pi/.pi/agent/extensions/pi-dynamic-context-pruning/ \
+    --exclude=node_modules --exclude=.git --exclude=tsconfig.json
+  # Cherry-pick changes, then: cd ~/dotfiles/pi/.pi/agent/extensions/pi-dynamic-context-pruning && npm install
+  rm -rf /tmp/dcp-upstream
+  ```
+
 ### Development Workflow Commands
 
 **Tmux Session Management:**
