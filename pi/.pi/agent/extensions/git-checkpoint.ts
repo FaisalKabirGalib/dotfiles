@@ -28,7 +28,7 @@ export default function (pi: ExtensionAPI) {
   async function createCheckpoint(cwd: string, label: string): Promise<boolean> {
     const result = await pi.exec(
       "git",
-      ["stash", "push", "--include-untracked", "-m", `pi-checkpoint: ${label}`],
+      ["stash", "push", "-m", `pi-checkpoint: ${label}`],
       { timeout: 10000 }
     );
     return result.code === 0 && !result.stdout.includes("No local changes");
