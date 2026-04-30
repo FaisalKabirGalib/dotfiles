@@ -4,9 +4,9 @@ A pi extension that registers a single `subagent` tool with three agents:
 
 | Agent | Tools | Model | Purpose |
 |-------|-------|-------|---------|
-| **scout** | read, grep, find, ls | claude-haiku-4-5 | Fast codebase recon |
-| **researcher** | web_search, web_fetch | claude-sonnet-4-6 | Web research |
-| **worker** | read, write, edit, safe_bash | claude-sonnet-4-6 | Code changes |
+| **scout** | read, grep, find, ls | fast (current session model) | Fast codebase recon |
+| **researcher** | web_search, web_fetch | current session model | Web research |
+| **worker** | read, write, edit, safe_bash | current session model | Code changes |
 
 ## Usage
 
@@ -60,7 +60,7 @@ Frontmatter fields:
 - **name** (required) — unique agent name, used in `{ agent: "my-agent" }` calls
 - **description** — short description
 - **tools** — comma-separated list of tools the agent needs (builtin or extension)
-- **model** — model identifier (defaults to `anthropic/claude-sonnet-4-6`)
+- **model** — model identifier (defaults to current session model)
 
 The markdown body becomes the agent's system prompt.
 
@@ -103,7 +103,7 @@ function registerMyAgents(): void {
         name: frontmatter.name,
         description: frontmatter.description || "",
         tools,
-        model: frontmatter.model || "anthropic/claude-sonnet-4-6",
+        model: frontmatter.model || undefined,
         systemPrompt: body,
         filePath,
       });

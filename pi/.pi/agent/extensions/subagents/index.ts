@@ -19,7 +19,7 @@ export interface AgentConfig {
 	name: string;
 	description: string;
 	tools: string[];
-	model: string;
+	model?: string;
 	systemPrompt: string;
 	filePath: string;
 }
@@ -96,6 +96,17 @@ const CUSTOM_TOOL_EXTENSIONS: Record<string, string> = {
 // ── Agent Discovery & Registration ────────────────────────────────────
 
 let agents: AgentConfig[] = [];
+let piRef: ExtensionAPI | undefined;
+
+function resolveAgentModel(agent: AgentConfig): string {
+	if (agent.model) return agent.model;
+	if (agent.name === "scout") {
+		const m = piRef?.model;
+		return m ? `${m.provider}/${m.id}` : "fast";
+	}
+	const m = piRef?.model;
+	return m ? `${m.provider}/${m.id}` : "anthropic/claude-sonnet-4-6";
+}
 
 export function registerAgent(config: AgentConfig): void {
 	if (agents.find((a) => a.name === config.name)) {
@@ -129,7 +140,7 @@ function loadAgents(): AgentConfig[] {
 			name: frontmatter.name,
 			description: frontmatter.description || "",
 			tools,
-			model: frontmatter.model || "anthropic/claude-sonnet-4-6",
+			model: frontmatter.model || undefined,
 			systemPrompt: body,
 			filePath,
 		});
@@ -262,7 +273,7 @@ async function buildPiArgs(
 		args.push("--extension", extPath);
 	}
 
-	args.push("--models", agent.model);
+	args.push("--models", agent.model || resolveAgentModel(agent));
 	args.push("--append-system-prompt", promptPath);
 
 	// Handle long tasks by writing to file
@@ -640,6 +651,7 @@ function renderAgentProgress(
 // ── Extension ─────────────────────────────────────────────────────────
 
 export default function (pi: ExtensionAPI) {
+	piRef = pi;
 	const config = loadConfig();
 	const maxConcurrency = config.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY;
 	agents = loadAgents();
@@ -718,7 +730,7 @@ export default function (pi: ExtensionAPI) {
 
 				const results = await mapConcurrent(taskList, maxConcurrency, async (t, idx) => {
 					const agent = agents.find((a) => a.name === t.agent)!;
-					const result = await runSubagent(agent, t.task, t.cwd ?? cwd, signal, (progress) => {
+					const result = await runSubagent({ ...agent, model: resolveAgentModel(agent) }, t.task, t.cwd ?? cwd, signal, (progress) => {
 						allResults[idx].progress = progress;
 						fireParallelUpdate();
 					});
@@ -757,7 +769,7 @@ export default function (pi: ExtensionAPI) {
 					usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, turns: 0 },
 					progress: { agent: params.agent!, status: "running" as const, task: params.task!, recentTools: [], toolCount: 0, tokens: 0, durationMs: 0, lastMessage: "" },
 				};
-				const result = await runSubagent(agent, params.task, params.cwd ?? cwd, signal, (progress) => {
+				const result = await runSubagent({ ...agent, model: resolveAgentModel(agent) }, params.task, params.cwd ?? cwd, signal, (progress) => {
 					liveResult.progress = progress;
 					onUpdate?.({
 						content: [{ type: "text", text: "(running...)" }],
