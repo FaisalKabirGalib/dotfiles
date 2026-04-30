@@ -3,15 +3,15 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 /**
  * Git Checkpoint
  *
- * Automatically creates a git stash checkpoint before the agent starts
- * working on a user prompt (only in git repos with changes). This lets
- * you roll back any agent changes with: git stash pop
+ * Auto-creates a git stash checkpoint before each agent turn (disabled
+ * by default). Use /checkpoint-toggle to enable auto-checkpointing.
  *
- * Also registers a /checkpoint command to manually trigger a checkpoint,
- * and a /restore command to list and restore stash entries.
+ * Commands:
+ *   /checkpoint         — manually create a stash checkpoint
+ *   /checkpoint-toggle  — enable/disable auto-checkpointing
  */
 export default function (pi: ExtensionAPI) {
-  let checkpointEnabled = true;
+  let checkpointEnabled = false;
 
   async function isGitRepo(cwd: string): Promise<boolean> {
     const result = await pi.exec("git", ["rev-parse", "--is-inside-work-tree"], {
