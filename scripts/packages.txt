@@ -1,0 +1,27 @@
+# System packages for pacman
+# One package per line, comments allowed
+
+base-devel
+git
+curl
+wget
+unzip
+zip
+neovim
+tmux
+zsh
+fzf
+fd
+ripgrep
+bat
+exa
+zoxide
+nodejs
+npm
+python
+python-pip
+hyprland
+waybar
+rofi
+wl-clipboard
+cliphist
