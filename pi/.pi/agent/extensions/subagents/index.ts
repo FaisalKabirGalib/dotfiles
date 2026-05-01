@@ -2,7 +2,7 @@
  * Minimal subagents extension.
  *
  * Registers a single `subagent` tool with three agents: scout, researcher, worker.
- * Supports single and parallel execution. Output is verbal only (no file handoff).
+ * Supports single, parallel, and chain execution. Output is verbal only (no file handoff).
  */
 import { spawn } from "node:child_process";
 import * as fs from "node:fs";
@@ -54,7 +54,7 @@ interface AgentResult {
 }
 
 interface Details {
-	mode: "single" | "parallel";
+	mode: "single" | "parallel" | "chain";
 	results: AgentResult[];
 }
 
@@ -69,6 +69,7 @@ const AGENTS_DIR = path.join(EXT_DIR, "agents");
 const TOOLS_DIR = path.join(EXT_DIR, "tools");
 const CONFIG_PATH = path.join(EXT_DIR, "config.json");
 const DEFAULT_MAX_CONCURRENCY = 4;
+const DEFAULT_MAX_DEPTH = 2;
 
 function loadConfig(): ExtensionConfig {
 	try {
@@ -78,6 +79,18 @@ function loadConfig(): ExtensionConfig {
 	} catch {}
 	return {};
 }
+
+// ── Recursion Guard ────────────────────────────────────────────────────
+
+function getSubagentDepth(): number {
+	return parseInt(process.env.PI_SUBAGENT_DEPTH || "0", 10);
+}
+
+function getMaxDepth(): number {
+	return parseInt(process.env.PI_SUBAGENT_MAX_DEPTH || String(DEFAULT_MAX_DEPTH), 10);
+}
+
+// ── Agent Tool Resolution ─────────────────────────────────────────────
 
 // Built-in tools that pi provides natively (no extension needed)
 const BUILTIN_TOOLS = new Set(["read", "write", "edit", "bash", "grep", "find", "ls"]);
@@ -235,7 +248,7 @@ async function buildPiArgs(
 	agent: AgentConfig,
 	task: string,
 	cwd: string,
-): Promise<{ args: string[]; tempDir: string }> {
+): Promise<{ args: string[]; tempDir: string; env: Record<string, string> }> {
 	const piBin = resolvePiBinary();
 	const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), "pi-sub-"));
 
@@ -288,7 +301,14 @@ async function buildPiArgs(
 		args.push(`Task: ${task}`);
 	}
 
-	return { args: [piBin.command, ...args], tempDir };
+	// Propagate recursion depth to child process
+	const env: Record<string, string> = {
+		...process.env as Record<string, string>,
+		PI_SUBAGENT_DEPTH: String(getSubagentDepth() + 1),
+		PI_SUBAGENT_MAX_DEPTH: String(getMaxDepth()),
+	};
+
+	return { args: [piBin.command, ...args], tempDir, env };
 }
 
 function extractTextFromContent(content: unknown): string {
@@ -320,7 +340,32 @@ async function runSubagent(
 	signal: AbortSignal | undefined,
 	onUpdate?: (progress: AgentProgress) => void,
 ): Promise<AgentResult> {
-	const { args, tempDir } = await buildPiArgs(agent, task, cwd);
+	// Recursion guard
+	const depth = getSubagentDepth();
+	const maxDepth = getMaxDepth();
+	if (depth >= maxDepth) {
+		return {
+			agent: agent.name,
+			task,
+			output: `Subagent nesting limit reached (${depth}/${maxDepth}). Increase PI_SUBAGENT_MAX_DEPTH to allow deeper nesting.`,
+			exitCode: 1,
+			model: agent.model,
+			usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, turns: 0 },
+			progress: {
+				agent: agent.name,
+				status: "failed",
+				task,
+				recentTools: [],
+				toolCount: 0,
+				tokens: 0,
+				durationMs: 0,
+				lastMessage: "",
+				error: `Nesting limit reached (${depth}/${maxDepth})`,
+			},
+		};
+	}
+
+	const { args, tempDir, env } = await buildPiArgs(agent, task, cwd);
 	const command = args[0];
 	const spawnArgs = args.slice(1);
 
@@ -355,6 +400,7 @@ async function runSubagent(
 		const proc = spawn(command, spawnArgs, {
 			cwd,
 			stdio: ["ignore", "pipe", "pipe"],
+			env,
 		});
 
 		let buf = "";
@@ -533,10 +579,20 @@ async function mapConcurrent<T, R>(
 	return results;
 }
 
+// ── Template Variable Resolution ──────────────────────────────────────
+
+function resolveChainTask(
+	template: string,
+	vars: { task: string; previous: string },
+): string {
+	return template
+		.replace(/\{task\}/g, vars.task)
+		.replace(/\{previous\}/g, vars.previous);
+}
+
 // ── Rendering ─────────────────────────────────────────────────────────
 
 type Theme = ExtensionContext["ui"]["theme"];
-type Component = ReturnType<typeof Text.prototype.render> extends string[] ? Text : any;
 
 function getTermWidth(): number {
 	return process.stdout.columns || 120;
@@ -572,10 +628,8 @@ function renderAgentProgress(
 
 	// Task
 	if (expanded) {
-		// Full task, Text wraps naturally
 		c.addChild(new Text(theme.fg("dim", `Task: ${r.task}`), 0, 0));
 	} else {
-		// Truncate to one line
 		const flat = r.task.replace(/\n/g, " ");
 		c.addChild(
 			new Text(truncLine(theme.fg("dim", `Task: ${flat}`), w), 0, 0),
@@ -634,7 +688,6 @@ function renderAgentProgress(
 	if (usageParts.length) {
 		c.addChild(new Text(theme.fg("dim", usageParts.join(" · ")), 0, 0));
 	}
-	
 
 	// Error
 	if (prog.error) {
@@ -648,6 +701,20 @@ function renderAgentProgress(
 	return c;
 }
 
+function renderChainFlow(results: AgentResult[], theme: Theme, w: number): Container {
+	const c = new Container();
+	const parts = results.map((r) => {
+		const icon = r.progress.status === "running"
+			? theme.fg("warning", "●")
+			: r.exitCode === 0
+				? theme.fg("success", "✓")
+				: theme.fg("error", "✗");
+		return `${icon}${theme.fg("toolTitle", r.agent)}`;
+	});
+	c.addChild(new Text(truncLine(parts.join(` ${theme.fg("dim", "→")} `), w), 0, 0));
+	return c;
+}
+
 // ── Extension ─────────────────────────────────────────────────────────
 
 export default function (pi: ExtensionAPI) {
@@ -656,15 +723,21 @@ export default function (pi: ExtensionAPI) {
 	const maxConcurrency = config.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY;
 	agents = loadAgents();
 
+	const ChainStep = Type.Object({
+		agent: Type.String({ description: "Name of the agent" }),
+		task: Type.Optional(Type.String({ description: "Task template. {task} = original task, {previous} = prior step output. Defaults to {previous} for step 2+." })),
+	});
+
 	pi.registerTool({
 		name: "subagent",
 		label: "Subagent",
 		description:
-			"Run a subagent to complete a task. Subagents have NO context from the current conversation — include all necessary context in the task description.",
+			"Delegate to subagents. Subagents have NO context from the current conversation — include all necessary context in the task description. Supports single, parallel, and chain modes. Chains run steps sequentially where each step's {previous} is the prior step's output.",
 		promptSnippet: "Run subagents for delegated tasks",
 		promptGuidelines: [
 			"Parallel tool calls are your primary parallelism mechanism — put multiple independent read/fetch/search calls in one function_calls block. Don't use subagents to parallelize simple I/O.",
 			"Use subagent to delegate *reasoning and decisions*: codebase exploration (scout), web research (researcher), or isolated code changes (worker)",
+			"For multi-step workflows, use chain mode: e.g. scout → worker. Each step gets {previous} output from the prior step.",
 			"For multiple independent subagent tasks, use parallel mode with tasks[] array",
 			"Subagents have NO context from the current conversation — include ALL necessary context in the task description",
 		],
@@ -683,22 +756,101 @@ export default function (pi: ExtensionAPI) {
 					{ description: "PARALLEL mode: array of {agent, task} objects" },
 				),
 			),
+			chain: Type.Optional(
+				Type.Array(ChainStep, { description: "CHAIN mode: sequential pipeline. Each step can use {task} (original) and {previous} (prior output) template variables." }),
+			),
 			cwd: Type.Optional(Type.String({ description: "Working directory for the agent process (single mode)" })),
 		}),
 
 		async execute(toolCallId, params, signal, onUpdate, ctx) {
 			const cwd = ctx.cwd;
+			const available = () => agents.map((a) => a.name).join(", ") || "none";
 
-			// Validate mode
+			// ── Chain mode ──────────────────────────────────────────
+			if (params.chain && params.chain.length > 0) {
+				const chainSteps = params.chain;
+
+				for (const step of chainSteps) {
+					if (!agents.find((a) => a.name === step.agent)) {
+						throw new Error(`Unknown agent: ${step.agent}. Available agents: ${available()}`);
+					}
+				}
+
+				const chainResults: AgentResult[] = [];
+				const originalTask = chainSteps[0].task || "";
+
+				for (let i = 0; i < chainSteps.length; i++) {
+					const step = chainSteps[i];
+					const agent = agents.find((a) => a.name === step.agent)!;
+
+					// Resolve template variables
+					let task: string;
+					if (i === 0) {
+						task = step.task || "";
+					} else {
+						task = step.task || "{previous}";
+					}
+					const previousOutput = i > 0 ? chainResults[i - 1].output : "";
+					task = resolveChainTask(task, { task: originalTask, previous: previousOutput });
+
+					// Set up live progress for this step
+					const liveResult: AgentResult = {
+						agent: step.agent,
+						task,
+						output: "",
+						exitCode: -1,
+						model: undefined,
+						usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, turns: 0 },
+						progress: {
+							agent: step.agent,
+							status: "running" as const,
+							task,
+							recentTools: [],
+							toolCount: 0,
+							tokens: 0,
+							durationMs: 0,
+							lastMessage: "",
+						},
+					};
+
+					const result = await runSubagent({ ...agent, model: resolveAgentModel(agent) }, task, cwd, signal, (progress) => {
+						liveResult.progress = progress;
+						onUpdate?.({
+							content: [{ type: "text", text: `Chain step ${i + 1}/${chainSteps.length}: ${step.agent}...` }],
+							details: {
+								mode: "chain" as const,
+								results: [...chainResults, liveResult],
+							},
+						});
+					});
+
+					chainResults.push(result);
+
+					// Fail fast on chain errors
+					if (result.exitCode !== 0 || result.progress.error) {
+						break;
+					}
+				}
+
+				// Build final output
+				const outputParts = chainResults.map((r, i) => {
+					const header = `## Step ${i + 1}: ${r.agent}${r.exitCode !== 0 ? " (FAILED — chain stopped)" : ""}`;
+					return `${header}\n\n${r.output || "(no output)"}`;
+				});
+
+				return {
+					content: [{ type: "text", text: outputParts.join("\n\n---\n\n") }],
+					details: { mode: "chain" as const, results: chainResults },
+				};
+			}
+
+			// ── Parallel mode ───────────────────────────────────────
 			if (params.tasks && params.tasks.length > 0) {
-				// ── Parallel mode ──
 				const taskList = params.tasks;
 
-				// Validate all agents
-				const available = agents.map((a) => a.name).join(", ") || "none";
 				for (const t of taskList) {
 					if (!agents.find((a) => a.name === t.agent)) {
-						throw new Error(`Unknown agent: ${t.agent}. Available agents: ${available}`);
+						throw new Error(`Unknown agent: ${t.agent}. Available agents: ${available()}`);
 					}
 				}
 
@@ -735,14 +887,12 @@ export default function (pi: ExtensionAPI) {
 						fireParallelUpdate();
 					});
 
-					// Update allResults with the completed result so the UI reflects it immediately
 					allResults[idx] = result;
 					flushParallelUpdate();
 
 					return result;
 				});
 
-				// Build final output text
 				const outputParts = results.map((r) => {
 					const header = `## ${r.agent}${r.exitCode !== 0 ? " (FAILED)" : ""}`;
 					return `${header}\n\n${r.output || "(no output)"}`;
@@ -752,12 +902,13 @@ export default function (pi: ExtensionAPI) {
 					content: [{ type: "text", text: outputParts.join("\n\n---\n\n") }],
 					details: { mode: "parallel" as const, results },
 				};
-			} else if (params.agent && params.task) {
-				// ── Single mode ──
+			}
+
+			// ── Single mode ─────────────────────────────────────────
+			if (params.agent && params.task) {
 				const agent = agents.find((a) => a.name === params.agent);
 				if (!agent) {
-					const available = agents.map((a) => a.name).join(", ") || "none";
-					throw new Error(`Unknown agent: ${params.agent}. Available agents: ${available}`);
+					throw new Error(`Unknown agent: ${params.agent}. Available agents: ${available()}`);
 				}
 
 				const liveResult: AgentResult = {
@@ -783,13 +934,20 @@ export default function (pi: ExtensionAPI) {
 					details: { mode: "single" as const, results: [result] },
 					...(isError ? { isError: true } : {}),
 				};
-			} else {
-				throw new Error("Provide either (agent + task) for single mode, or tasks[] for parallel mode.");
 			}
+
+			throw new Error("Provide either (agent + task) for single mode, tasks[] for parallel mode, or chain[] for sequential pipeline.");
 		},
 
 		// ── Render: tool call header ──
 		renderCall(args, theme, _context) {
+			if (args.chain && args.chain.length > 0) {
+				const agentNames = args.chain.map((s: any) => s.agent).join(" → ");
+				return new Text(
+					`${theme.fg("toolTitle", theme.bold("subagent"))} ${theme.fg("accent", "chain")} ${theme.fg("dim", `(${args.chain.length} steps: ${agentNames})`)}`,
+					0, 0,
+				);
+			}
 			if (args.tasks && args.tasks.length > 0) {
 				const agentNames = args.tasks.map((t: any) => t.agent).join(", ");
 				return new Text(
@@ -822,7 +980,37 @@ export default function (pi: ExtensionAPI) {
 			const expanded = options.expanded;
 			const c = new Container();
 
-			if (details.mode === "parallel") {
+			if (details.mode === "chain") {
+				// Chain header with flow visualization
+				const ok = details.results.filter((r) => r.exitCode === 0).length;
+				const running = details.results.some((r) => r.progress?.status === "running");
+				const totalDuration = details.results.reduce((s, r) => s + (r.progress?.durationMs || 0), 0);
+				const totalTokens = details.results.reduce((s, r) => s + (r.progress?.tokens || 0), 0);
+				const totalTools = details.results.reduce((s, r) => s + (r.progress?.toolCount || 0), 0);
+				const totalIcon = running
+					? theme.fg("warning", "⟳")
+					: ok === details.results.length
+						? theme.fg("success", "✓")
+						: theme.fg("error", "✗");
+
+				c.addChild(
+					new Text(
+						truncLine(
+							`${totalIcon} ${theme.fg("toolTitle", theme.bold("chain"))} ${ok}/${details.results.length} steps · ${totalTools} tools · ${formatTokens(totalTokens)} tok · ${formatDuration(totalDuration)}`,
+							w,
+						),
+						0, 0,
+					),
+				);
+				// Flow line: ✓scout → ●planner → ○worker
+				c.addChild(renderChainFlow(details.results, theme, w));
+				c.addChild(new Spacer(1));
+
+				for (let i = 0; i < details.results.length; i++) {
+					c.addChild(renderAgentProgress(details.results[i], theme, expanded, w));
+					if (i < details.results.length - 1) c.addChild(new Spacer(1));
+				}
+			} else if (details.mode === "parallel") {
 				// Parallel summary header
 				const ok = details.results.filter((r) => r.exitCode === 0).length;
 				const running = details.results.filter((r) => r.progress?.status === "running").length;
@@ -846,8 +1034,7 @@ export default function (pi: ExtensionAPI) {
 				c.addChild(new Spacer(1));
 
 				for (let i = 0; i < details.results.length; i++) {
-					const r = details.results[i];
-					c.addChild(renderAgentProgress(r, theme, expanded, w));
+					c.addChild(renderAgentProgress(details.results[i], theme, expanded, w));
 					if (i < details.results.length - 1) c.addChild(new Spacer(1));
 				}
 			} else {
@@ -857,6 +1044,40 @@ export default function (pi: ExtensionAPI) {
 			}
 
 			return c;
+		},
+	});
+
+	// ── Slash Commands ──────────────────────────────────────────────
+
+	pi.registerCommand("run", {
+		description: "Run a subagent directly: /run <agent> <task>",
+		handler: async (args, ctx) => {
+			const trimmed = (args || "").trim();
+			const agentName = trimmed.split(/\s+/)[0];
+			const task = trimmed.slice(agentName.length).trim();
+
+			if (!agentName) {
+				ctx.ui.notify(`Available agents: ${agents.map((a) => a.name).join(", ")}`, "info");
+				return;
+			}
+
+			const agent = agents.find((a) => a.name === agentName);
+			if (!agent) {
+				ctx.ui.notify(`Unknown agent: ${agentName}. Available: ${agents.map((a) => a.name).join(", ")}`, "error");
+				return;
+			}
+
+			if (!task) {
+				ctx.ui.notify("Usage: /run <agent> <task>", "error");
+				return;
+			}
+
+			const resolved = { ...agent, model: resolveAgentModel(agent) };
+			const result = await runSubagent(resolved, task, ctx.cwd, new AbortController().signal);
+
+			const status = result.exitCode === 0 ? "success" : "error";
+			const preview = result.output.length > 200 ? result.output.slice(0, 200) + "…" : result.output;
+			ctx.ui.notify(`${result.agent}: ${preview}`, status);
 		},
 	});
 }

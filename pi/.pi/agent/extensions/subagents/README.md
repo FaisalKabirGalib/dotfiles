@@ -23,7 +23,32 @@ A pi extension that registers a single `subagent` tool with three agents:
 ]}
 ```
 
+**Chain mode** (sequential pipeline, each step gets previous output):
+```json
+{ "chain": [
+  { "agent": "scout", "task": "Find all auth files in src/" },
+  { "agent": "worker", "task": "Based on the findings: {previous}\n\nAdd rate limiting to all auth endpoints" },
+  { "agent": "scout", "task": "Review the changes for security issues: {previous}" }
+]}
+```
+
+Template variables in chain tasks:
+- `{task}` — the first step's task (the original user task)
+- `{previous}` — output from the prior step
+
+If a step's task is omitted, it defaults to `{previous}` (step 2+) or empty (step 1). Chain stops on first failure.
+
 Max 4 concurrent subagents (configurable). Each runs as an isolated `pi` process with no inherited context — all context must be in the task description.
+
+## Slash Commands
+
+- `/run <agent> <task>` — run a single subagent directly, result shown as notification
+
+## Recursion Guard
+
+Subagents cannot spawn subagents beyond the depth limit. Controlled via environment variables:
+- `PI_SUBAGENT_DEPTH` — current nesting depth (auto-incremented)
+- `PI_SUBAGENT_MAX_DEPTH` — maximum allowed depth (default: 2)
 
 ## Config
 
@@ -36,6 +61,8 @@ Optional `config.json` next to `index.ts`:
 ## UI
 
 Default view shows medium detail (agent status, task preview, recent tools). Expand to see full task, all tool calls, complete output, and token usage.
+
+Chain mode shows a flow visualization: `✓scout → ●worker → ○reviewer`
 
 ## Registering Agents from Other Extensions
 
@@ -77,7 +104,7 @@ interface AgentConfig {
   name: string;
   description: string;
   tools: string[];
-  model: string;
+  model?: string;
   systemPrompt: string;
   filePath: string;
 }
