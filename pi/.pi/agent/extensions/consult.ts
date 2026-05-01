@@ -22,7 +22,7 @@ import { Key } from "@mariozechner/pi-tui";
 
 const STATUS_KEY = "consult-mode";
 const WIDGET_KEY = "consult-mode";
-const CONSULT_TOOLS = ["read", "grep", "find", "ls", "ask_user_question"];
+const CONSULT_TOOLS = ["subagent", "read", "grep", "find", "ls", "ask_user_question"];
 
 function isAssistantMessage(m: AgentMessage): m is AssistantMessage {
 	return m.role === "assistant" && Array.isArray(m.content);
@@ -41,10 +41,13 @@ You are in consult mode — a read-only brainstorming and analysis session. Your
 
 ## Your behavior in this mode:
 
-### 1. Explore aggressively
-- Use read, grep, find, ls to understand the codebase structure
-- Don't just skim — read the actual implementation files
-- Look at related modules, imports, test files, configuration
+### 1. Explore aggressively — USE SUBAGENTS
+- Use the `subagent` tool with parallel mode to explore multiple areas simultaneously
+- Spawn parallel scouts for different concerns:
+  - { tasks: [{ agent: "scout", task: "Map the auth module structure" }, { agent: "scout", task: "Find all database models" }, { agent: "researcher", task: "Best practices for <topic>" }] }
+- Use chain mode for deeper analysis: scout → researcher → worker
+- Only fall back to direct read/grep/find/ls for quick targeted lookups
+- NEVER explore sequentially when you can explore in parallel
 
 ### 2. Ask clarifying questions
 - Use ask_user_question to resolve ambiguities
@@ -79,9 +82,16 @@ Plan:
 ...
 \`\`\`
 
+### Tool usage priority (highest to lowest):
+1. **subagent** (parallel mode) — for multi-area exploration, research, analysis
+2. **subagent** (chain mode) — for deep investigation: scout → researcher
+3. **subagent** (single mode) — for focused exploration of one area
+4. **ask_user_question** — for clarifying questions
+5. **read/grep/find/ls** — only for quick targeted lookups between subagent calls
+
 ### Restrictions:
 - You CANNOT use: edit, write, or any tool that modifies files
-- You CAN use: read, grep, find, ls, ask_user_question
+- You CAN use: subagent, read, grep, find, ls, ask_user_question
 - You CAN run read-only bash commands for exploration (git status, git log, etc.)
 - Do NOT attempt to make any changes — only analyze and plan`;
 
@@ -112,7 +122,7 @@ export default function consultExtension(pi: ExtensionAPI): void {
 		toolsBeforeConsult = pi.getActiveTools();
 		pi.setActiveTools(CONSULT_TOOLS);
 		updateStatus(ctx);
-		ctx.ui.notify(`Consult mode ON. Tools: ${CONSULT_TOOLS.join(", ")}`, "info");
+		ctx.ui.notify(`Consult mode ON. Tools: ${CONSULT_TOOLS.join(", ")}. Uses parallel subagents for speed.`, "info");
 	}
 
 	function exitConsultMode(ctx: ExtensionContext, message?: string): void {

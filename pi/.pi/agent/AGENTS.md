@@ -219,6 +219,14 @@ Follow each language's idioms:
 
 ---
 
+## Subagents & Parallelism
+- Prefer parallel subagent calls for any multi-step exploration or research.
+- Spawn parallel scouts to explore different codebase areas simultaneously.
+- Use chain mode (scout → researcher → worker) for multi-step workflows.
+- Single subagent for focused one-area tasks.
+- Direct read/grep/find/ls only for quick targeted lookups between subagent calls.
+- NEVER explore sequentially when parallel subagents can do it faster.
+
 ## Behaviour
 - Explain what you're going to do before making large changes.
 - Small focused changes — don't batch unrelated things.
