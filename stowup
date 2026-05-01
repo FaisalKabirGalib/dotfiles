@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 echo "stowing dotfiles....."
 
-for folder in $(echo "bin,p10k,tmux,nvim,zsh,alacritty,vscode,obsidian,pi,ghostty,kitty,claude-code,opencode,ssh,waybar,wezterm,yazi,zen-browser" | sed "s/,/ /g"); do
-  echo "stowing $folder"
-  stow -D $folder
-  stow $folder
+for pkg in */; do
+	pkg="${pkg%/}"
+	[ -f "$pkg/PACKAGE.md" ] || continue
+	echo "stowing $pkg"
+	stow -D "$pkg" 2>/dev/null || true
+	stow "$pkg"
 done

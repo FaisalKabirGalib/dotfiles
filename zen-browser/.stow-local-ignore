@@ -1,8 +1,8 @@
-# Stow ignore file for zen-browser package
-# These files/patterns will not be symlinked
-
-# Documentation
-^/README\.md
+PACKAGE\.md
+README\.md
+LICENSE
+\.git
+\.stow-local-ignore
 
 # Template directory (needs manual setup)
 ^/\.zen/profile-template
