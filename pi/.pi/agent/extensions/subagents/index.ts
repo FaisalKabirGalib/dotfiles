@@ -98,12 +98,9 @@ const BUILTIN_TOOLS = new Set(["read", "write", "edit", "bash", "grep", "find", 
 // Custom tools that require loading an extension into the subagent process
 const EXT_BASE = path.join(process.env.HOME || "~", ".pi", "agent", "extensions");
 const CUSTOM_TOOL_EXTENSIONS: Record<string, string> = {
-  web_search: path.join(EXT_BASE, "web-search", "index.ts"),
+  web_search: path.join(EXT_BASE, "web-search.ts"),
   web_fetch: path.join(EXT_BASE, "web-fetch", "index.ts"),
   safe_bash: path.join(TOOLS_DIR, "safe-bash.ts"),
-  video_extract: path.join(EXT_BASE, "video-extract", "index.ts"),
-  youtube_search: path.join(EXT_BASE, "youtube-search", "index.ts"),
-  google_image_search: path.join(EXT_BASE, "google-image-search", "index.ts"),
 };
 
 // ── Agent Discovery & Registration ────────────────────────────────────
