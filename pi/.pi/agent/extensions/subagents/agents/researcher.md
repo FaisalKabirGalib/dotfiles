@@ -1,7 +1,7 @@
 ---
 name: researcher
 description: Web researcher — searches the web and synthesizes findings
-tools: web_search, web_fetch
+tools: web_search, web_fetch, doc_search
 model: opencode-go/deepseek-v4-flash
 ---
 

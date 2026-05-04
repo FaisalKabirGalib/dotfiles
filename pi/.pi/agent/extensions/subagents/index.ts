@@ -100,6 +100,7 @@ const EXT_BASE = path.join(process.env.HOME || "~", ".pi", "agent", "extensions"
 const CUSTOM_TOOL_EXTENSIONS: Record<string, string> = {
   web_search: path.join(EXT_BASE, "web-search.ts"),
   web_fetch: path.join(EXT_BASE, "web-fetch", "index.ts"),
+  doc_search: path.join(EXT_BASE, "doc-search.ts"),
   safe_bash: path.join(TOOLS_DIR, "safe-bash.ts"),
 };
 
@@ -222,9 +223,11 @@ function formatToolPreview(name: string, args: Record<string, unknown>): string 
     case "ls":
       return `ls ${(args.path as string) || "."}`;
     case "web_search":
-      return `search "${(args.query as string) || ""}"`;
+      return `search "${(args.search_query as string) || (args.query as string) || ""}"`;
     case "web_fetch":
       return `fetch ${(args.url as string) || ""}`;
+    case "doc_search":
+      return `docs ${(args.library as string) || ""}: ${(args.query as string) || ""}`;
     default: {
       const s = JSON.stringify(args);
       return `${name} ${s.slice(0, 60)}`;
