@@ -5,7 +5,7 @@
  * All colors are resolved via theme roles (no hardcoded ANSI).
  */
 
-import type { PermissionMode } from "../permissions/permissions.js";
+type PermissionMode = "yolo" | "safe" | "read-only";
 import { visibleWidth } from "@mariozechner/pi-tui";
 import { THINKING_ROLES } from "../shared/thinking-colors.js";
 

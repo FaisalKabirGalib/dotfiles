@@ -8,7 +8,7 @@
  */
 
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import type { PermissionMode } from "../permissions/permissions.js";
+type PermissionMode = "yolo" | "safe" | "read-only";
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
 import { execSync } from "node:child_process";
 import { existsSync, watch, type FSWatcher } from "node:fs";
