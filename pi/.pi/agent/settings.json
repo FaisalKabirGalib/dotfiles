@@ -20,5 +20,8 @@
       "maxRetryDelayMs": 60000
     }
   },
-  "lastChangelogVersion": "0.70.6"
+  "lastChangelogVersion": "0.70.6",
+  "packages": [
+    "npm:@plannotator/pi-extension"
+  ]
 }

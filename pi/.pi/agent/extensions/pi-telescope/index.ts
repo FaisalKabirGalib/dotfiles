@@ -15,7 +15,7 @@
  *   - Footer with keybinding hints
  *
  * Keybindings:
- *   Ctrl+Space          → open files finder
+ *   Ctrl+Shift+K        → open files finder
  *
  * Commands:
  *   /telescope [name]  → open specific provider
@@ -254,7 +254,7 @@ export default function (pi: ExtensionAPI) {
 		invalidateFileCache();
 	});
 
-	pi.registerShortcut("ctrl+space", {
+	pi.registerShortcut("ctrl+shift+k", {
 		description: "Open Telescope fuzzy finder (files)",
 		handler: (ctx) => runTelescope(pi, ctx, "files"),
 	});
