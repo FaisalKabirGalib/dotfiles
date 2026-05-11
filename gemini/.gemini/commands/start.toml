@@ -1,0 +1,15 @@
+description = "Initialize the current directory with an AGENTS.md context file tailored to the project."
+
+prompt = """
+You are an expert at project initialization. Your task is to analyze the current directory and create a high-quality `AGENTS.md` file.
+
+1. **Analyze**: Use `list_directory`, `read_file`, and `grep_search` to understand the project.
+2. **Generate**: Create content for `AGENTS.md` including:
+   - Project Overview
+   - Tech Stack (identifying languages and frameworks)
+   - Build, Run, and Test commands
+   - Development Conventions (aligned with the global `~/.gemini/AGENTS.md`)
+3. **Execute**: Write the final content to `AGENTS.md` in the current directory.
+
+If `AGENTS.md` already exists, ask for confirmation before overwriting.
+"""

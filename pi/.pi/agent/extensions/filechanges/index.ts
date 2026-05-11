@@ -167,7 +167,19 @@ export default function (pi: ExtensionAPI) {
 		if (!ctx?.hasUI) return;
 
 		ctx.ui.setStatus("filechanges", formatStatus(tracked, ctx.ui.theme));
-		ctx.ui.setWidget("filechanges", buildWidgetLines(tracked, ctx.ui.theme));
+		const lines = buildWidgetLines(tracked, ctx.ui.theme);
+		if (!lines) {
+			ctx.ui.setWidget("filechanges", undefined);
+			return;
+		}
+		ctx.ui.setWidget("filechanges", (_tui: any, _theme: any) => ({
+			dispose() {},
+			invalidate() {},
+			render(width: number): string[] {
+				const gap = [""];
+				return [...gap, ...lines.map(line => line.padStart(width))];
+			},
+		}), { placement: "belowEditor" });
 	}
 
 	async function recomputeTrackedFile(ctx: any, relPath: string) {

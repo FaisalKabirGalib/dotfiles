@@ -1,0 +1,34 @@
+{
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "ui": {
+    "theme": "Dracula",
+    "compactToolOutput": true,
+    "showLineNumbers": true,
+    "inlineThinkingMode": "full",
+    "dynamicWindowTitle": true
+  },
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "exit_plan_mode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "plannotator",
+            "timeout": 345600
+          }
+        ]
+      }
+    ]
+  },
+  "general": {
+    "preferredEditor": "neovim"
+  },
+  "context": {
+    "fileName": "AGENTS.md"
+  }
+}

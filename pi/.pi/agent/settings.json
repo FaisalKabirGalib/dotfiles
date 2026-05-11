@@ -1,9 +1,9 @@
 {
-  "defaultProvider": "zai",
-  "defaultModel": "glm-5.1",
-  "defaultThinkingLevel": "medium",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "deepseek-v4-flash",
+  "defaultThinkingLevel": "high",
   "collapseChangelog": true,
-  "quietStartup": false,
+  "quietStartup": true,
   "theme": "dark",
   "hideThinkingBlock": false,
   "doubleEscapeAction": "tree",
@@ -20,8 +20,18 @@
       "maxRetryDelayMs": 60000
     }
   },
-  "lastChangelogVersion": "0.70.6",
+  "powerline": {
+    "preset": "default",
+    "fixedEditor": true,
+    "mouseScroll": true
+  },
+  "powerlineShortcuts": {
+    "copyEditor": "ctrl+alt+shift+c",
+    "cutEditor": "ctrl+alt+shift+x"
+  },
+  "lastChangelogVersion": "0.74.0",
   "packages": [
-    "npm:@plannotator/pi-extension"
+    "npm:@plannotator/pi-extension",
+    "npm:pi-powerline-footer"
   ]
 }
