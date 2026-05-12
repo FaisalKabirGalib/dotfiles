@@ -5,7 +5,7 @@
     }
   },
   "ui": {
-    "theme": "Dracula",
+    "theme": "Gruvbox Dark (gemini-cli-themes)",
     "compactToolOutput": true,
     "showLineNumbers": true,
     "inlineThinkingMode": "full",

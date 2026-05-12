@@ -1,0 +1,16 @@
+appearance: 
+  theme.dark: titanium
+model: 
+  defaultThinkingLevel: high
+interaction: 
+  startup.quiet: true
+  doubleEscapeAction: tree
+editing: 
+  edit.mode: hashline
+startup: 
+  quiet: true
+lastChangelogVersion: 14.9.8
+modelRoles: 
+  default: opencode-go/deepseek-v4-flash:medium
+theme: 
+  dark: dark-cavern
