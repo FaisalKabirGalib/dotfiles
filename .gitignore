@@ -31,3 +31,8 @@ tmux-server-*.log
 
 # DCP extension node_modules
 pi/.pi/agent/extensions/pi-dynamic-context-pruning/node_modules/
+
+# Pi Agent runtime / session files
+pi/.omp/agent/sessions/
+pi/.omp/agent/terminal-sessions/
+pi/.omp/agent/*.db*
