@@ -155,7 +155,19 @@ keymap.set("n", "<leader>Fl", function()
 end, { desc = "Flutter Log Toggle" })
 
 keymap.set("n", "<leader>FC", function()
-  require("flutter-tools.lsp.color").toggle()
+  local bufnr = vim.api.nvim_get_current_buf()
+  if vim.lsp.document_color then
+    local current_state = vim.b[bufnr].lsp_document_color_enabled
+    if current_state == nil then
+      current_state = true -- assume it was enabled on attach
+    end
+    local new_state = not current_state
+    vim.lsp.document_color.enable(new_state, { bufnr = bufnr })
+    vim.b[bufnr].lsp_document_color_enabled = new_state
+    vim.notify("LSP document colors " .. (new_state and "enabled" or "disabled"), vim.log.levels.INFO)
+  else
+    vim.notify("LSP document colors not supported on this Neovim version", vim.log.levels.WARN)
+  end
 end, { desc = "Flutter Color Toggle" })
 
 -- LSP keymaps for better Flutter development

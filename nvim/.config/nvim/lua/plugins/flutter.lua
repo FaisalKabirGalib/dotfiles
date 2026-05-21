@@ -42,14 +42,6 @@ return {
         },
 
         lsp = {
-          color = {
-            enabled = true,
-            background = false,
-            background_color = nil,
-            foreground = false,
-            virtual_text = true,
-            virtual_text_str = "■",
-          },
           settings = {
             showtodos = true,
             completefunctioncalls = true,
