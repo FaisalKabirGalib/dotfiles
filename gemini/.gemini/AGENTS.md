@@ -56,3 +56,8 @@ This file serves as the global system prompt for all Gemini CLI interactions. It
 - **Parallelism**: Use parallel subagent calls for research/exploration.
 - **Composition**: Prefer composition over inheritance.
 - **Brevity**: Concise responses, no conversational filler.
+
+## Knowledge Base & Planning (Obsidian)
+- **Knowledge Base**: Always use the master Obsidian vault (use `notemd-cli` if you need the path) as the primary knowledge base.
+- **Project Documentation**: Write plans, technical documentation, and architecture decisions there. If a project folder doesn't exist in the vault, create it first.
+- **Work Summaries**: Keep track of thoughts and work summaries (what we did, why we did it) in the project's Obsidian notes.

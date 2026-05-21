@@ -42,3 +42,10 @@ nvm use default > /dev/null 2>&1
 
 # Shopify Hydrogen alias to local projects
 alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
+
+# bun completions
+[ -s "/home/galib/.bun/_bun" ] && source "/home/galib/.bun/_bun"
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/galib/.local/bin:$PATH"
