@@ -1,11 +1,18 @@
 {
   "colorScheme": "tokyo night",
-  "model": "Gemini 3.5 Flash (Medium)",
+  "model": "Gemini 3.5 Flash (High)",
   "notifications": true,
   "showFeedbackSurvey": false,
+  "statusLine": {
+    "type": "",
+    "command": "",
+    "enabled": false
+  },
   "toolPermission": "always-proceed",
   "trustedWorkspaces": [
     "/home/galib/work/dana-forum",
-    "/home/galib/dotfiles"
+    "/home/galib/dotfiles",
+    "/home/galib/personal/somporko",
+    "/home/galib/work/dana_ai_app"
   ]
 }
