@@ -29,10 +29,17 @@ credentials*
 tmux-client-*.log
 tmux-server-*.log
 
-# DCP extension node_modules
-pi/.pi/agent/extensions/pi-dynamic-context-pruning/node_modules/
+# Node modules anywhere (extension deps are installed locally, never committed)
+node_modules/
 
-# Pi Agent runtime / session files
+# Pi (oh-my-pi, ~/.omp) runtime / session files
 pi/.omp/agent/sessions/
 pi/.omp/agent/terminal-sessions/
 pi/.omp/agent/*.db*
+pi/.omp/agent/auth.json
+
+# pi.old (~/.pi) runtime / session files
+pi.old/.pi/agent/sessions/
+pi.old/.pi/agent/terminal-sessions/
+pi.old/.pi/agent/*.db*
+pi.old/.pi/agent/auth.json

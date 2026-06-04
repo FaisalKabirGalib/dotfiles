@@ -31,6 +31,14 @@ session-env/
 # Analytics and feature flags
 statsig/
 
+# Third-party plugin marketplaces & caches (redownloaded on demand by Claude Code)
+# Only plugins/blocklist.json (user-curated) is tracked.
+plugins/marketplaces/
+plugins/cache/
+plugins/install-counts-cache.json
+plugins/installed_plugins.json
+plugins/known_marketplaces.json
+
 # Keep these files (configuration we want to track):
 # - settings.json (global settings)
 # - commands/ (custom slash commands)

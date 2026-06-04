@@ -1,10 +1,24 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
+# Remove stowed dotfile packages. With no args, unstows every package
+# containing a PACKAGE.md marker. With args, unstows only the named packages.
+#
+#   ./stowDown            # unstow all packages
+#   ./stowDown nvim zsh   # unstow only nvim and zsh
 
 set -euo pipefail
 
-for pkg in */; do
-	pkg="${pkg%/}"
-	[ -f "$pkg/PACKAGE.md" ] || continue
+unstow_pkg() {
+	local pkg="${1%/}"
+	if [ ! -f "$pkg/PACKAGE.md" ]; then
+		echo "skipping $pkg (no PACKAGE.md)" >&2
+		return
+	fi
 	echo "Removing $pkg"
 	stow -D "$pkg"
-done
+}
+
+if [ "$#" -gt 0 ]; then
+	for pkg in "$@"; do unstow_pkg "$pkg"; done
+else
+	for pkg in */; do unstow_pkg "$pkg"; done
+fi
