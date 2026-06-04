@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Pre-commit hook: scan staged changes for secrets and lint staged shell scripts.
+# Enable with: just install-hooks   (sets core.hooksPath to .githooks)
+# Each check is skipped gracefully if its tool isn't installed.
+set -uo pipefail
+
+fail=0
+
+# 1. Secret scan on staged changes
+if command -v gitleaks >/dev/null 2>&1; then
+	if ! gitleaks protect --staged --no-banner --redact; then
+		echo "✗ gitleaks found potential secrets in staged changes. Commit aborted." >&2
+		fail=1
+	fi
+else
+	echo "· gitleaks not installed; skipping secret scan (pacman -S gitleaks)" >&2
+fi
+
+# 2. Shellcheck on staged shell scripts
+if command -v shellcheck >/dev/null 2>&1; then
+	mapfile -t scripts < <(git diff --cached --name-only --diff-filter=ACM \
+		| grep -E '\.(sh|bash)$|^(stowup|stowDown|install\.sh)$' || true)
+	if [ "${#scripts[@]}" -gt 0 ]; then
+		if ! shellcheck "${scripts[@]}"; then
+			echo "✗ shellcheck failed on staged scripts. Commit aborted." >&2
+			fail=1
+		fi
+	fi
+else
+	echo "· shellcheck not installed; skipping shell lint (pacman -S shellcheck)" >&2
+fi
+
+exit "$fail"

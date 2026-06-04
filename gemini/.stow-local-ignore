@@ -12,3 +12,4 @@ LICENSE
 .gemini/history/
 .gemini/tmp/
 .gemini/antigravity/
+\.gitignore

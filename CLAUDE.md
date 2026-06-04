@@ -22,6 +22,26 @@ stow -R -t ~ <package>   # restow (after changing which files exist)
 
 `bin/dotfiles-sync [packages...]` is a convenience restow (`stow -R`); with no args it restows `nvim opencode`.
 
+**`.stow-local-ignore` gotcha:** when a package has a `.stow-local-ignore`, it *replaces* Stow's built-in default ignore list (which normally skips `.git`, `.gitignore`, etc.). Every package's ignore file must therefore explicitly list `\.git`, `\.gitignore`, `PACKAGE\.md`, `README\.md`, `LICENSE`, `\.stow-local-ignore` — otherwise Stow will try to symlink those repo-internal files into `$HOME`.
+
+## Task Runner & Tooling
+
+A `justfile` is the single entrypoint (`just --list` to discover). Key recipes:
+
+```bash
+just                 # list commands
+just install         # full setup (= ./install.sh)
+just stow [pkg...]   # stow all, or named packages
+just unstow [pkg...] # unstow all, or named packages
+just doctor          # health check (see below)
+just lint / just fmt # shellcheck / shfmt over shell scripts
+just secrets         # gitleaks scan of the working tree
+just install-hooks   # enable the .githooks pre-commit hook
+```
+
+- **`scripts/doctor.sh`** (`just doctor`) reports: packages missing a `PACKAGE.md`, packages whose target is a *real file* instead of a symlink (config drift — resolve with `stow --adopt <pkg>` after reviewing), and broken symlinks. Expect `auth.json`-type secrets to show as real files; that's intentional.
+- **`.githooks/pre-commit`** runs `gitleaks` (secret scan of staged changes) and `shellcheck` (staged shell scripts). Enabled via `git config core.hooksPath .githooks`. Each check no-ops gracefully if its tool isn't installed. The tooling (`just`, `shellcheck`, `shfmt`, `gitleaks`, `stow`) is in `scripts/packages.txt`.
+
 ## Installation Flow
 
 `./install.sh` is the orchestrator and calls, in order, the scripts in `scripts/`:

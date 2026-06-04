@@ -6,3 +6,4 @@ LICENSE
 
 # Template directory (needs manual setup)
 ^/\.zen/profile-template
+\.gitignore

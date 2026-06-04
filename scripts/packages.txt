@@ -25,3 +25,10 @@ waybar
 rofi
 wl-clipboard
 cliphist
+
+# Dotfiles tooling: task runner, shell lint/format, secret scanning, symlinks
+just
+shellcheck
+shfmt
+gitleaks
+stow
