@@ -1,32 +1,31 @@
--- Rose Pine - Beautiful, muted colorscheme
--- Alternative to Catppuccin with excellent transparency support
+-- Rose Pine - optional alternative colorscheme.
 --
---
+-- The DEFAULT theme is driven by omarchy via theme.lua
+-- (~/.config/omarchy/current/theme/neovim.lua). Rose Pine is installed but
+-- NOT loaded at startup; activate it on demand with:
+--   :RosePine        (moon)   :RosePineMain   :RosePineMoon   :RosePineDawn
+-- or via the LazyVim colorscheme picker (<leader>uC).
 
 return {
   "rose-pine/neovim",
   name = "rose-pine",
-  lazy = false, -- Load during startup
-  priority = 1000, -- Load before other plugins
+  lazy = true, -- do not load at startup; loaded on demand by the commands below
   opts = {
-    variant = "moon", -- Options: 'main', 'moon', 'dawn'
+    variant = "moon",
     dark_variant = "moon",
     dim_inactive_windows = false,
     extend_background_behind_borders = true,
 
-    -- Transparency settings
     styles = {
       bold = true,
       italic = true,
-      transparency = true, -- Enable transparency
+      transparency = true,
     },
 
-    -- Disable backgrounds for transparency
     disable_background = true,
     disable_float_background = true,
     disable_italics = false,
 
-    -- Highlight groups customization
     groups = {
       border = "muted",
       link = "iris",
@@ -58,14 +57,11 @@ return {
       },
     },
 
-    -- Highlight specific groups for better integration
     highlight_groups = {
-      -- Transparent backgrounds
       Normal = { bg = "none" },
       NormalFloat = { bg = "none" },
       NormalNC = { bg = "none" },
 
-      -- Telescope transparency
       TelescopeBorder = { fg = "overlay", bg = "none" },
       TelescopeNormal = { fg = "subtle", bg = "none" },
       TelescopeSelection = { fg = "text", bg = "overlay" },
@@ -82,7 +78,6 @@ return {
       TelescopeResultsTitle = { fg = "base", bg = "love" },
       TelescopePreviewTitle = { fg = "base", bg = "love" },
 
-      -- Which-key transparency
       WhichKey = { fg = "iris" },
       WhichKeyGroup = { fg = "foam" },
       WhichKeyDesc = { fg = "gold" },
@@ -91,44 +86,36 @@ return {
       WhichKeyFloat = { bg = "none" },
       WhichKeyValue = { fg = "rose" },
 
-      -- LSP and diagnostics
       DiagnosticVirtualTextError = { bg = "none" },
       DiagnosticVirtualTextWarn = { bg = "none" },
       DiagnosticVirtualTextInfo = { bg = "none" },
       DiagnosticVirtualTextHint = { bg = "none" },
 
-      -- Pmenu (completion menu)
       Pmenu = { fg = "subtle", bg = "overlay" },
       PmenuSel = { fg = "text", bg = "highlight_med" },
       PmenuSbar = { bg = "overlay" },
       PmenuThumb = { bg = "muted" },
 
-      -- Status line integration
       StatusLine = { fg = "subtle", bg = "none" },
       StatusLineNC = { fg = "muted", bg = "none" },
 
-      -- Tab line
       TabLine = { bg = "none", fg = "subtle" },
       TabLineFill = { bg = "none" },
       TabLineSel = { fg = "text", bg = "overlay" },
 
-      -- Git signs
       GitSignsAdd = { fg = "foam", bg = "none" },
       GitSignsChange = { fg = "rose", bg = "none" },
       GitSignsDelete = { fg = "love", bg = "none" },
 
-      -- Neo-tree transparency
       NeoTreeNormal = { bg = "none" },
       NeoTreeNormalNC = { bg = "none" },
       NeoTreeEndOfBuffer = { bg = "none" },
 
-      -- Noice transparency
       NoicePopup = { bg = "none" },
       NoicePopupBorder = { fg = "overlay", bg = "none" },
       NoiceCmdlinePopup = { bg = "none" },
       NoiceCmdlinePopupBorder = { fg = "overlay", bg = "none" },
 
-      -- Obsidian.nvim integration (if using)
       ObsidianTodo = { bold = true, fg = "gold" },
       ObsidianDone = { bold = true, fg = "foam" },
       ObsidianRightArrow = { bold = true, fg = "rose" },
@@ -138,40 +125,23 @@ return {
       ObsidianTag = { italic = true, fg = "foam" },
       ObsidianHighlightText = { bg = "highlight_med" },
     },
-
-    -- Better syntax highlighting
-    before_highlight = function(group, highlight, palette)
-      -- Customize specific groups before they're applied
-    end,
   },
 
-  config = function(_, opts)
-    require("rose-pine").setup(opts)
-
-    -- Uncomment the line below to activate Rose Pine by default
-    -- vim.cmd("colorscheme rose-pine")
-
-    -- Or create a command to easily switch between themes
-    vim.api.nvim_create_user_command("RosePine", function()
-      vim.cmd("colorscheme rose-pine")
-    end, {})
-
-    vim.api.nvim_create_user_command("RosePineMain", function()
-      vim.o.background = "dark"
-      require("rose-pine").setup({ variant = "main" })
-      vim.cmd("colorscheme rose-pine")
-    end, {})
-
-    vim.api.nvim_create_user_command("RosePineMoon", function()
-      vim.o.background = "dark"
-      require("rose-pine").setup({ variant = "moon" })
-      vim.cmd("colorscheme rose-pine")
-    end, {})
-
-    vim.api.nvim_create_user_command("RosePineDawn", function()
-      vim.o.background = "light"
-      require("rose-pine").setup({ variant = "dawn" })
-      vim.cmd("colorscheme rose-pine")
-    end, {})
+  -- Register the switch commands at startup (cheap). Each command pulls in the
+  -- plugin on first use via require(), so nothing loads until you ask for it.
+  init = function()
+    local variants = {
+      RosePine = "moon",
+      RosePineMain = "main",
+      RosePineMoon = "moon",
+      RosePineDawn = "dawn",
+    }
+    for cmd, variant in pairs(variants) do
+      vim.api.nvim_create_user_command(cmd, function()
+        vim.o.background = variant == "dawn" and "light" or "dark"
+        require("rose-pine").setup({ variant = variant })
+        vim.cmd.colorscheme("rose-pine")
+      end, { desc = "Activate Rose Pine (" .. variant .. ")" })
+    end
   end,
 }
