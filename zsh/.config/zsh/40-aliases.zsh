@@ -19,7 +19,7 @@ alias local_vps='ssh -i ~/.ssh/kube_rsa root@vm.softcellbd.net -p 65535'
 
 # === Claude Code Aliases ===
 alias cc='claude'
-alias ccy='claude  --resume --dangerously-skip-permissions'  # Yellow mode - skip permissions
+alias ccy='claude --dangerously-skip-permissions'  # Yellow mode - new session, skip permissions
 alias ccc='claude --continue'  # Continue most recent conversation
 alias ccr='claude --resume'    # Resume session interactively
 alias ccp='claude -p'          # Print mode - query and exit
