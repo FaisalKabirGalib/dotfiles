@@ -32,3 +32,8 @@ shellcheck
 shfmt
 gitleaks
 stow
+
+# Desktop rice: notification center, media control for waybar, audio visualizer
+swaync
+playerctl
+cava

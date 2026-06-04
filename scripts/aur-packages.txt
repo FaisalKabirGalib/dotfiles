@@ -5,3 +5,6 @@ ghostty-bin
 kitty-terminal-bin
 visual-studio-code-bin
 zinit-git
+
+# Power menu
+wlogout
