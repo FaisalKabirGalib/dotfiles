@@ -1,0 +1,47 @@
+#!/bin/bash
+# omarchy-keybinding-run
+#
+# Turns the read-only Omarchy keybindings cheat-sheet (omarchy-menu-keybindings)
+# into a command palette: fuzzy-find a binding in walker, press Enter, and the
+# selected binding's action is actually executed via `hyprctl dispatch`.
+#
+# The stock `omarchy-menu-keybindings` only *displays* the list and discards the
+# selection, which is why Super+K never ran anything.
+
+set -uo pipefail
+
+# Show the same nicely formatted, prioritized list and let the user pick one.
+# Use omarchy-launch-walker (not bare `walker`) so the elephant data provider and
+# walker service are running first; bare `walker --dmenu` returns immediately here.
+selection="$(omarchy-menu-keybindings --print | omarchy-launch-walker --dmenu -p 'Run keybinding')" || exit 0
+[[ -z "${selection:-}" ]] && exit 0
+
+# The print format is:  KEYS … → Description
+# Strip everything up to and including the arrow to recover the description.
+desc="${selection#*→ }"
+# Trim leading/trailing whitespace.
+desc="${desc#"${desc%%[![:space:]]*}"}"
+desc="${desc%"${desc##*[![:space:]]}"}"
+[[ -z "$desc" ]] && exit 0
+
+# Resolve the description back to its dispatcher + arg via Hyprland's live binds.
+mapfile -t parts < <(
+  hyprctl -j binds |
+    jq -r --arg d "$desc" '.[] | select(.description == $d) | .dispatcher, .arg' |
+    head -2
+)
+
+dispatcher="${parts[0]:-}"
+arg="${parts[1]:-}"
+
+if [[ -z "$dispatcher" ]]; then
+  notify-send "Keybinding" "No runnable action found for: $desc" 2>/dev/null || true
+  exit 0
+fi
+
+# Fire the action exactly as Hyprland would on the real key press.
+if [[ -n "$arg" ]]; then
+  hyprctl dispatch "$dispatcher" "$arg"
+else
+  hyprctl dispatch "$dispatcher"
+fi

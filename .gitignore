@@ -17,6 +17,9 @@ ssh/.ssh/authorized_keys
 
 # Machine-specific files
 *.local
+# ...but *.local also matches the XDG ~/.local dir; keep the bin package trackable
+!bin/.local/
+!bin/.local/**
 .env
 credentials*
 
