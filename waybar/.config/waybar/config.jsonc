@@ -152,7 +152,7 @@
     "tooltip-format-charging": "{power:>1.0f}W↑  {capacity}%  ({time})",
     "interval": 5,
     "on-click": "omarchy-menu power",
-    "on-click-right": "notify-send -u low \"$(omarchy-battery-status)\"",
+    "on-click-right": "notify-send -u low -t 8000 'Battery' \"$($HOME/.local/bin/battery-info)\"",
     "states": {
       "warning": 20,
       "critical": 10

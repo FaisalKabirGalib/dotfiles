@@ -14,7 +14,7 @@ fzf
 fd
 ripgrep
 bat
-exa
+eza
 zoxide
 nodejs
 npm
