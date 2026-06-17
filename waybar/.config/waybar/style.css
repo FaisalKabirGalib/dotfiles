@@ -135,7 +135,10 @@ window#waybar {
   border-radius: 8px;
 }
 
-#network { color: @foreground; }
+#network {
+  color: @foreground;
+  font-size: 11px;
+}
 #bluetooth { color: @accent; }
 #pulseaudio { color: @good; }
 #pulseaudio.muted { color: alpha(@foreground, 0.4); }
