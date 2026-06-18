@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Toggle Hyprland's animated rotating gradient border (the "hall of fame" look).
+# Off by default (battery); flips on/off live via hyprctl. Bound to SUPER+ALT+B.
+# The `linear` bezier it references is defined in ~/.config/hypr/looknfeel.conf.
+
+state_file="${XDG_RUNTIME_DIR:-/tmp}/hypr-borderangle.on"
+
+if [[ -f "$state_file" ]]; then
+    # Currently on -> turn off (disable the loop)
+    hyprctl keyword animation 'borderangle,0,1,linear' >/dev/null
+    rm -f "$state_file"
+    notify-send -u low -t 1500 'Border animation' 'Off'
+else
+    # Currently off -> turn on (continuous rotating gradient)
+    hyprctl keyword animation 'borderangle,1,50,linear,loop' >/dev/null
+    touch "$state_file"
+    notify-send -u low -t 1500 'Border animation' 'On'
+fi

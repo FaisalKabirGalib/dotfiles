@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Now-playing line for the hyprlock lock screen.
+# Kept OUT of hyprlock.conf because playerctl's '{{...}}' format braces collide
+# with Hyprlang's block delimiters and break config parsing.
+# Prints nothing unless something is actively playing, so the label auto-hides.
+
+[ "$(playerctl status 2>/dev/null)" = "Playing" ] || exit 0
+
+line=$(playerctl metadata --format '{{artist}} — {{title}}' 2>/dev/null)
+line=${line# — }            # drop a leading separator when artist is empty
+[ -n "$line" ] || exit 0
+
+max=48
+[ "${#line}" -gt "$max" ] && line="${line:0:max}…"
+
+printf '󰎈  %s\n' "$line"
