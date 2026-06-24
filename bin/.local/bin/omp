@@ -1,31 +1,42 @@
 #!/usr/bin/env bash
 # omp launcher wrapper (dotfiles `bin` package).
-# Shadows ~/.bun/bin/omp on PATH to keep the "Galib" brand-mark patch alive
-# across `omp update`, which reinstalls and overwrites dist/cli.js.
-# Re-applies the patch idempotently, then execs the real binary unchanged.
+# Runs the patchable JS bundle (~/.bun/bin/omp) showing the "Galib" brand mark,
+# instead of the native binary (which bakes π in compressed and can't be patched).
+# Intercepts `omp update` to refresh the JS bundle via bun + re-apply the patch,
+# so updates never reinstall the native binary over this wrapper.
 set -euo pipefail
 
-REAL="${HOME}/.bun/bin/omp"
-if [ ! -e "$REAL" ]; then
-	echo "omp not found at $REAL" >&2
-	exit 127
-fi
+JS="${HOME}/.bun/bin/omp"
+PKG="@oh-my-pi/pi-coding-agent"
 
 ensure_patch() {
 	local cli
-	cli="$(readlink -f "$REAL")"
+	cli="$(readlink -f "$JS")"
 	[ -f "$cli" ] || return 0
 	grep -q '"icon.pi":"Galib"' "$cli" 2>/dev/null && return 0
 	cp -a "$cli" "${cli}.bak.$(date +%s)" 2>/dev/null || true
 	perl -0777 -pi -e 's/"icon\.pi":"[^"]*"/"icon.pi":"Galib"/g' "$cli"
 }
 
-if [ "${1:-}" = "update" ]; then
-	"$REAL" "$@"
-	rc=$?
+if [ ! -e "$JS" ]; then
+	echo "omp JS bundle not found at $JS" >&2
+	exit 127
+fi
+
+# Intercept updates: refresh the JS bundle via bun, then re-apply the patch.
+# This avoids the native binary's self-reinstall that would overwrite this wrapper.
+if [ "${1:-}" = "update" ] && [ "${2:-}" != "-c" ] && [ "${2:-}" != "--check" ]; then
+	echo "updating $PKG (JS bundle) via bun..."
+	bun install -g "$PKG@latest"
 	ensure_patch
-	exit "$rc"
+	echo "Galib patch re-applied. Version: $("$JS" --version)"
+	exit 0
+fi
+
+# `omp update --check` is read-only; delegate to the JS bundle.
+if [ "${1:-}" = "update" ]; then
+	exec "$JS" "$@"
 fi
 
 ensure_patch
-exec "$REAL" "$@"
+exec "$JS" "$@"
