@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# omp launcher wrapper (dotfiles `bin` package).
+# Shadows ~/.bun/bin/omp on PATH to keep the "Galib" brand-mark patch alive
+# across `omp update`, which reinstalls and overwrites dist/cli.js.
+# Re-applies the patch idempotently, then execs the real binary unchanged.
+set -euo pipefail
+
+REAL="${HOME}/.bun/bin/omp"
+if [ ! -e "$REAL" ]; then
+	echo "omp not found at $REAL" >&2
+	exit 127
+fi
+
+ensure_patch() {
+	local cli
+	cli="$(readlink -f "$REAL")"
+	[ -f "$cli" ] || return 0
+	grep -q '"icon.pi":"Galib"' "$cli" 2>/dev/null && return 0
+	cp -a "$cli" "${cli}.bak.$(date +%s)" 2>/dev/null || true
+	perl -0777 -pi -e 's/"icon\.pi":"[^"]*"/"icon.pi":"Galib"/g' "$cli"
+}
+
+if [ "${1:-}" = "update" ]; then
+	"$REAL" "$@"
+	rc=$?
+	ensure_patch
+	exit "$rc"
+fi
+
+ensure_patch
+exec "$REAL" "$@"

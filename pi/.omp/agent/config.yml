@@ -10,7 +10,7 @@ editing:
 startup: 
   quiet: true
 modelRoles: 
-  default: opencode-go/qwen3.7-plus:high
+  default: zai/glm-5.2:high
 theme: 
   dark: titanium
   light: light
