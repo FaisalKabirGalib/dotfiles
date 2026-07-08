@@ -6,7 +6,7 @@ Fast, GPU-based terminal emulator.
 
 - **Type**: Terminal Emulator
 - **Target**: `~/.config/kitty`
-- **Dependencies**: Kitty, JetBrainsMono Nerd Font
+- **Dependencies**: Kitty, CaskaydiaMono Nerd Font
 
 ## Install
 

@@ -6,7 +6,7 @@ Terminal emulator by mitchellh with performance focus.
 
 - **Type**: Terminal Emulator
 - **Target**: `~/.config/ghostty`
-- **Dependencies**: Ghostty, JetBrainsMono Nerd Font
+- **Dependencies**: Ghostty, CaskaydiaMono Nerd Font
 
 ## Install
 
