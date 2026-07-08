@@ -11,7 +11,9 @@ PKG="@oh-my-pi/pi-coding-agent"
 
 ensure_patch() {
 	local cli
-	cli="$(readlink -f "$JS")"
+	# readlink -f is GNU-only (BSD/macOS readlink lacks -f); perl is already a
+	# hard dependency below, so use it for a portable symlink resolution too.
+	cli="$(perl -MCwd=abs_path -e 'print abs_path(shift)' "$JS")"
 	[ -f "$cli" ] || return 0
 	grep -q '"icon.pi":"Galib"' "$cli" 2>/dev/null && return 0
 	cp -a "$cli" "${cli}.bak.$(date +%s)" 2>/dev/null || true

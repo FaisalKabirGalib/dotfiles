@@ -131,7 +131,7 @@ Located in: `~/.claude.json`
       "command": "npx",
       "args": [
         "@mauricio.wolff/mcp-obsidian@latest",
-        "/home/galib/Documents/vault-projects"
+        "~/Documents/vault-projects"
       ],
       "env": {}
     }

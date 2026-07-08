@@ -13,7 +13,7 @@ if command -v gitleaks >/dev/null 2>&1; then
 		fail=1
 	fi
 else
-	echo "· gitleaks not installed; skipping secret scan (pacman -S gitleaks)" >&2
+	echo "· gitleaks not installed; skipping secret scan (brew install gitleaks)" >&2
 fi
 
 # 2. Shellcheck on staged shell scripts
@@ -27,7 +27,7 @@ if command -v shellcheck >/dev/null 2>&1; then
 		fi
 	fi
 else
-	echo "· shellcheck not installed; skipping shell lint (pacman -S shellcheck)" >&2
+	echo "· shellcheck not installed; skipping shell lint (brew install shellcheck)" >&2
 fi
 
 exit "$fail"

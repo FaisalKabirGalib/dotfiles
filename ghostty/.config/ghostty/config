@@ -12,7 +12,7 @@ window-decoration = false
 background-opacity = 0.80
 
 # Shell Configuration
-command = /usr/bin/zsh -l
+command = zsh -l
 
 # Terminal Environment
 term = xterm-256color
@@ -36,9 +36,9 @@ quit-after-last-window-closed = true
 # Shell Integration
 shell-integration = detect
 
-# Colors: inherit entirely from the active Omarchy theme so the terminal
-# tracks `omarchy theme set` automatically (no hardcoded palette overrides).
-theme = "/home/galib/.config/omarchy/current/theme/ghostty.conf"
+# Colors: Omarchy's dynamic theme system isn't available on macOS, so use
+# Ghostty's own bundled Catppuccin Mocha theme (matches the original palette).
+theme = catppuccin-mocha
 
 # Cursor (style only — color is derived from the theme)
 cursor-style = block
@@ -46,6 +46,3 @@ cursor-style-blink = false
 
 # Slowdown mouse scrolling
 mouse-scroll-multiplier = 0.95
-
-# Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
-async-backend = epoll

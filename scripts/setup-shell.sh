@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Change default shell to zsh
-if [ "$SHELL" != "/usr/bin/zsh" ] && [ "$SHELL" != "/bin/zsh" ]; then
+if [ "$SHELL" != "$(command -v zsh)" ]; then
 	echo "Changing default shell to zsh..."
 	chsh -s "$(which zsh)"
 	echo "Default shell changed (takes effect on next login)."

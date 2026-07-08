@@ -453,7 +453,7 @@ git push -u origin main
 
 ```bash
 # Verify dotfiles location
-echo $DOTFILES_DIR  # Should be /home/galib/dotfiles
+echo $DOTFILES_DIR  # Should be $HOME/dotfiles
 
 # Set if needed
 export DOTFILES_DIR="$HOME/dotfiles"

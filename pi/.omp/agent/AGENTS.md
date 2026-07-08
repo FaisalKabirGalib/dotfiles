@@ -2,9 +2,9 @@
 
 ## Identity
 Full-stack developer. Primary languages: Dart/Flutter, TypeScript, Python, Go, PHP (maintenance only).
-OS: Arch Linux. Desktop: Hyprland (Wayland) or KDE Plasma.
+OS: macOS (Apple Silicon, Mac Mini M2).
 Shell: zsh | Editor: Neovim (LazyVim) | Multiplexer: tmux (prefix C-a)
-Package manager: pacman + yay | CLI: `rg` over grep, `fd` over find, `bat` over cat
+Package manager: Homebrew | CLI: `rg` over grep, `fd` over find, `bat` over cat
 
 ### Project Split
 - **Flutter** — Primary. Mobile + desktop apps.

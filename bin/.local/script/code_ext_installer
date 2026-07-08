@@ -1,9 +1,15 @@
 #!/bin/bash
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  CODE_USER_DIR="$HOME/Library/Application Support/Code/User"
+else
+  CODE_USER_DIR="$HOME/.config/Code/User"
+fi
+
 # Create required directories
-mkdir -p ~/.config/Code/User
+mkdir -p "$CODE_USER_DIR"
 
 # Install extensions
-while read extension; do
+while read -r extension; do
   code --install-extension "$extension"
-done < ~/.config/Code/extensions.txt
+done < "$HOME/.config/Code/extensions.txt"

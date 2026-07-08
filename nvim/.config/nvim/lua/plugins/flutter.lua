@@ -11,7 +11,7 @@ return {
     },
     config = function()
       require("flutter-tools").setup({
-        flutter_path = "/usr/bin/flutter",
+        flutter_path = vim.fn.expand("~/development/flutter/bin/flutter"), -- matches the PATH entry in zsh/10-environment.zsh
         flutter_lookup_cmd = nil,
         fvm = false,
 
