@@ -1,0 +1,137 @@
+# AeroSpace config, mirroring the keybinding philosophy of this dotfiles
+# repo's Hyprland config (omarchy branch: hyprland/.config/hypr/*.conf).
+#
+# IMPORTANT: AeroSpace checks ~/.aerospace.toml FIRST, and only falls back
+# to this XDG path (~/.config/aerospace/aerospace.toml) if that file
+# doesn't exist. If AeroSpace's own onboarding already copied a default
+# config to ~/.aerospace.toml, delete it or this file will be silently
+# ignored.
+#
+# NOT ported from Hyprland (no AeroSpace/macOS equivalent -- AeroSpace is
+# accessibility-API-based like yabai, not a compositor):
+#   - borders, rounding, blur, shadows, opacity, animations
+#   - Omarchy's dynamic theme-switching (source = ~/.config/omarchy/current/theme/...)
+#   - Walker (app launcher)      -> Raycast / Spotlight instead
+#   - Waybar (status bar)        -> native macOS menu bar
+#   - hypridle / hyprlock        -> native macOS sleep/lock (System Settings)
+#   - hyprsunset                 -> native Night Shift
+# Gaps DO have a real AeroSpace equivalent and are ported below.
+
+config-version = 2
+start-at-login = true
+
+default-root-container-layout = 'tiles'
+
+# Replicates Hyprland's autostart (workspace 11: ghostty+tmux, workspace
+# 12: zen-browser). Mac Mini has no laptop display, so there's no
+# eDP-1-vs-external split to port -- these are just plain workspace numbers.
+after-startup-command = [
+  'workspace 11',
+  'exec-and-forget open -a Ghostty -n --args -e tmux new -A -s Home',
+  'workspace 12',
+  'exec-and-forget open -a Zen',
+  'workspace 1',
+]
+
+[gaps]
+inner.horizontal = 4
+inner.vertical = 4
+outer.left = 8
+outer.right = 8
+outer.top = 8
+outer.bottom = 8
+
+# SUPER (the Hyprland mod key) maps to Cmd on macOS, but Cmd is already
+# bound to nearly every macOS app shortcut (Cmd+Q/W/Tab/Space/C/V...).
+# Using `alt` (Option) as the primary mod instead avoids that conflict --
+# this is the standard convention for Hyprland/i3 -> AeroSpace migrations.
+[mode.main.binding]
+
+# Vim-motion focus navigation (was ctrl-super-hjkl in Hyprland; plain
+# alt-hjkl here since there's no more Cmd-collision reason to need Ctrl)
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# In-tree window reposition -- NEW, no Hyprland source equivalent (dwindle
+# auto-splits instead), but genuinely useful in AeroSpace's tiling model.
+# NOTE: this is a different command from move-node-to-workspace below,
+# despite the similar name -- this moves within the current workspace's
+# tree, that one sends the window to a different workspace entirely.
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# Workspace switching (was super-1..0 in Hyprland)
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
+
+# Move window to workspace (was super-shift-1..0 in Hyprland)
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
+
+# Window management (was super-q/m/f in Hyprland)
+alt-q = 'close'
+alt-m = 'fullscreen'
+alt-f = 'layout floating tiling'
+
+# Resize -- NEW, no Hyprland source equivalent (it used mouse-drag, which
+# doesn't map to a keyboard-driven tiling WM model)
+alt-minus = 'resize smart -50'
+alt-equal = 'resize smart +50'
+
+# Layout / split direction toggle -- NEW, no explicit Hyprland source
+# binding (dwindle auto-splits), but AeroSpace needs at least one of
+# these bound to be usable
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+# Reload config (was super-r in Hyprland, which also restarted other
+# Wayland services that have no macOS equivalent -- just the config here)
+alt-shift-r = 'reload-config'
+
+# App launchers (was super-return/b/t/d/o/e in Hyprland)
+alt-enter = 'exec-and-forget open -a Ghostty'
+alt-b = 'exec-and-forget open -a Zen'
+alt-t = 'exec-and-forget open -a Ghostty -n --args -e btop'
+alt-d = 'exec-and-forget open -a Ghostty -n --args -e lazydocker'
+alt-o = 'exec-and-forget open -a Obsidian'
+alt-e = 'exec-and-forget open -a Finder'
+
+# The Mac Mini M2 has no built-in display (unlike the laptop this config
+# was ported from, which pinned workspaces 1-10 to eDP-1 and 11-20 to the
+# first external monitor). Left commented out -- fill in if/when running
+# multiple external monitors. Syntax:
+#   1 = 1        # sequence number, 1-based, left to right
+#   2 = 'main'
+#   B = 'DELL'   # case-insensitive substring match against monitor name
+# [workspace-to-monitor-force-assignment]
+
+# App-to-workspace autostart rules (e.g. always sending Zen to workspace
+# 12 on launch, not just at AeroSpace startup) need the app's real macOS
+# bundle ID, which isn't guessed here -- look it up once installed via:
+#   osascript -e 'id of app "Zen"'
+# or:
+#   mdls -name kMDItemCFBundleIdentifier /Applications/Zen.app
+# then add a block like:
+# [[on-window-detected]]
+# if.app-id = 'io.zen-browser.desktop'  # <- replace with the real id
+# run = 'move-node-to-workspace 12'
