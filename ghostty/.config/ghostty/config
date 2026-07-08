@@ -2,7 +2,7 @@
 # Migrated from Alacritty setup with Catppuccin Mocha theme
 
 # Font Configuration
-font-family = CaskaydiaMono Nerd Font
+font-family = JetBrainsMono Nerd Font Mono
 font-size = 16
 
 # Window Configuration
@@ -10,15 +10,16 @@ window-padding-x = 14
 window-padding-y = 14
 window-decoration = false
 background-opacity = 0.80
-
-# Shell Configuration
-command = zsh -l
+background-blur = 20
 
 # Terminal Environment
 term = xterm-256color
 
 # Keybindings
 keybind = f11=toggle_fullscreen
+
+# Use Option as Meta/Alt (for zsh/vim word-jump and other Meta-based keybinds)
+macos-option-as-alt = true
 
 # Basic Performance Optimizations
 confirm-close-surface = false
@@ -38,7 +39,7 @@ shell-integration = detect
 
 # Colors: Omarchy's dynamic theme system isn't available on macOS, so use
 # Ghostty's own bundled Catppuccin Mocha theme (matches the original palette).
-theme = catppuccin-mocha
+theme = Catppuccin Mocha
 
 # Cursor (style only — color is derived from the theme)
 cursor-style = block
