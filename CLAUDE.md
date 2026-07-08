@@ -82,9 +82,7 @@ This repo manages config for several coding agents, each its own stow package:
 |---------|--------|-------|
 | `claude-code` | `~/.claude/` | Claude Code (commands, hooks, `settings.json`) |
 | `pi` | `~/.omp/agent/` | oh-my-pi (`omp`) — extensions, prompts, skills, `AGENTS.md` |
-| `gemini` | `~/.gemini/` | Gemini CLI — agents, policies, commands, skills, `AGENTS.md` |
-| `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI — **symlinks its agents from the `gemini` package** to avoid duplication |
-| `pi.old` | `~/.pi/` | Deprecated previous pi config, kept for reference |
+| `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI — custom agents live directly in `plugins/custom-agents/agents/` |
 
 `opencode/` is a separate CLI; its MCP API keys load from `opencode/mcp-env.sh` (private, not committed) via the `opencode` zsh function.
 

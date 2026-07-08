@@ -11,7 +11,7 @@ This workspace contains personal dotfiles managed with **GNU Stow**. It is optim
 ## Tech Stack
 
 - **Shell:** Zsh (Modular, Zinit manager)
-- **Terminal:** Ghostty, Kitty
+- **Terminal:** Ghostty, WezTerm
 - **Editor:** Neovim (LazyVim, Lua-based)
 - **Multiplexer:** Tmux (prefix `C-Space`)
 - **Compositor:** Hyprland (configured via `omarchy`)
@@ -50,8 +50,7 @@ The local environment may use automated checkpointing or stashing.
 
 ## Specialized Agent Contexts
 
-- **Gemini CLI:** Config in `gemini/.gemini/`. Policies in `gemini/.gemini/policies/`.
-- **Antigravity CLI (agy):** Config in `agy/.gemini/antigravity-cli/`. Custom agents in `agy/.gemini/antigravity-cli/plugins/custom-agents/agents/` (symlinked from `gemini/.gemini/agents/`).
+- **Antigravity CLI (agy):** Config in `agy/.gemini/antigravity-cli/`. Custom agents in `agy/.gemini/antigravity-cli/plugins/custom-agents/agents/`.
 - **Pi Agent:** Config and extensions in `pi/.pi/`.
 - **Claude Code:** Custom commands in `claude-code/.claude/commands/`.
 - **Opencode:** MCP server configuration in `opencode/.config/opencode/`.

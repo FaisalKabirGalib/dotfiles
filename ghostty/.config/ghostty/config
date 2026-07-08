@@ -2,8 +2,8 @@
 # Migrated from Alacritty setup with Catppuccin Mocha theme
 
 # Font Configuration
-font-family = JetBrainsMono Nerd Font Mono
-font-size = 16
+font-family = Maple Mono NF
+font-size = 20
 
 # Window Configuration
 window-padding-x = 14

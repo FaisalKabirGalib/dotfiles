@@ -2,8 +2,8 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 -- Font configuration
-config.font = wezterm.font("CaskaydiaMono Nerd Font", { weight = "Regular" })
-config.font_size = 14
+config.font = wezterm.font("Maple Mono NF", { weight = "Regular" })
+config.font_size = 18
 
 -- Window appearance
 config.window_padding = {

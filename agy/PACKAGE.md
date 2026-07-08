@@ -10,7 +10,7 @@ Custom settings, plugins, and custom agents for the Antigravity CLI.
 
 ## Features
 
-- **Custom Subagents**: Symlinked from the main `gemini` package to avoid duplication.
+- **Custom Subagents**: `arch-expert`, `code-reviewer`, `flutter-expert`, `ts-expert` in `plugins/custom-agents/agents/`.
 - **Settings**: Keyboard-first configurations and trusted workspaces.
 - **Stow Integration**: Seamless config management.
 

@@ -23,21 +23,21 @@ Or install individual packages:
 
 | Package | Target | Description |
 |---------|--------|-------------|
+| `aerospace` | `~/.config/aerospace/` | AeroSpace tiling window manager (macOS) |
+| `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI config + custom agents |
 | `bin` | `~/.local/bin/` | Custom scripts and CLI tools |
-| `boot` | `/boot/` | Bootloader config (limine) |
 | `claude-code` | `~/.claude/` | Claude Code agent config |
 | `ghostty` | `~/.config/ghostty/` | Ghostty terminal |
-| `kitty` | `~/.config/kitty/` | Kitty terminal |
 | `nvim` | `~/.config/nvim/` | Neovim (LazyVim) |
 | `obsidian` | `~/.obsidian/` | Obsidian vault templates & scripts |
-| `omarchy` | `~/.config/hypr/` | Hyprland compositor + waybar |
 | `opencode` | `~/.config/opencode/` | Opencode CLI config |
-| `p10k` | `~/` | Powerlevel10k theme |
-| `pi` | `~/.pi/` | Pi coding agent (extensions, skills, prompts) |
+| `p10k` | `~/.p10k.zsh` | Powerlevel10k theme |
+| `pi` | `~/.omp/agent/` | oh-my-pi coding agent (extensions, skills, prompts) |
+| `raycast` | — | Raycast settings export (`.rayconfig`, GUI import/export only) |
 | `ssh` | `~/.ssh/` | SSH config (keys excluded) |
 | `tmux` | `~/.config/tmux/` | Tmux (prefix C-a) |
-| `vscode` | `~/.config/Code/` | VS Code with Vim mode |
-| `waybar` | `~/.config/waybar/` | Waybar status bar |
+| `vscode` | `~/Library/Application Support/Code/User` | VS Code with Vim mode (macOS path) |
+| `wezterm` | `~/.config/wezterm/` | WezTerm terminal |
 | `yazi` | `~/.config/yazi/` | Yazi file manager |
 | `zen-browser` | `~/.zen/` | Zen browser config |
 | `zsh` | `~/.config/zsh/` | Zsh + zinit + aliases |

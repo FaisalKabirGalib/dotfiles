@@ -6,7 +6,7 @@ Terminal emulator by mitchellh with performance focus.
 
 - **Type**: Terminal Emulator
 - **Target**: `~/.config/ghostty`
-- **Dependencies**: Ghostty, JetBrainsMono Nerd Font Mono
+- **Dependencies**: Ghostty, Maple Mono NF
 
 ## Install
 

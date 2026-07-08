@@ -43,78 +43,79 @@ outer.bottom = 8
 
 # SUPER (the Hyprland mod key) maps to Cmd on macOS, but Cmd is already
 # bound to nearly every macOS app shortcut (Cmd+Q/W/Tab/Space/C/V...).
-# Using `alt` (Option) as the primary mod instead avoids that conflict --
-# this is the standard convention for Hyprland/i3 -> AeroSpace migrations.
+# Using `ctrl` as the primary mod instead avoids that conflict -- NOTE:
+# bare ctrl also collides with terminal/readline/tmux bindings (Ctrl+C/D/
+# L/R, tmux prefix C-a, etc.); chosen anyway per explicit preference over
+# the more conventional `alt` mod.
 [mode.main.binding]
 
-# Vim-motion focus navigation (was ctrl-super-hjkl in Hyprland; plain
-# alt-hjkl here since there's no more Cmd-collision reason to need Ctrl)
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
+# Vim-motion focus navigation
+ctrl-h = 'focus left'
+ctrl-j = 'focus down'
+ctrl-k = 'focus up'
+ctrl-l = 'focus right'
 
 # In-tree window reposition -- NEW, no Hyprland source equivalent (dwindle
 # auto-splits instead), but genuinely useful in AeroSpace's tiling model.
 # NOTE: this is a different command from move-node-to-workspace below,
 # despite the similar name -- this moves within the current workspace's
 # tree, that one sends the window to a different workspace entirely.
-alt-shift-h = 'move left'
-alt-shift-j = 'move down'
-alt-shift-k = 'move up'
-alt-shift-l = 'move right'
+ctrl-shift-h = 'move left'
+ctrl-shift-j = 'move down'
+ctrl-shift-k = 'move up'
+ctrl-shift-l = 'move right'
 
 # Workspace switching (was super-1..0 in Hyprland)
-alt-1 = 'workspace 1'
-alt-2 = 'workspace 2'
-alt-3 = 'workspace 3'
-alt-4 = 'workspace 4'
-alt-5 = 'workspace 5'
-alt-6 = 'workspace 6'
-alt-7 = 'workspace 7'
-alt-8 = 'workspace 8'
-alt-9 = 'workspace 9'
-alt-0 = 'workspace 10'
+ctrl-1 = 'workspace 1'
+ctrl-2 = 'workspace 2'
+ctrl-3 = 'workspace 3'
+ctrl-4 = 'workspace 4'
+ctrl-5 = 'workspace 5'
+ctrl-6 = 'workspace 6'
+ctrl-7 = 'workspace 7'
+ctrl-8 = 'workspace 8'
+ctrl-9 = 'workspace 9'
+ctrl-0 = 'workspace 10'
 
 # Move window to workspace (was super-shift-1..0 in Hyprland)
-alt-shift-1 = 'move-node-to-workspace 1'
-alt-shift-2 = 'move-node-to-workspace 2'
-alt-shift-3 = 'move-node-to-workspace 3'
-alt-shift-4 = 'move-node-to-workspace 4'
-alt-shift-5 = 'move-node-to-workspace 5'
-alt-shift-6 = 'move-node-to-workspace 6'
-alt-shift-7 = 'move-node-to-workspace 7'
-alt-shift-8 = 'move-node-to-workspace 8'
-alt-shift-9 = 'move-node-to-workspace 9'
-alt-shift-0 = 'move-node-to-workspace 10'
+ctrl-shift-1 = 'move-node-to-workspace 1'
+ctrl-shift-2 = 'move-node-to-workspace 2'
+ctrl-shift-3 = 'move-node-to-workspace 3'
+ctrl-shift-4 = 'move-node-to-workspace 4'
+ctrl-shift-5 = 'move-node-to-workspace 5'
+ctrl-shift-6 = 'move-node-to-workspace 6'
+ctrl-shift-7 = 'move-node-to-workspace 7'
+ctrl-shift-8 = 'move-node-to-workspace 8'
+ctrl-shift-9 = 'move-node-to-workspace 9'
+ctrl-shift-0 = 'move-node-to-workspace 10'
 
 # Window management (was super-q/m/f in Hyprland)
-alt-q = 'close'
-alt-m = 'fullscreen'
-alt-f = 'layout floating tiling'
+ctrl-q = 'close'
+ctrl-m = 'fullscreen'
+ctrl-f = 'layout floating tiling'
 
 # Resize -- NEW, no Hyprland source equivalent (it used mouse-drag, which
 # doesn't map to a keyboard-driven tiling WM model)
-alt-minus = 'resize smart -50'
-alt-equal = 'resize smart +50'
+ctrl-minus = 'resize smart -50'
+ctrl-equal = 'resize smart +50'
 
 # Layout / split direction toggle -- NEW, no explicit Hyprland source
 # binding (dwindle auto-splits), but AeroSpace needs at least one of
 # these bound to be usable
-alt-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout accordion horizontal vertical'
+ctrl-slash = 'layout tiles horizontal vertical'
+ctrl-comma = 'layout accordion horizontal vertical'
 
 # Reload config (was super-r in Hyprland, which also restarted other
 # Wayland services that have no macOS equivalent -- just the config here)
-alt-shift-r = 'reload-config'
+ctrl-shift-r = 'reload-config'
 
 # App launchers (was super-return/b/t/d/o/e in Hyprland)
-alt-enter = 'exec-and-forget open -a Ghostty'
-alt-b = 'exec-and-forget open -a Zen'
-alt-t = 'exec-and-forget open -a Ghostty -n --args -e btop'
-alt-d = 'exec-and-forget open -a Ghostty -n --args -e lazydocker'
-alt-o = 'exec-and-forget open -a Obsidian'
-alt-e = 'exec-and-forget open -a Finder'
+ctrl-enter = 'exec-and-forget open -a Ghostty'
+ctrl-b = 'exec-and-forget open -a Zen'
+# ctrl-t = 'exec-and-forget open -a Ghostty -n --args -e btop'
+# ctrl-d = 'exec-and-forget open -a Ghostty -n --args -e lazydocker'
+# ctrl-o = 'exec-and-forget open -a Obsidian'
+ctrl-e = 'exec-and-forget open -a Finder'
 
 # The Mac Mini M2 has no built-in display (unlike the laptop this config
 # was ported from, which pinned workspaces 1-10 to eDP-1 and 11-20 to the
