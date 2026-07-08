@@ -4,16 +4,16 @@
 id_rsa
 id_ed25519
 
-# Ignore entire .ssh directory by default
-ssh/.ssh/id_*
-ssh/.ssh/*.pem
-ssh/.ssh/*.key
-ssh/.ssh/known_hosts
-ssh/.ssh/known_hosts.old
-ssh/.ssh/authorized_keys
+# Ignore everything in .ssh by default (keys of any name, known_hosts, etc.)
+ssh/.ssh/*
 
 # But DO track SSH config
 !ssh/.ssh/config
+
+# And keep the agent socket dir present, but never its runtime socket file
+!ssh/.ssh/agent/
+ssh/.ssh/agent/*
+!ssh/.ssh/agent/.gitkeep
 
 # Machine-specific files
 *.local
