@@ -19,7 +19,7 @@ unstow *pkgs:
 
 # Restow packages without conflicts (default: nvim opencode)
 sync *pkgs:
-    bin/dotfiles-sync {{pkgs}}
+    bin/.local/bin/dotfiles-sync {{pkgs}}
 
 # Install pacman packages from scripts/packages.txt (Arch/omarchy branches only;
 # on macOS use the myansible repo's `just mac` instead)

@@ -22,13 +22,11 @@ start-at-login = true
 
 default-root-container-layout = 'tiles'
 
-# Replicates Hyprland's autostart (workspace 11: ghostty+tmux, workspace
-# 12: zen-browser). Mac Mini has no laptop display, so there's no
-# eDP-1-vs-external split to port -- these are just plain workspace numbers.
+# Autostart: workspace 1 gets ghostty+tmux, workspace 2 gets zen-browser.
 after-startup-command = [
-  'workspace 11',
+  'workspace 1',
   'exec-and-forget open -a Ghostty -n --args -e tmux new -A -s Home',
-  'workspace 12',
+  'workspace 2',
   'exec-and-forget open -a Zen',
   'workspace 1',
 ]
@@ -91,8 +89,12 @@ ctrl-shift-0 = 'move-node-to-workspace 10'
 
 # Window management (was super-q/m/f in Hyprland)
 ctrl-q = 'close'
-ctrl-m = 'fullscreen'
 ctrl-f = 'layout floating tiling'
+
+# Option/alt duplicate of close, for apps that swallow ctrl-q
+alt-q = 'close'
+# Fullscreen uses option instead of ctrl (ctrl-m collides with other app shortcuts)
+alt-m = 'fullscreen'
 
 # Resize -- NEW, no Hyprland source equivalent (it used mouse-drag, which
 # doesn't map to a keyboard-driven tiling WM model)

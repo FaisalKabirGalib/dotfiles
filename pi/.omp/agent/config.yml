@@ -10,7 +10,7 @@ editing:
 startup: 
   quiet: true
 modelRoles: 
-  default: zai/glm-5.2:high
+  default: opencode-go/deepseek-v4-flash:high
 theme: 
   dark: titanium
   light: light

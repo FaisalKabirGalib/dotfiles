@@ -35,14 +35,31 @@ tmux-server-*.log
 # Node modules anywhere (extension deps are installed locally, never committed)
 node_modules/
 
+# VS Code (~/Library/Application Support/Code) -- this whole directory is
+# symlinked into place, so Electron/Chromium cache, session, and per-window
+# state land inside the repo. Only the actual user config is worth tracking.
+vscode/Library/Application Support/Code/*
+!vscode/Library/Application Support/Code/User
+vscode/Library/Application Support/Code/User/*
+!vscode/Library/Application Support/Code/User/settings.json
+!vscode/Library/Application Support/Code/User/keybindings.json
+!vscode/Library/Application Support/Code/User/snippets
+
 # Pi (oh-my-pi, ~/.omp) runtime / session files
 pi/.omp/agent/sessions/
 pi/.omp/agent/terminal-sessions/
 pi/.omp/agent/*.db*
 pi/.omp/agent/auth.json
+pi/.omp/gpu_cache.json
+pi/.omp/logs/
 
 # pi.old (~/.pi) runtime / session files
 pi.old/.pi/agent/sessions/
 pi.old/.pi/agent/terminal-sessions/
 pi.old/.pi/agent/*.db*
 pi.old/.pi/agent/auth.json
+
+# Agy (Antigravity CLI, ~/.gemini) runtime state -- written directly under
+# ~/.gemini/ (sibling to the stowed antigravity-cli/ subdir), so a
+# `stow --adopt` can accidentally pull these transient files into the repo.
+agy/.gemini/projects.json*.tmp

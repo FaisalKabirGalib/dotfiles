@@ -20,7 +20,7 @@ stow -D -t ~ <package>   # remove one package
 stow -R -t ~ <package>   # restow (after changing which files exist)
 ```
 
-`bin/dotfiles-sync [packages...]` is a convenience restow (`stow -R`); with no args it restows `nvim opencode`.
+`bin/.local/bin/dotfiles-sync [packages...]` (available as `dotfiles-sync` once the `bin` package is stowed, since `~/.local/bin` is on `$PATH`) is a convenience restow (`stow -R`); with no args it restows `nvim opencode`.
 
 **`.stow-local-ignore` gotcha:** when a package has a `.stow-local-ignore`, it *replaces* Stow's built-in default ignore list (which normally skips `.git`, `.gitignore`, etc.). Every package's ignore file must therefore explicitly list `\.git`, `\.gitignore`, `PACKAGE\.md`, `README\.md`, `LICENSE`, `\.stow-local-ignore` — otherwise Stow will try to symlink those repo-internal files into `$HOME`.
 

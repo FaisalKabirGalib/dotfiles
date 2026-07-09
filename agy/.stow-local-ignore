@@ -21,4 +21,5 @@ LICENSE
 \.gemini/antigravity-cli/plugins/google-workspace/
 \.gemini/antigravity-cli/plugins/open-code-review/
 \.gemini/antigravity-cli/plugins/self-command/
+\.gemini/projects\.json\..*\.tmp
 \.gitignore

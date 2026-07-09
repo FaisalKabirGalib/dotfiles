@@ -4,4 +4,3 @@ LICENSE
 \.git
 \.stow-local-ignore
 \.gitignore
-install-plugins\.sh
