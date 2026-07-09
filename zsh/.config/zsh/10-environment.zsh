@@ -8,6 +8,15 @@ if [[ -f "/opt/homebrew/bin/brew" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+# Java (openjdk installed via Homebrew)
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# Android SDK
+export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
+export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+export PATH="$ANDROID_HOME/platform-tools:$PATH"
+export PATH="$ANDROID_HOME/emulator:$PATH"
+
 # Custom PATH entries
 export PATH="$HOME/dotfiles/bin:$HOME/dotfiles:$PATH"
 export PATH="$HOME/.local/script:$PATH"
