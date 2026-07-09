@@ -1,3 +1,4 @@
+
 -- Catppuccin Mocha (https://catppuccin.com/palette), 0xAARRGGBB for sketchybar.
 return {
   base = 0xff1e1e2e,

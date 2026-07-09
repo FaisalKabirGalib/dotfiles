@@ -7,8 +7,8 @@
 -- visited, e.g. just "1"/"2" even with 10 keybindings configured). Also a
 -- single-monitor Mac Mini, so no monitor-assignment helpers needed either.
 function get_current_workspace()
-  local file = io.popen("aerospace list-workspaces --focused")
-  local result = file:read("*a")
-  file:close()
-  return (result:gsub("%s+$", ""))
+	local file = io.popen("aerospace list-workspaces --focused")
+	local result = file:read("*a")
+	file:close()
+	return (result:gsub("%s+$", ""))
 end
