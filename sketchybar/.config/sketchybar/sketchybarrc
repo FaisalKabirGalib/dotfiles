@@ -1,0 +1,25 @@
+#!/usr/bin/env lua
+-- Entrypoint. myansible's tasks/sketchybar.yml already builds SbarLua and
+-- the C event-provider helpers during provisioning; the two os.execute
+-- calls below are just a safety net so this also self-heals on a machine
+-- where that hasn't run yet (both are no-ops when already built).
+
+local home = os.getenv("HOME")
+local config_dir = home .. "/.config/sketchybar"
+
+os.execute("[ ! -f " .. home .. "/.local/share/sketchybar_lua/sketchybar.so ] && " ..
+  "(git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && " ..
+  "cd /tmp/SbarLua && make install && rm -rf /tmp/SbarLua)")
+os.execute("(cd " .. config_dir .. "/helpers/event_providers && make)")
+
+package.path = config_dir .. "/?.lua;" .. config_dir .. "/?/init.lua;" .. package.path
+package.cpath = config_dir .. "/?.so;" .. home .. "/.local/share/sketchybar_lua/?.so;" .. package.cpath
+
+sbar = require("sketchybar")
+
+sbar.begin_config()
+require("init")
+sbar.hotload(true)
+sbar.end_config()
+
+sbar.event_loop()

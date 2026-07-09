@@ -22,6 +22,14 @@ start-at-login = true
 
 default-root-container-layout = 'tiles'
 
+# Instant feedback for the sketchybar workspace overview on a workspace
+# switch (its own 2s poll otherwise still catches window open/close). See
+# dotfiles sketchybar/PACKAGE.md. FOCUSED_WORKSPACE must be forwarded --
+# items/spaces.lua's aerospace_workspace_change subscriber reads
+# env.FOCUSED_WORKSPACE to decide which item to highlight.
+exec-on-workspace-change = ['/bin/bash', '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE']
+
 # Autostart: workspace 1 gets ghostty+tmux, workspace 2 gets zen-browser.
 after-startup-command = [
   'workspace 1',
@@ -88,22 +96,34 @@ ctrl-9 = 'workspace 9'
 ctrl-0 = 'workspace 10'
 
 # Move window to workspace (was super-shift-1..0 in Hyprland). ctrl-shift,
-# pairing with the ctrl-shift-hjkl "move" binding above.
-ctrl-shift-1 = 'move-node-to-workspace 1'
-ctrl-shift-2 = 'move-node-to-workspace 2'
-ctrl-shift-3 = 'move-node-to-workspace 3'
-ctrl-shift-4 = 'move-node-to-workspace 4'
-ctrl-shift-5 = 'move-node-to-workspace 5'
-ctrl-shift-6 = 'move-node-to-workspace 6'
-ctrl-shift-7 = 'move-node-to-workspace 7'
-ctrl-shift-8 = 'move-node-to-workspace 8'
-ctrl-shift-9 = 'move-node-to-workspace 9'
-ctrl-shift-0 = 'move-node-to-workspace 10'
+# pairing with the ctrl-shift-hjkl "move" binding above. --focus-follows-window
+# so you land on the destination workspace with the window, instead of being
+# left behind on the source workspace.
+ctrl-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+ctrl-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+ctrl-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+ctrl-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+ctrl-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+ctrl-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
+ctrl-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
+ctrl-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
+ctrl-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
+ctrl-shift-0 = 'move-node-to-workspace 10 --focus-follows-window'
 
 # Window management (was super-q/m/f in Hyprland)
 cmd-q = 'close'
 cmd-f = 'layout floating tiling'
 cmd-m = 'fullscreen'
+
+# Switch windows within a workspace without dropping out of fullscreen.
+# Plain 'fullscreen' un-sets itself the moment focus moves to a different
+# window, so a bare focus change lands you back on the tiled layout
+# underneath -- this re-applies fullscreen to whichever window you land on.
+# Deliberately overrides macOS's global Cmd+Tab app switcher (accepted
+# tradeoff, same category as the cmd-q/cmd-m/cmd-f/cmd-h overrides above);
+# alt-tab above is the separate "just cycle, keep whatever layout" binding.
+cmd-tab = ['focus dfs-next --wrap-around', 'fullscreen on']
+cmd-shift-tab = ['focus dfs-prev --wrap-around', 'fullscreen on']
 
 # Resize -- NEW, no Hyprland source equivalent (it used mouse-drag, which
 # doesn't map to a keyboard-driven tiling WM model)
@@ -115,6 +135,14 @@ cmd-equal = 'resize smart +50'
 # these bound to be usable
 cmd-slash = 'layout tiles horizontal vertical'
 cmd-comma = 'layout accordion horizontal vertical'
+
+# Cycle through a window stack in tree order -- more reliable than
+# directional focus (cmd-hjkl) once an accordion stack is 3+ windows deep,
+# since geometric left/right hit-testing gets ambiguous on overlapping
+# windows. alt is otherwise unused in this config, so no conflict (unlike
+# cmd-tab, which is macOS's global app switcher).
+alt-tab = 'focus dfs-next --wrap-around'
+alt-shift-tab = 'focus dfs-prev --wrap-around'
 
 # Reload config (was super-r in Hyprland, which also restarted other
 # Wayland services that have no macOS equivalent -- just the config here)
@@ -137,13 +165,20 @@ cmd-e = 'exec-and-forget open -a Finder'
 #   B = 'DELL'   # case-insensitive substring match against monitor name
 # [workspace-to-monitor-force-assignment]
 
-# App-to-workspace autostart rules (e.g. always sending Zen to workspace
-# 12 on launch, not just at AeroSpace startup) need the app's real macOS
-# bundle ID, which isn't guessed here -- look it up once installed via:
-#   osascript -e 'id of app "Zen"'
-# or:
-#   mdls -name kMDItemCFBundleIdentifier /Applications/Zen.app
-# then add a block like:
-# [[on-window-detected]]
-# if.app-id = 'io.zen-browser.desktop'  # <- replace with the real id
-# run = 'move-node-to-workspace 12'
+# App-to-workspace pinning: either terminal (Ghostty or WezTerm) always
+# lands on workspace 1, Zen always on workspace 2, regardless of which
+# workspace was focused when it opened. Bundle IDs looked up via:
+# osascript -e 'id of app "Ghostty"' / '"WezTerm"' / '"Zen"'.
+# For any other app, use the same lookup (or mdls -name
+# kMDItemCFBundleIdentifier /Applications/<App>.app) and add a block below.
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'app.zen-browser.zen'
+run = 'move-node-to-workspace 2'
