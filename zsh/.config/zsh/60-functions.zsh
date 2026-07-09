@@ -47,3 +47,27 @@ function y() {
 	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
 }
+
+# === Pi Coding Agent Wrapper ===
+# Checks if the apfel server is running (port 11434), starts it if not, then runs pi
+pi() {
+	if ! nc -z 127.0.0.1 11434 &>/dev/null; then
+		echo "Starting apfel server on port 11434..."
+		apfel --serve >/dev/null 2>&1 &
+
+		# Wait for the server to be ready
+		local count=0
+		while ! nc -z 127.0.0.1 11434 &>/dev/null; do
+			sleep 0.1
+			((count++))
+			if ((count > 50)); then
+				echo "❌ Failed to start apfel server"
+				return 1
+			fi
+		done
+		echo "✅ apfel server started successfully"
+	fi
+
+	command pi "$@"
+}
+

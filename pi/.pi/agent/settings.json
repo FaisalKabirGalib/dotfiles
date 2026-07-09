@@ -1,5 +1,7 @@
 {
   "defaultProvider": "apfel",
   "defaultModel": "apple-foundationmodel",
-  "defaultThinkingLevel": "high"
+  "defaultThinkingLevel": "high",
+  "lastChangelogVersion": "0.80.5",
+  "theme": "dark"
 }

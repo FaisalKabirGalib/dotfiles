@@ -54,6 +54,16 @@ omp/.omp/agent/blobs/
 omp/.omp/gpu_cache.json
 omp/.omp/logs/
 
+# Pi (pi-coding-agent, ~/.pi) runtime / session files
+pi/.pi/agent/sessions/
+pi/.pi/agent/terminal-sessions/
+pi/.pi/agent/*.db*
+pi/.pi/agent/auth.json
+pi/.pi/agent/blobs/
+pi/.pi/gpu_cache.json
+pi/.pi/logs/
+
+
 
 # Agy (Antigravity CLI, ~/.gemini) runtime state -- ~/.gemini is symlinked
 # whole (not tree-folded per-file) to agy/.gemini, so every cache/log/db the
