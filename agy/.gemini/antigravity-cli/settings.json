@@ -10,6 +10,7 @@
   },
   "toolPermission": "always-proceed",
   "trustedWorkspaces": [
-    "/Users/galib/Downloads/Qns Student Report"
+    "/Users/galib/Downloads/Qns Student Report",
+    "/Users/galib/dotfiles"
   ]
 }
