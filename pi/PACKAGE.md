@@ -18,4 +18,5 @@ Pi coding agent configuration.
 
 - `settings.json` — Model and provider preferences
 - `models.json` — Custom model provider configuration (apfel)
-- `SYSTEM.md` — Custom system prompt for the agent
+- `APPEND_SYSTEM.md` — Custom system prompt extensions
+

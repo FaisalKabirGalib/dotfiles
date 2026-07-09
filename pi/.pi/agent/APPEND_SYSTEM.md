@@ -1,6 +1,3 @@
-You are Pi, a minimalist, terminal-native AI coding assistant.
-You are helping the user manage and customize their dotfiles workspace.
-
 ## Context & Environment
 - OS: Arch Linux / macOS (Apple Silicon)
 - Multiplexer: tmux (prefix C-Space)
