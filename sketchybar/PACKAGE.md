@@ -23,6 +23,8 @@ package was replaced by this rewrite — see git history if you need it.)
     `~/Library/Fonts/`)
   - `switchaudio-osx` (Homebrew formula; powers the volume widget's
     output-device switch popup)
+  - `blueutil` (Homebrew formula; powers the Bluetooth widget's power
+    toggle + paired-device connect/disconnect)
   - `aerospace` package (this repo) for the `aerospace` CLI
   - A C compiler (`clang`, ships with Xcode CLT) to build the two vendored
     event-provider helpers (CPU load, network throughput)
@@ -77,9 +79,24 @@ brew services restart sketchybar   # picks up the new Lua sketchybarrc after sto
   `network.lua` detects the active interface dynamically (`route get
   default`) rather than hardcoding `en0` like upstream does — this Mac
   Mini's actual default interface is `en1`.
+- `items/widgets/{wifi,bluetooth}.lua`: Control-Center-style quick
+  controls (original design, no upstream reference implementation).
+  Wi-Fi shows SSID + click popup with IP and an on/off toggle
+  (`networksetup -setairportpower`); Bluetooth shows a power-state icon +
+  click popup listing paired devices (click a row to connect/disconnect
+  via `blueutil`) plus a power toggle. Both detect their target
+  device/interface dynamically (`networksetup -listallhardwareports` for
+  Wi-Fi) rather than hardcoding one. **Known limitation**: the Wi-Fi
+  widget's SSID often can't be read (`networksetup -getairportnetwork`
+  reports "not associated" even while genuinely connected) because
+  reading the SSID via CLI needs Location Services permission that a
+  background `brew services` process doesn't have on modern macOS — it
+  falls back to a generic "Wi-Fi" label using IP-presence as the
+  connected/disconnected signal instead of silently showing a wrong "off".
 - Explicitly **not** implemented: front-app display, media/now-playing,
   apple-menu/mode-toggle button, app-menu display, battery (Mac Mini has
-  no battery).
+  no battery), embedding native Control Center itself (not something
+  sketchybar/any app can launch or embed — it's a private system UI).
 
 ## Follow-ups
 
@@ -103,3 +120,10 @@ brew services restart sketchybar   # picks up the new Lua sketchybarrc after sto
   reference implementation existed in falleco or SbarLua's own examples)
   — if `SwitchAudioSource`'s output format ever changes, `items/widgets/
   volume.lua`'s `result:gmatch("[^\r\n]+")` parsing is the place to fix.
+- If you want the real SSID to show reliably, granting Location Services
+  permission to whatever process needs it is the fix, but macOS doesn't
+  offer a clean per-CLI-process toggle for this — worth revisiting if it
+  becomes annoying.
+- `aerospace/.config/aerospace/aerospace.toml`'s `[gaps] outer.top` must
+  stay ≥ this bar's height (`bar.lua`, currently 32px) or windows render
+  underneath/behind the bar — keep the two in sync if either changes.

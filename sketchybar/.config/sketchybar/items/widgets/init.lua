@@ -1,3 +1,5 @@
 require("items.widgets.volume")
 require("items.widgets.cpu")
 require("items.widgets.network")
+require("items.widgets.wifi")
+require("items.widgets.bluetooth")

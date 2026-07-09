@@ -22,4 +22,8 @@ return {
     connected = "\u{f1eb}",    -- nf-fa-wifi
     disconnected = "\u{f127}", -- nf-fa-chain_broken
   },
+
+  bluetooth = "\u{f293}", -- nf-fa-bluetooth
+  check = "\u{f00c}",     -- nf-fa-check
+  cross = "\u{f00d}",     -- nf-fa-times
 }

@@ -44,7 +44,9 @@ inner.horizontal = 4
 inner.vertical = 4
 outer.left = 8
 outer.right = 8
-outer.top = 8
+# sketchybar's bar height is 32px (sketchybar/.config/sketchybar/bar.lua) --
+# outer.top must clear that or windows render underneath/behind the bar.
+outer.top = 40
 outer.bottom = 8
 
 # SUPER (the Hyprland mod key) maps to Cmd on macOS. Final scheme, settled
