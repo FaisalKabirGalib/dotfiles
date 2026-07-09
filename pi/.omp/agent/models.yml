@@ -1,0 +1,18 @@
+providers:
+  apfel:
+    baseUrl: http://127.0.0.1:11434/v1
+    api: openai-completions
+    auth: none
+    models:
+      - id: apple-foundationmodel
+        name: Apple Intelligence
+        api: openai-completions
+        reasoning: false
+        input: [text]
+        cost:
+          input: 0
+          output: 0
+          cacheRead: 0
+          cacheWrite: 0
+        contextWindow: 4096
+        maxTokens: 1024
