@@ -53,11 +53,6 @@ pi/.omp/agent/auth.json
 pi/.omp/gpu_cache.json
 pi/.omp/logs/
 
-# pi.old (~/.pi) runtime / session files
-pi.old/.pi/agent/sessions/
-pi.old/.pi/agent/terminal-sessions/
-pi.old/.pi/agent/*.db*
-pi.old/.pi/agent/auth.json
 
 # Agy (Antigravity CLI, ~/.gemini) runtime state -- written directly under
 # ~/.gemini/ (sibling to the stowed antigravity-cli/ subdir), so a

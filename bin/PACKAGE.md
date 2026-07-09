@@ -21,5 +21,5 @@ stowup bin
 ## Note
 
 Additional scripts exist in package-specific directories:
-- `pi/.pi/agent/extensions/` — Pi extensions
+- `pi/.omp/agent/extensions/` — Pi extensions
 - Obsidian vault scripts — Use from obsidian package

@@ -1,4 +1,12 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(brew info *)",
+      "Bash(brew list *)",
+      "Bash(brew search *)",
+      "Bash(git check-ignore *)"
+    ]
+  },
   "hooks": {
     "Stop": [
       {
@@ -10,6 +18,10 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
   },
   "enabledPlugins": {},
   "alwaysThinkingEnabled": true,
