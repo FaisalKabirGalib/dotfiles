@@ -50,11 +50,17 @@ pi/.omp/agent/sessions/
 pi/.omp/agent/terminal-sessions/
 pi/.omp/agent/*.db*
 pi/.omp/agent/auth.json
+pi/.omp/agent/blobs/
 pi/.omp/gpu_cache.json
 pi/.omp/logs/
 
 
-# Agy (Antigravity CLI, ~/.gemini) runtime state -- written directly under
-# ~/.gemini/ (sibling to the stowed antigravity-cli/ subdir), so a
-# `stow --adopt` can accidentally pull these transient files into the repo.
+# Agy (Antigravity CLI, ~/.gemini) runtime state -- ~/.gemini is symlinked
+# whole (not tree-folded per-file) to agy/.gemini, so every cache/log/db the
+# CLI writes anywhere under ~/.gemini/ lands directly inside the repo. Same
+# problem as the VS Code block above, same fix: ignore everything under the
+# app's state dir except the actual user config.
 agy/.gemini/projects.json*.tmp
+agy/.gemini/antigravity-cli/*
+!agy/.gemini/antigravity-cli/settings.json
+!agy/.gemini/antigravity-cli/plugins

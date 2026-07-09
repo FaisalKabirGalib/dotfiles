@@ -10,7 +10,7 @@ editing:
 startup: 
   quiet: true
 modelRoles: 
-  default: opencode-go/deepseek-v4-flash:high
+  default: opencode-go/kimi-k2.7-code:high
 theme: 
   dark: titanium
   light: light

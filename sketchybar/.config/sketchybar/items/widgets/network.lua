@@ -24,18 +24,20 @@ sbar.exec("killall network_load >/dev/null 2>&1; " .. config_dir ..
 
 local net_up = sbar.add("item", "widgets.network.up", {
   position = "right",
-  padding_left = -5,
-  icon = { string = icons.wifi.upload },
-  label = { color = colors.red, string = "??? Bps" },
-  y_offset = 4,
+  padding_left = settings.paddings,
+  padding_right = 0,
+  icon = { string = icons.wifi.upload, padding_right = settings.paddings },
+  label = { color = colors.red, string = "??? Bps", width = 58, align = "right" },
+  y_offset = 5,
 })
 
 local net_down = sbar.add("item", "widgets.network.down", {
   position = "right",
-  padding_left = -5,
-  icon = { string = icons.wifi.download },
-  label = { color = colors.blue, string = "??? Bps" },
-  y_offset = -4,
+  padding_left = 0,
+  padding_right = settings.paddings,
+  icon = { string = icons.wifi.download, padding_right = settings.paddings },
+  label = { color = colors.blue, string = "??? Bps", width = 58, align = "right" },
+  y_offset = -5,
 })
 
 sbar.add("bracket", "widgets.network.bracket", { net_up.name, net_down.name }, {

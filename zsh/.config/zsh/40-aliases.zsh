@@ -47,3 +47,8 @@ alias cczv='_ccz_env claude --verbose'                                   # Z.AI 
 
 # === Shorebird Aliases ===
 alias shorebird-auth='load_shorebird_token'
+
+# === File Association Suffix Aliases ===
+alias -s md=glow
+alias -s markdown=glow
+

@@ -39,3 +39,6 @@ export PATH="$HOME/.claude-code-templates/bin:$PATH"
 # SDKMAN (MUST BE AT THE END FOR SDKMAN TO WORK)
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# Preferred Editor
+export EDITOR="nvim"

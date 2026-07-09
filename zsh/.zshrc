@@ -50,3 +50,7 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/galib/.local/bin:$PATH"

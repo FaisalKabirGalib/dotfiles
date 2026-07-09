@@ -11,7 +11,7 @@ local current_workspace = get_current_workspace()
 
 local function build_label(apps)
   if apps == nil or #apps == 0 then
-    return " \u{2014}" -- em dash, matches the old bash version's empty-workspace glyph
+    return "" -- hide label on empty workspaces for a cleaner look
   end
   local icon_line = ""
   for _, app in ipairs(apps) do
@@ -37,11 +37,11 @@ for i = 1, 10 do
     label = {
       font = settings.icons,
       color = selected and colors.base or colors.text,
+      padding_left = settings.paddings,
       padding_right = settings.paddings + 4,
-      y_offset = -1,
     },
-    padding_left = 1,
-    padding_right = 1,
+    padding_left = 4,
+    padding_right = 4,
     background = {
       color = selected and accent or colors.bg1,
       border_width = 1,

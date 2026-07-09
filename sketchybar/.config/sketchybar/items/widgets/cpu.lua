@@ -11,7 +11,7 @@ local config_dir = os.getenv("HOME") .. "/.config/sketchybar"
 sbar.exec("killall cpu_load >/dev/null 2>&1; " .. config_dir ..
   "/helpers/event_providers/cpu_load/bin/cpu_load cpu_update 2.0")
 
-local cpu = sbar.add("graph", "widgets.cpu", 42, {
+local cpu = sbar.add("graph", "widgets.cpu", 40, {
   position = "right",
   graph = { color = colors.blue },
   background = {
@@ -20,15 +20,13 @@ local cpu = sbar.add("graph", "widgets.cpu", 42, {
     border_color = { alpha = 0 },
     drawing = true,
   },
-  icon = { string = icons.cpu },
+  icon = { string = icons.cpu, padding_left = settings.paddings, padding_right = settings.paddings },
   label = {
     string = "cpu ??%",
     align = "right",
-    padding_right = 0,
-    width = 0,
-    y_offset = 4,
+    width = 45,
+    padding_right = settings.paddings,
   },
-  padding_right = settings.paddings + 6,
 })
 
 cpu:subscribe("cpu_update", function(env)
