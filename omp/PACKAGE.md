@@ -1,4 +1,4 @@
-# pi — Oh-My-Pi Coding Agent
+# omp — Oh-My-Pi Coding Agent
 
 Oh-My-Pi coding agent configuration with extensions and skills.
 
@@ -11,7 +11,7 @@ Oh-My-Pi coding agent configuration with extensions and skills.
 ## Install
 
 ```bash
-stowup pi
+stowup omp
 ```
 
 ## Contents
@@ -21,3 +21,4 @@ stowup pi
 - `extensions/` — TypeScript extensions
 - `prompts/` — Prompt templates
 - `skills/` — Specialized skill guides
+

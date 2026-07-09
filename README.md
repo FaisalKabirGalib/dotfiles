@@ -32,7 +32,7 @@ Or install individual packages:
 | `obsidian` | `~/.obsidian/` | Obsidian vault templates & scripts |
 | `opencode` | `~/.config/opencode/` | Opencode CLI config |
 | `p10k` | `~/.p10k.zsh` | Powerlevel10k theme |
-| `pi` | `~/.omp/agent/` | oh-my-pi coding agent (extensions, skills, prompts) |
+| `omp` | `~/.omp/agent/` | oh-my-pi coding agent (extensions, skills, prompts) |
 | `raycast` | — | Raycast settings export (`.rayconfig`, GUI import/export only) |
 | `ssh` | `~/.ssh/` | SSH config (keys excluded) |
 | `tmux` | `~/.config/tmux/` | Tmux (prefix C-a) |
