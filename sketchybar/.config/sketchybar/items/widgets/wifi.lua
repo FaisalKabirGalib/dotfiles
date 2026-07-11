@@ -66,14 +66,14 @@ local function refresh_wifi()
 
   sbar.exec("ipconfig getsummary " .. wifi_device, function(summary)
     local ssid = summary and summary:match("SSID%s+:%s+([^\r\n]+)")
-    if ssid and ssid ~= "" then
+    if ssid and ssid ~= "" and ssid ~= "<redacted>" then
       wifi:set({ label = ssid })
       popup_ssid:set({ label = ssid })
     else
       sbar.exec("ipconfig getifaddr " .. wifi_device, function(ip)
         local connected = ip ~= nil and ip:gsub("%s+", "") ~= ""
         wifi:set({ label = connected and "Wi-Fi" or "off" })
-        popup_ssid:set({ label = "not connected" })
+        popup_ssid:set({ label = connected and "Wi-Fi (SSID hidden)" or "not connected" })
       end)
     end
   end)
