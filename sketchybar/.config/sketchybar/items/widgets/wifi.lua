@@ -64,16 +64,16 @@ local function refresh_wifi()
     popup_ip:set({ label = connected and ip or "not connected" })
   end)
 
-  sbar.exec("networksetup -getairportnetwork " .. wifi_device, function(result)
-    local ssid = result and result:match(": (.+)")
-    if ssid then
+  sbar.exec("ipconfig getsummary " .. wifi_device, function(summary)
+    local ssid = summary and summary:match("SSID%s+:%s+([^\r\n]+)")
+    if ssid and ssid ~= "" then
       wifi:set({ label = ssid })
       popup_ssid:set({ label = ssid })
     else
       sbar.exec("ipconfig getifaddr " .. wifi_device, function(ip)
         local connected = ip ~= nil and ip:gsub("%s+", "") ~= ""
         wifi:set({ label = connected and "Wi-Fi" or "off" })
-        popup_ssid:set({ label = "unavailable (Location Services)" })
+        popup_ssid:set({ label = "not connected" })
       end)
     end
   end)

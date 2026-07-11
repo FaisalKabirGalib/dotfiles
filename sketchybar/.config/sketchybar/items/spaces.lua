@@ -71,6 +71,13 @@ for i = 1, 10 do
       background = { color = now_selected and accent or colors.bg1 },
     })
   end)
+
+  -- Instant label updates on window focus changes/close/open events.
+  space:subscribe("aerospace_focus_change", function(env)
+    sbar.exec("aerospace list-windows --workspace " .. i .. " --json", function(apps)
+      space:set({ label = build_label(apps) })
+    end)
+  end)
 end
 
 -- Catches windows opening/closing without a workspace switch. Deliberately

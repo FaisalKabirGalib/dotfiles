@@ -1,3 +1,4 @@
+require("items.widgets.front_app")
 require("items.widgets.volume")
 require("items.widgets.cpu")
 require("items.widgets.network")
