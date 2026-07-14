@@ -11,6 +11,9 @@
   "toolPermission": "always-proceed",
   "trustedWorkspaces": [
     "/Users/galib/Downloads/Qns Student Report",
-    "/Users/galib/dotfiles"
+    "/Users/galib/dotfiles",
+    "/Users/galib",
+    "/Users/galib/work/boston-scan",
+    "/Users/galib/personal/Techlavo"
   ]
 }
