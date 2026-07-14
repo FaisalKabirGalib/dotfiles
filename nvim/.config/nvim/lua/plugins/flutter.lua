@@ -11,7 +11,19 @@ return {
     },
     config = function()
       require("flutter-tools").setup({
-        flutter_path = vim.fn.expand("~/development/flutter/bin/flutter"), -- matches the PATH entry in zsh/10-environment.zsh
+        flutter_path = (function()
+          local candidates = {
+            vim.fn.expand("$HOME/development/flutter/bin/flutter"),
+            vim.fn.expand("$HOME/Dev/flutter/bin/flutter"),
+            "/opt/homebrew/share/flutter/bin/flutter",
+          }
+          for _, path in ipairs(candidates) do
+            if vim.fn.filereadable(path) == 1 then
+              return path
+            end
+          end
+          return nil
+        end)(),
         flutter_lookup_cmd = nil,
         fvm = false,
 
