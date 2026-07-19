@@ -38,11 +38,15 @@ node_modules/
 # Pi (oh-my-pi, ~/.omp) runtime / session files
 pi/.omp/agent/sessions/
 pi/.omp/agent/terminal-sessions/
+pi/.omp/agent/blobs/
 pi/.omp/agent/*.db*
 pi/.omp/agent/auth.json
+pi/.omp/agent/last-changelog-version
 
 # pi.old (~/.pi) runtime / session files
 pi.old/.pi/agent/sessions/
 pi.old/.pi/agent/terminal-sessions/
+pi.old/.pi/agent/blobs/
 pi.old/.pi/agent/*.db*
 pi.old/.pi/agent/auth.json
+pi.old/.pi/agent/last-changelog-version
