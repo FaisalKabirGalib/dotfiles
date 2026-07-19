@@ -49,3 +49,6 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 
 # Added by Antigravity CLI installer
 export PATH="/home/galib/.local/bin:$PATH"
+
+# Turso
+export PATH="$PATH:/home/galib/.turso"
