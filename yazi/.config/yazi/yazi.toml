@@ -96,6 +96,9 @@ suppress_preload = false
 
 [plugin]
 fetchers = [
+	# Git
+	{ url = "*",   run = "git", group = "git" },
+	{ url = "*/",  run = "git", group = "git" },
 	# Mimetype
 	{ group = "mime", url = "*/",         run = "mime.dir", prio = "high" },
 	{ group = "mime", url = "local://*",  run = "mime.local", prio = "high" },

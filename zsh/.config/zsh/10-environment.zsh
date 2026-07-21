@@ -47,3 +47,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Preferred Editor
 export EDITOR="nvim"
+
+# Android Platform Tools (added for adb / mirroring)
+export PATH="/opt/homebrew/share/android-commandlinetools/platform-tools:$PATH"
+

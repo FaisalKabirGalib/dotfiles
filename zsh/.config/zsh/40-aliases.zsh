@@ -52,3 +52,7 @@ alias shorebird-auth='load_shorebird_token'
 alias -s md=glow
 alias -s markdown=glow
 
+# Wireless Mirroring Shortcut
+alias mirror="scrcpy-wireless"
+
+

@@ -10,7 +10,7 @@ editing:
 startup: 
   quiet: true
 modelRoles: 
-  default: opencode-go/kimi-k2.7-code:high
+  default: zai/glm-5.2:high
 theme: 
   dark: titanium
   light: light
