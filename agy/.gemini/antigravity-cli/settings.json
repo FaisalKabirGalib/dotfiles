@@ -1,6 +1,6 @@
 {
   "colorScheme": "tokyo night",
-  "model": "Gemini 3.5 Flash (High)",
+  "model": "Gemini 3.6 Flash (Low)",
   "notifications": true,
   "showFeedbackSurvey": false,
   "statusLine": {
@@ -19,6 +19,9 @@
     "/Users/galib/personal/karigor2",
     "/Users/galib/personal/eliteschool",
     "/Users/galib/myansible",
-    "/Users/galib/personal/QNS"
+    "/Users/galib/personal/QNS",
+    "/Users/galib/work",
+    "/Users/galib/work/agripluse-app-flutter",
+    "/Users/galib/work/QnsFormSubmit"
   ]
 }
