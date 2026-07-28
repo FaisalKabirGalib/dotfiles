@@ -51,6 +51,28 @@ alias shorebird-auth='load_shorebird_token'
 # === File Association Suffix Aliases ===
 alias -s md=glow
 alias -s markdown=glow
+alias -s json=jq
+alias -s log=bat
+alias -s py='$EDITOR'
+alias -s go='$EDITOR'
+alias -s ts='$EDITOR'
+alias -s js='$EDITOR'
+
+# === Global Aliases (Use Anywhere in Commands) ===
+alias -g NE='2>/dev/null'
+alias -g NO='>/dev/null'
+alias -g NUL='>/dev/null 2>&1'
+alias -g J='| jq'
+alias -g C='| pbcopy'
+
+# === Advanced Batch Rename (zmv) ===
+autoload -Uz zmv
+alias zcp='zmv -C'
+alias zln='zmv -L'
+
+# === Named Directories (Bookmarks) ===
+hash -d dot=~/dotfiles
+hash -d dl=~/Downloads
 
 # Wireless Mirroring Shortcut
 alias mirror="scrcpy-wireless"

@@ -195,3 +195,26 @@ scrcpy-wireless() {
   scrcpy -s "$phone_ip:5555"
 }
 
+# === Directory Change Hooks ===
+autoload -Uz add-zsh-hook
+
+function auto_venv() {
+  if [[ -n "$VIRTUAL_ENV" && "$PWD" != *"${VIRTUAL_ENV:h}"* ]]; then
+    deactivate 2>/dev/null
+    return
+  fi
+
+  [[ -n "$VIRTUAL_ENV" ]] && return
+
+  local dir="$PWD"
+  while [[ "$dir" != "/" ]]; do
+    if [[ -f "$dir/.venv/bin/activate" ]]; then
+      source "$dir/.venv/bin/activate"
+      return
+    fi
+    dir="${dir:h}"
+  done
+}
+
+add-zsh-hook chpwd auto_venv
+
