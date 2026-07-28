@@ -249,10 +249,12 @@ yt() {
     echo "🔎 Searching YouTube: $*"
     local pick
     pick=$(yt-dlp --cookies "$ck" --flat-playlist --no-warnings \
-             --print $'%(id)s\t%(title)s\t%(duration_string)s\t%(uploader)s' \
+             --print $'%(id)s\t%(title)s\t%(duration_string)s\t%(uploader)s\t%(view_count)s' \
              "ytsearch15:$*" 2>/dev/null \
-           | fzf --delimiter='\t' --with-nth=2,3,4 --reverse --height=60% \
-                 --prompt="Select video: ") || return
+           | fzf --delimiter='\t' --with-nth=2,3,4 --reverse --height=90% \
+                 --prompt="Select video: " \
+                 --preview='pt=none; [ -n "$TMUX" ] && pt=tmux; L=${FZF_PREVIEW_LINES:-20}; C=${FZF_PREVIEW_COLUMNS:-40}; printf "\033[1m%s\033[0m\n\033[2m%s  •  %s  •  %s views\033[0m\n" {2} {4} {3} {5}; { curl -fsL --max-time 6 https://i.ytimg.com/vi/{1}/maxresdefault.jpg 2>/dev/null || curl -sL --max-time 6 https://i.ytimg.com/vi/{1}/mqdefault.jpg 2>/dev/null; } | chafa --format=kitty --passthrough=$pt --size=${C}x$((L-3)) --animate=off - 2>/dev/null || echo "(thumbnail unavailable — brew install chafa)"; yes "" | head -n "$L"' \
+                 --preview-window='right,55%,border-left') || return
     [[ -z "$pick" ]] && { echo "❌ Nothing selected"; return 1; }
     url="https://www.youtube.com/watch?v=${pick%%$'\t'*}"
   fi
