@@ -1,12 +1,14 @@
--- System-at-a-glance module: RAM / Disk / GPU as icon + live mini-graph inside
--- one bracketed module with thin dividers between the three. Same graph +
--- threshold-color pattern as cpu.lua; shell-polled (no C event provider) since
--- these sources are cheap and change slowly.
+-- System-at-a-glance: RAM / Disk / GPU, each its own compact chip = icon + live
+-- mini-graph with the percent label drawn ON TOP of the graph (negative label
+-- padding) to stay narrow. Each chip's bracket border color reflects stress
+-- level (blue->yellow->peach->red), same thresholds as cpu.lua. Shell-polled.
 -- ponytail: 5s shell poll of memory_pressure/df/ioreg. Upgrade path if it ever
 -- feels stale: a C event provider like helpers/event_providers/cpu_load.
 local icons = require("icons")
 local colors = require("colors")
 local settings = require("settings")
+
+local GRAPH_W = 48
 
 local function load_color(v)
   if v < 30 then
@@ -20,35 +22,28 @@ local function load_color(v)
   end
 end
 
-local graph_opts = {
-  position = "right",
-  background = { height = 22, color = { alpha = 0 }, border_color = { alpha = 0 }, drawing = true },
-}
-
-local function add_graph(name, icon, title)
-  local opts = {}
-  for k, v in pairs(graph_opts) do opts[k] = v end
-  opts.graph = { color = colors.blue }
-  opts.icon = { string = icon, padding_left = settings.paddings, padding_right = settings.paddings }
-  -- Label overlays the graph area (align left, no reserved width) so the widget
-  -- stays compact, cpu.lua-style. Text names which stat it is.
-  opts.label = { string = title .. " ??%", align = "left", padding_left = settings.paddings }
-  return sbar.add("graph", name, 40, opts)
-end
-
-local function add_sep(name)
-  return sbar.add("item", name, {
+local function add_stat(id, icon, title)
+  local graph = sbar.add("graph", "widgets.sys." .. id, GRAPH_W, {
     position = "right",
-    icon = { string = "\u{2502}", color = colors.surface2 },
-    label = { drawing = false },
+    background = { height = 22, color = { alpha = 0 }, border_color = { alpha = 0 }, drawing = true },
+    graph = { color = colors.blue },
+    icon = { string = icon, padding_left = settings.paddings, padding_right = settings.paddings },
+    -- Negative padding pulls the label back over the graph region instead of
+    -- reserving a slot beside it, so the chip stays narrow.
+    label = { string = title .. " ??%", align = "left", padding_left = -GRAPH_W, y_offset = 1 },
   })
+  local bracket = sbar.add("bracket", "widgets.sys." .. id .. ".bracket", { graph.name }, {
+    background = { color = colors.bg1, border_color = colors.blue, border_width = 1 },
+  })
+  sbar.add("item", "widgets.sys." .. id .. ".pad", { position = "right", width = settings.paddings })
+  return { graph = graph, bracket = bracket, title = title }
 end
 
-local ram = add_graph("widgets.sys.ram", icons.ram, "ram")
-local sep1 = add_sep("widgets.sys.sep1")
-local disk = add_graph("widgets.sys.disk", icons.disk, "disk")
-local sep2 = add_sep("widgets.sys.sep2")
-local gpu = add_graph("widgets.sys.gpu", icons.gpu, "gpu")
+local stats = {
+  add_stat("ram", icons.ram, "ram"),
+  add_stat("disk", icons.disk, "disk"),
+  add_stat("gpu", icons.gpu, "gpu"),
+}
 
 -- One exec per tick emits "ram disk gpu" as whole-number percentages.
 local stats_cmd = [[
@@ -58,34 +53,33 @@ gpu=$(ioreg -r -d 1 -w 0 -c IOAccelerator 2>/dev/null | grep -o '"Device Utiliza
 printf '%s %s %s' "${ram:-0}" "${disk:-0}" "${gpu:-0}"
 ]]
 
-local function push_stat(graph, title, v)
-  graph:push({ v / 100. })
-  graph:set({ graph = { color = load_color(v) }, label = title .. " " .. v .. "%" })
+local function push_stat(stat, v)
+  local color = load_color(v)
+  stat.graph:push({ v / 100. })
+  stat.graph:set({ graph = { color = color }, label = stat.title .. " " .. v .. "%" })
+  stat.bracket:set({ background = { border_color = color } })
 end
 
 local function update_all()
   sbar.exec(stats_cmd, function(out)
     local r, d, g = tostring(out):match("(%d+)%s+(%d+)%s+(%d+)")
     if not r then return end
-    push_stat(ram, "ram", tonumber(r))
-    push_stat(disk, "disk", tonumber(d))
-    push_stat(gpu, "gpu", tonumber(g))
+    push_stat(stats[1], tonumber(r))
+    push_stat(stats[2], tonumber(d))
+    push_stat(stats[3], tonumber(g))
   end)
 end
 
-ram:set({ update_freq = 5 })
-ram:subscribe("routine", update_all)
-ram:subscribe("forced", update_all)
-ram:subscribe("system_woke", update_all)
+local driver = stats[1].graph
+driver:set({ update_freq = 5 })
+driver:subscribe("routine", update_all)
+driver:subscribe("forced", update_all)
+driver:subscribe("system_woke", update_all)
 
-for _, item in ipairs({ ram, disk, gpu }) do
-  item:subscribe("mouse.clicked", function(_)
+for _, stat in ipairs(stats) do
+  stat.graph:subscribe("mouse.clicked", function(_)
     sbar.exec("open -a 'Activity Monitor'")
   end)
 end
-
-sbar.add("bracket", "widgets.sys.bracket", { ram.name, sep1.name, disk.name, sep2.name, gpu.name }, {
-  background = { color = colors.bg1, border_color = colors.rainbow[6], border_width = 1 },
-})
 
 sbar.add("item", "widgets.sys.padding", { position = "right", width = settings.group_paddings })

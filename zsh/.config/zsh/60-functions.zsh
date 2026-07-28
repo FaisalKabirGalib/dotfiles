@@ -218,3 +218,95 @@ function auto_venv() {
 
 add-zsh-hook chpwd auto_venv
 
+# === YouTube helper: search / watch / download (Chrome cookies) ===
+# Usage:  yt <youtube-url>   |   yt <search terms...>
+# Deps: yt-dlp, mpv, fzf, deno. Auth via Chrome cookies. No sudo needed.
+#
+# Chrome cookies are Keychain-encrypted, so reading them per-call prompted for the
+# password once per yt-dlp/mpv invocation. Instead we export them ONCE to a cached
+# 0600 file and point every call at it — 1 Keychain prompt per ~6h, not 4 per run.
+_yt_cookies() {
+  local f="$HOME/.cache/yt-cookies.txt"
+  mkdir -p "${f:h}"
+  if [[ ! -f "$f" || -n "$(find "$f" -mmin +360 2>/dev/null)" ]]; then
+    echo "🔑 Unlocking Chrome cookies (one-time Keychain prompt)…" >&2
+    yt-dlp --cookies-from-browser chrome --cookies "$f" \
+           --flat-playlist --skip-download --no-warnings "ytsearch1:x" >/dev/null 2>&1
+    chmod 600 "$f" 2>/dev/null
+  fi
+  print -r -- "$f"
+}
+
+yt() {
+  [[ -z "$1" ]] && { echo "Usage: yt <youtube-url | search terms>"; return 1; }
+
+  local ck; ck=$(_yt_cookies) || return
+
+  local url
+  if [[ "$1" == http*://* ]]; then
+    url="$1"
+  else
+    echo "🔎 Searching YouTube: $*"
+    local pick
+    pick=$(yt-dlp --cookies "$ck" --flat-playlist --no-warnings \
+             --print $'%(id)s\t%(title)s\t%(duration_string)s\t%(uploader)s' \
+             "ytsearch15:$*" 2>/dev/null \
+           | fzf --delimiter='\t' --with-nth=2,3,4 --reverse --height=60% \
+                 --prompt="Select video: ") || return
+    [[ -z "$pick" ]] && { echo "❌ Nothing selected"; return 1; }
+    url="https://www.youtube.com/watch?v=${pick%%$'\t'*}"
+  fi
+
+  local action
+  action=$(printf '▶  Watch (stream)\n⬇  Download' \
+           | fzf --reverse --height=20% --prompt="Action: ") || return
+  case "$action" in
+    *Watch*)    _yt_watch    "$url" "$ck" ;;
+    *Download*) _yt_download "$url" "$ck" ;;
+    *) return 1 ;;
+  esac
+}
+
+_yt_watch() {
+  local url="$1" ck="$2" choice fmt
+  choice=$(printf 'Best available\n4320 (8K)\n2160 (4K)\n1440 (2K)\n1080\n720\n480' \
+           | fzf --reverse --height=30% --prompt="Resolution: ") || return
+  [[ -z "$choice" ]] && return 1
+  if [[ "$choice" == Best* ]]; then
+    fmt="bestvideo[vcodec^=vp9]+bestaudio/bestvideo+bestaudio/best"
+  else
+    local h="${choice%% *}"   # leading number
+    fmt="bestvideo[vcodec^=vp9][height<=$h]+bestaudio/bestvideo[height<=$h]+bestaudio/best"
+  fi
+  echo "▶  Streaming ($choice)…  (prefers VP9 for M2 hardware decode)"
+  mpv --hwdec=videotoolbox --vo=gpu-next \
+      --ytdl-raw-options=cookies="$ck" \
+      --ytdl-format="$fmt" "$url"
+}
+
+_yt_download() {
+  local url="$1" ck="$2" dldir="$HOME/Downloads" choice
+  choice=$(printf '%s\n' \
+      '🎬 Best video+audio (mp4)' \
+      '🎯 Pick exact format…' \
+      '🎵 Audio only (m4a)' \
+      '🎵 Audio only (mp3)' \
+    | fzf --reverse --height=30% --prompt="Download: ") || return
+  [[ -z "$choice" ]] && return 1
+
+  local -a args=(--cookies "$ck" --no-warnings -o "$dldir/%(title)s.%(ext)s")
+  case "$choice" in
+    *'Best video'*) args+=(-f 'bv*+ba/b' --merge-output-format mp4) ;;
+    *'exact format'*|*'Pick exact'*)
+      local fid
+      fid=$(yt-dlp --cookies "$ck" -F "$url" 2>/dev/null \
+            | fzf --reverse --height=80% --prompt="Format id: " | awk '{print $1}')
+      [[ -z "$fid" ]] && { echo "❌ No format picked"; return 1; }
+      args+=(-f "${fid}+bestaudio/${fid}") ;;
+    *m4a*) args+=(-f 'ba[ext=m4a]/ba' -x --audio-format m4a) ;;
+    *mp3*) args+=(-x --audio-format mp3 --audio-quality 0) ;;
+  esac
+  echo "⬇  Downloading to $dldir …"
+  yt-dlp "${args[@]}" "$url" && echo "✅ Saved to $dldir"
+}
+
