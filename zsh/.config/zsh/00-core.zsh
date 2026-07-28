@@ -19,7 +19,7 @@ bindkey '^[w' kill-region
 # --- Command Line Editing & Widgets ---
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey '^X^E' edit-command-line
+bindkey '^X^N' edit-command-line
 
 # Expand history expansion tags (!!, !$) on Space bar
 bindkey ' ' magic-space
