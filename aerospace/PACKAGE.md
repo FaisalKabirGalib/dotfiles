@@ -2,6 +2,7 @@
 
 Tiling window manager for macOS (accessibility-API based, like yabai —
 not a compositor). Mirrors the keybinding philosophy of this repo's
+
 Hyprland config (`hyprland/`), adapted for macOS's real constraints.
 
 ## Package Details
