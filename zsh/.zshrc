@@ -5,7 +5,8 @@
 # Each module handles a specific aspect of the shell configuration
 
 # Get the directory of this file
-ZSH_CONFIG_DIR="$(dirname "$(readlink -f "${(%):-%x}")")/.config/zsh"
+# Resolve dir of this file portably (zsh :A resolves symlinks; readlink -f is GNU-only)
+ZSH_CONFIG_DIR="$(dirname "${${(%):-%x}:A}")/.config/zsh"
 
 # Source all configuration files in order
 for config_file in "$ZSH_CONFIG_DIR"/*.zsh; do
@@ -36,7 +37,7 @@ nvm use default > /dev/null 2>&1
 
 ## [Completion]
 ## Completion scripts setup. Remove the following line to uninstall
-[[ -f /home/galib/.config/.dart-cli-completion/zsh-config.zsh ]] && . /home/galib/.config/.dart-cli-completion/zsh-config.zsh || true
+[[ -f "$HOME/.config/.dart-cli-completion/zsh-config.zsh" ]] && . "$HOME/.config/.dart-cli-completion/zsh-config.zsh" || true
 ## [/Completion]
 
 
@@ -44,11 +45,11 @@ nvm use default > /dev/null 2>&1
 alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 
 # bun completions
-[ -s "/home/galib/.bun/_bun" ] && source "/home/galib/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 
 # Added by Antigravity CLI installer
-export PATH="/home/galib/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Turso
-export PATH="$PATH:/home/galib/.turso"
+export PATH="$PATH:$HOME/.turso"

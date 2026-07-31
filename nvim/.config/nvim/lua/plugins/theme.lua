@@ -12,12 +12,15 @@ else
       name = "catppuccin",
       opts = {
         flavour = "mocha",
+        transparent_background = true,
       },
     },
     {
       "LazyVim/LazyVim",
       opts = {
-        colorscheme = "catppuccin",
+        -- "catppuccin" collides with a same-named colorscheme bundled in
+        -- recent Neovim core; use the flavour-specific name to target the plugin.
+        colorscheme = "catppuccin-mocha",
       },
     },
   }

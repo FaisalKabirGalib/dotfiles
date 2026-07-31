@@ -11,16 +11,22 @@ fi
 # Custom PATH entries
 export PATH="$HOME/dotfiles/bin:$HOME/dotfiles:$PATH"
 export PATH="$HOME/.local/script:$PATH"
-export PATH="$PATH:/home/galib/.local/bin"
-export PATH="$HOME/development/flutter/bin:$PATH"
+export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 
 # Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-#Flutter
-# export PATH="$HOME/Dev/flutter/bin:$PATH"
+# Dynamic Flutter Setup
+# Adds the first existing Flutter SDK bin dir to PATH (manual installs); the
+# AUR/system flutter at /usr/bin/flutter is already on PATH via /usr/bin.
+for flutter_dir in "$HOME/development/flutter" "$HOME/Dev/flutter" "/opt/homebrew/share/flutter"; do
+  if [[ -d "$flutter_dir/bin" ]]; then
+    export PATH="$flutter_dir/bin:$PATH"
+    break
+  fi
+done
 
 # Mason (Dart tooling)
 export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -30,12 +36,14 @@ GOPATH=$HOME/go PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 # Shorebird
 export PATH="$PATH":"$HOME/.shorebird/bin/shorebird"
-export PATH="/home/galib/.shorebird/bin:$PATH"
-export PATH="/home/galib/.config/shorebird/bin:$PATH"
+export PATH="$HOME/.shorebird/bin:$PATH"
+export PATH="$HOME/.config/shorebird/bin:$PATH"
 
 # Claude Code Templates - Global Agents
-export PATH="/home/galib/.claude-code-templates/bin:$PATH"
+export PATH="$HOME/.claude-code-templates/bin:$PATH"
 
+# Preferred editor
+export EDITOR="nvim"
 # SDKMAN (MUST BE AT THE END FOR SDKMAN TO WORK)
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

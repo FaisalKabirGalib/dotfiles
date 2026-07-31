@@ -1,0 +1,12 @@
+[flavor]
+dark  = "catppuccin-mocha"
+light = "catppuccin-latte"
+
+# Git status sign styles (rendered by git.yazi plugin via linemode)
+[git]
+modified_sign = "M"
+added_sign    = "A"
+untracked_sign  = "?"
+deleted_sign  = "D"
+updated_sign  = "U"
+clean_sign    = "✔"

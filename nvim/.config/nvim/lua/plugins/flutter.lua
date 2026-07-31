@@ -11,7 +11,20 @@ return {
     },
     config = function()
       require("flutter-tools").setup({
-        flutter_path = "/usr/bin/flutter",
+        flutter_path = (function()
+          local candidates = {
+            "/usr/bin/flutter", -- Arch AUR / system install
+            vim.fn.expand("$HOME/development/flutter/bin/flutter"),
+            vim.fn.expand("$HOME/Dev/flutter/bin/flutter"),
+            "/opt/homebrew/share/flutter/bin/flutter", -- macOS
+          }
+          for _, path in ipairs(candidates) do
+            if vim.fn.filereadable(path) == 1 then
+              return path
+            end
+          end
+          return nil
+        end)(),
         flutter_lookup_cmd = nil,
         fvm = false,
 

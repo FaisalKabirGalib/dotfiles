@@ -12,12 +12,12 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Dart CLI completion
 ## Completion scripts setup. Remove the following line to uninstall
-[[ -f /home/galib/.dart-cli-completion/zsh-config.zsh ]] && . /home/galib/.dart-cli-completion/zsh-config.zsh || true
+[[ -f "$HOME/.dart-cli-completion/zsh-config.zsh" ]] && . "$HOME/.dart-cli-completion/zsh-config.zsh" || true
 ## [/Completion]
 
 ## Completion scripts setup. Remove the following line to uninstall
-[[ -f /home/galib/.config/.dart-cli-completion/zsh-config.zsh ]] && . /home/galib/.config/.dart-cli-completion/zsh-config.zsh || true
+[[ -f "$HOME/.config/.dart-cli-completion/zsh-config.zsh" ]] && . "$HOME/.config/.dart-cli-completion/zsh-config.zsh" || true
 ## [/Completion]
 
 # Bun completions
-[ -s "/home/galib/.bun/_bun" ] && source "/home/galib/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
