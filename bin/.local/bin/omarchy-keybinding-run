@@ -24,11 +24,25 @@ desc="${desc#"${desc%%[![:space:]]*}"}"
 desc="${desc%"${desc##*[![:space:]]}"}"
 [[ -z "$desc" ]] && exit 0
 
-# Resolve the description back to its dispatcher + arg via Hyprland's live binds.
+# Resolve the description back to its dispatcher + arg.
+#
+# NOTE: `hyprctl -j binds` emits INVALID JSON on Hyprland 0.56+ (misaligned
+# fields in bindsRequest), so piping it to `jq` fails and EVERY palette action
+# silently no-ops with "No runnable action found". Parse the plain text output
+# of `hyprctl binds` instead (same approach omarchy-menu-keybindings uses).
 mapfile -t parts < <(
-  hyprctl -j binds |
-    jq -r --arg d "$desc" '.[] | select(.description == $d) | .dispatcher, .arg' |
-    head -2
+  hyprctl binds | awk -v d="$desc" '
+    /^bind/ {
+      if (seen && f["description"] == d) { print f["dispatcher"]; print f["arg"]; exit }
+      seen = 1; delete f; next
+    }
+    seen && match($0, /^\t[a-z]+: /) {
+      f[substr($0, 2, RLENGTH - 3)] = substr($0, RLENGTH + 1)
+    }
+    END {
+      if (seen && f["description"] == d) { print f["dispatcher"]; print f["arg"] }
+    }
+  '
 )
 
 dispatcher="${parts[0]:-}"
