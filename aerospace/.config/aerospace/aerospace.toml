@@ -55,10 +55,15 @@ outer.bottom = 8
 # SUPER (the Hyprland mod key) maps to Cmd on macOS. Final scheme, settled
 # after iterating on an AeroSpace/tmux conflict (AeroSpace is OS-level and
 # always wins the key-event race, so any binding it claims never reaches
-# the terminal): `cmd` is the primary mod for everything, EXCEPT bare
-# `ctrl-hjkl`, which is deliberately left unbound in AeroSpace so it's
-# fully free for tmux's vim-tmux-navigator pane navigation, and
-# `ctrl`/`ctrl-shift`, which own workspace switching and window movement.
+# the terminal). Dual-monitor split (see [workspace-to-monitor-force-assignment]
+# at the bottom): the PRIMARY monitor owns workspaces 1-10, the EXTERNAL
+# (BenQ) owns 11-20, mirroring the laptop's old Hyprland eDP-1/external split.
+#   - `cmd`  is the primary mod: window management (focus/move/resize/close/
+#     launchers) AND workspaces 1-10 (cmd-1..0 switch, cmd-shift-1..0 move).
+#   - `ctrl` owns the external monitor: workspaces 11-20 (ctrl-1..0 switch,
+#     ctrl-shift-1..0 move). ctrl-shift-hjkl is in-tree window movement.
+#   - bare `ctrl-hjkl` is deliberately left UNBOUND so it stays fully free
+#     for tmux's vim-tmux-navigator pane navigation.
 # This is a known, accepted tradeoff -- `cmd` as primary overrides several
 # common macOS/app shortcuts system-wide (AeroSpace intercepts before the
 # app ever sees the key):
@@ -88,32 +93,59 @@ ctrl-shift-j = 'move down'
 ctrl-shift-k = 'move up'
 ctrl-shift-l = 'move right'
 
-# Workspace switching (was super-1..0 in Hyprland)
-ctrl-1 = 'workspace 1'
-ctrl-2 = 'workspace 2'
-ctrl-3 = 'workspace 3'
-ctrl-4 = 'workspace 4'
-ctrl-5 = 'workspace 5'
-ctrl-6 = 'workspace 6'
-ctrl-7 = 'workspace 7'
-ctrl-8 = 'workspace 8'
-ctrl-9 = 'workspace 9'
-ctrl-0 = 'workspace 10'
+# Workspace switching. PRIMARY monitor (workspaces 1-10) on cmd-1..0;
+# EXTERNAL/BenQ monitor (workspaces 11-20) on ctrl-1..0. Pinning is done in
+# [workspace-to-monitor-force-assignment] at the bottom of this file, so
+# focusing e.g. ws 11 also shifts focus to the external monitor.
+cmd-1 = 'workspace 1'
+cmd-2 = 'workspace 2'
+cmd-3 = 'workspace 3'
+cmd-4 = 'workspace 4'
+cmd-5 = 'workspace 5'
+cmd-6 = 'workspace 6'
+cmd-7 = 'workspace 7'
+cmd-8 = 'workspace 8'
+cmd-9 = 'workspace 9'
+cmd-0 = 'workspace 10'
 
-# Move window to workspace (was super-shift-1..0 in Hyprland). ctrl-shift,
-# pairing with the ctrl-shift-hjkl "move" binding above. --focus-follows-window
-# so you land on the destination workspace with the window, instead of being
-# left behind on the source workspace.
-ctrl-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
-ctrl-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
-ctrl-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
-ctrl-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
-ctrl-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
-ctrl-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
-ctrl-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
-ctrl-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
-ctrl-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
-ctrl-shift-0 = 'move-node-to-workspace 10 --focus-follows-window'
+ctrl-1 = 'workspace 11'
+ctrl-2 = 'workspace 12'
+ctrl-3 = 'workspace 13'
+ctrl-4 = 'workspace 14'
+ctrl-5 = 'workspace 15'
+ctrl-6 = 'workspace 16'
+ctrl-7 = 'workspace 17'
+ctrl-8 = 'workspace 18'
+ctrl-9 = 'workspace 19'
+ctrl-0 = 'workspace 20'
+
+# Move window to workspace. Mirrors the switch bindings above: PRIMARY
+# monitor (ws 1-10) on cmd-shift-1..0, EXTERNAL/BenQ (ws 11-20) on
+# ctrl-shift-1..0. --focus-follows-window so you land on the destination
+# workspace (and its monitor) with the window, instead of being left behind
+# on the source. These are numbers; ctrl-shift-hjkl (in-tree move) are
+# letters, so the two ctrl-shift groups don't collide.
+cmd-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+cmd-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+cmd-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+cmd-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+cmd-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+cmd-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
+cmd-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
+cmd-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
+cmd-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
+cmd-shift-0 = 'move-node-to-workspace 10 --focus-follows-window'
+
+ctrl-shift-1 = 'move-node-to-workspace 11 --focus-follows-window'
+ctrl-shift-2 = 'move-node-to-workspace 12 --focus-follows-window'
+ctrl-shift-3 = 'move-node-to-workspace 13 --focus-follows-window'
+ctrl-shift-4 = 'move-node-to-workspace 14 --focus-follows-window'
+ctrl-shift-5 = 'move-node-to-workspace 15 --focus-follows-window'
+ctrl-shift-6 = 'move-node-to-workspace 16 --focus-follows-window'
+ctrl-shift-7 = 'move-node-to-workspace 17 --focus-follows-window'
+ctrl-shift-8 = 'move-node-to-workspace 18 --focus-follows-window'
+ctrl-shift-9 = 'move-node-to-workspace 19 --focus-follows-window'
+ctrl-shift-0 = 'move-node-to-workspace 20 --focus-follows-window'
 
 # Window management (was super-q/m/f in Hyprland)
 cmd-q = 'close'
@@ -161,14 +193,34 @@ cmd-b = 'exec-and-forget open -a Zen'
 # cmd-o = 'exec-and-forget open -a Obsidian'
 cmd-e = 'exec-and-forget open -a Finder'
 
-# The Mac Mini M2 has no built-in display (unlike the laptop this config
-# was ported from, which pinned workspaces 1-10 to eDP-1 and 11-20 to the
-# first external monitor). Left commented out -- fill in if/when running
-# multiple external monitors. Syntax:
-#   1 = 1        # sequence number, 1-based, left to right
-#   2 = 'main'
-#   B = 'DELL'   # case-insensitive substring match against monitor name
-# [workspace-to-monitor-force-assignment]
+# Dual-monitor pinning: PRIMARY (built-in) monitor gets workspaces 1-10,
+# the EXTERNAL BenQ gets 11-20 -- the same split the laptop's Hyprland config
+# used (eDP-1 = 1-10, external = 11-20). Values are case-insensitive substring
+# matches against the monitor name from `aerospace list-monitors`
+# ('Built-in Retina Display' and 'BenQ GW2283' on this machine). When the BenQ
+# is unplugged AeroSpace collapses 11-20 onto the remaining monitor, and
+# restores them on reconnect -- no extra handling needed.
+[workspace-to-monitor-force-assignment]
+1 = 'built-in'
+2 = 'built-in'
+3 = 'built-in'
+4 = 'built-in'
+5 = 'built-in'
+6 = 'built-in'
+7 = 'built-in'
+8 = 'built-in'
+9 = 'built-in'
+10 = 'built-in'
+11 = 'BenQ'
+12 = 'BenQ'
+13 = 'BenQ'
+14 = 'BenQ'
+15 = 'BenQ'
+16 = 'BenQ'
+17 = 'BenQ'
+18 = 'BenQ'
+19 = 'BenQ'
+20 = 'BenQ'
 
 # App-to-workspace pinning: either terminal (Ghostty or WezTerm) always
 # lands on workspace 1, Zen always on workspace 2, regardless of which
