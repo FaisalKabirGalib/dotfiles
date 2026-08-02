@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "google-workspace": {
+      "command": "node",
+      "args": [
+        "/Users/galib/.gemini/extensions/google-workspace/workspace-server/dist/index.js",
+        "--use-dot-names"
+      ],
+      "cwd": "/Users/galib/.gemini/extensions/google-workspace"
+    }
+  }
+}

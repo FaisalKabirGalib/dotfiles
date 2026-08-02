@@ -8,6 +8,11 @@ return {
   cpu = "\u{f2db}",      -- nf-fa-microchip
   calendar = "\u{f073}", -- nf-fa-calendar
 
+  -- System stats module (see ethernet note below re: astral md- escapes).
+  ram = "\u{f035b}",  -- nf-md-memory
+  disk = "\u{f0a0}",  -- nf-fa-hdd
+  gpu = "\u{f08ae}",  -- nf-md-expansion-card
+
   volume = {
     _100 = "\u{f028}", -- nf-fa-volume_up
     _66 = "\u{f028}",
@@ -21,9 +26,16 @@ return {
     download = "\u{f063}",     -- nf-fa-arrow_down
     connected = "\u{f1eb}",    -- nf-fa-wifi
     disconnected = "\u{f127}", -- nf-fa-chain_broken
+    -- FA has no ethernet glyph in this JetBrainsMono build; nf-md-ethernet is
+    -- present. Astral-plane, but referenced via explicit \u{} escape (the
+    -- header comment's stability concern is about literal chars, not escapes).
+    ethernet = "\u{f0200}", -- nf-md-ethernet
   },
 
-  bluetooth = "\u{f293}", -- nf-fa-bluetooth
+  bluetooth = "\u{f293}", -- nf-fa-bluetooth (on, idle)
+  -- nf-md bluetooth state glyphs (see ethernet note above re: astral escapes).
+  bluetooth_connected = "\u{f00b1}", -- nf-md-bluetooth-connect
+  bluetooth_off = "\u{f00b2}",       -- nf-md-bluetooth-off
   check = "\u{f00c}",     -- nf-fa-check
   cross = "\u{f00d}",     -- nf-fa-times
 }

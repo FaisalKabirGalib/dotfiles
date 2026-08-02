@@ -12,15 +12,20 @@ fi
 export PATH="$HOME/dotfiles/bin:$HOME/dotfiles:$PATH"
 export PATH="$HOME/.local/script:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$HOME/development/flutter/bin:$PATH"
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 
 # Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-#Flutter
-# export PATH="$HOME/Dev/flutter/bin:$PATH"
+# Dynamic Flutter Setup
+# Loops through potential Flutter SDK directories and adds the first valid path to PATH
+for flutter_dir in "$HOME/development/flutter" "$HOME/Dev/flutter" "/opt/homebrew/share/flutter"; do
+  if [[ -d "$flutter_dir/bin" ]]; then
+    export PATH="$flutter_dir/bin:$PATH"
+    break
+  fi
+done
 
 # Mason (Dart tooling)
 export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -42,3 +47,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Preferred Editor
 export EDITOR="nvim"
+
+# Android Platform Tools (added for adb / mirroring)
+export PATH="/opt/homebrew/share/android-commandlinetools/platform-tools:$PATH"
+

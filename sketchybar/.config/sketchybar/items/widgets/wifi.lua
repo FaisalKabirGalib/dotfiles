@@ -15,7 +15,7 @@ end
 local wifi = sbar.add("item", "widgets.wifi", {
   position = "right",
   icon = { string = icons.wifi.connected, color = colors.text },
-  label = { string = "...", width = 90, align = "left" },
+  label = { drawing = false },
   update_freq = 10,
 })
 
@@ -52,28 +52,42 @@ local function clear_bt_device_rows()
   bt_device_rows = {}
 end
 
-local function refresh_wifi()
-  sbar.exec("ipconfig getifaddr " .. wifi_device, function(ip)
-    local connected = ip ~= nil and ip:gsub("%s+", "") ~= ""
-    wifi:set({
-      icon = {
-        string = connected and icons.wifi.connected or icons.wifi.disconnected,
-        color = connected and colors.text or colors.red,
-      },
-    })
-    popup_ip:set({ label = connected and ip or "not connected" })
+-- Active link = the default-route interface (same detection as network.lua).
+local function active_iface(cb)
+  sbar.exec("/sbin/route -n get default 2>/dev/null | awk '/interface:/{print $2}'", function(result)
+    cb((result or ""):gsub("%s+", ""))
   end)
+end
 
-  sbar.exec("networksetup -getairportnetwork " .. wifi_device, function(result)
-    local ssid = result and result:match(": (.+)")
-    if ssid then
-      wifi:set({ label = ssid })
+local function refresh_wifi_ssid()
+  sbar.exec("ipconfig getifaddr " .. wifi_device, function(ip)
+    popup_ip:set({ label = (ip and ip:gsub("%s+", "") ~= "") and ip or "not connected" })
+  end)
+  sbar.exec("ipconfig getsummary " .. wifi_device, function(summary)
+    local ssid = summary and summary:match("SSID%s+:%s+([^\r\n]+)")
+    if ssid and ssid ~= "" and ssid ~= "<redacted>" then
       popup_ssid:set({ label = ssid })
     else
-      sbar.exec("ipconfig getifaddr " .. wifi_device, function(ip)
-        local connected = ip ~= nil and ip:gsub("%s+", "") ~= ""
-        wifi:set({ label = connected and "Wi-Fi" or "off" })
-        popup_ssid:set({ label = "unavailable (Location Services)" })
+      popup_ssid:set({ label = "Wi-Fi (SSID hidden)" })
+    end
+  end)
+end
+
+-- Reflect whichever link is actually carrying traffic: ethernet or Wi-Fi.
+local function refresh_conn()
+  active_iface(function(iface)
+    if iface == "" then
+      wifi:set({ icon = { string = icons.wifi.disconnected, color = colors.red } })
+      popup_ssid:set({ label = "not connected" })
+      popup_ip:set({ label = "not connected" })
+    elseif iface == wifi_device then
+      wifi:set({ icon = { string = icons.wifi.connected, color = colors.text } })
+      refresh_wifi_ssid()
+    else
+      wifi:set({ icon = { string = icons.wifi.ethernet, color = colors.text } })
+      popup_ssid:set({ label = "Wired (" .. iface .. ")" })
+      sbar.exec("ipconfig getifaddr " .. iface, function(ip)
+        popup_ip:set({ label = (ip and ip:gsub("%s+", "") ~= "") and ip or "..." })
       end)
     end
   end)
@@ -119,13 +133,14 @@ local function refresh_bt_devices()
 end
 
 local function refresh()
-  refresh_wifi()
+  refresh_conn()
   refresh_bt_icon()
 end
 
 wifi:subscribe("routine", refresh)
 wifi:subscribe("forced", refresh)
 wifi:subscribe("system_woke", refresh)
+wifi:subscribe("wifi_change", refresh_conn)
 
 local function hide_popup()
   wifi:set({ popup = { drawing = false } })
@@ -134,7 +149,7 @@ end
 wifi:subscribe("mouse.clicked", function(_)
   local should_draw = wifi:query().popup.drawing == "off"
   if should_draw then
-    refresh_wifi()
+    refresh_conn()
     refresh_bt_icon()
     refresh_bt_devices()
     wifi:set({ popup = { drawing = true } })
@@ -149,7 +164,7 @@ popup_toggle:subscribe("mouse.clicked", function(_)
   sbar.exec("networksetup -getairportpower " .. wifi_device, function(result)
     local on = result and result:match("On") ~= nil
     sbar.exec("networksetup -setairportpower " .. wifi_device .. " " .. (on and "off" or "on"), function(_)
-      refresh_wifi()
+      refresh_conn()
     end)
   end)
 end)

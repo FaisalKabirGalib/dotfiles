@@ -1,6 +1,6 @@
 {
   "colorScheme": "tokyo night",
-  "model": "Gemini 3.5 Flash (High)",
+  "model": "Gemini 3.6 Flash (Low)",
   "notifications": true,
   "showFeedbackSurvey": false,
   "statusLine": {
@@ -11,6 +11,20 @@
   "toolPermission": "always-proceed",
   "trustedWorkspaces": [
     "/Users/galib/Downloads/Qns Student Report",
-    "/Users/galib/dotfiles"
+    "/Users/galib/dotfiles",
+    "/Users/galib",
+    "/Users/galib/work/boston-scan",
+    "/Users/galib/personal/Techlavo",
+    "/Users/galib/personal",
+    "/Users/galib/personal/karigor2",
+    "/Users/galib/personal/eliteschool",
+    "/Users/galib/myansible",
+    "/Users/galib/personal/QNS",
+    "/Users/galib/work",
+    "/Users/galib/work/agripluse-app-flutter",
+    "/Users/galib/work/QnsFormSubmit",
+    "/Users/galib/work/dana_ai_app",
+    "/Users/galib/work/dana_ai_backend",
+    "/Users/galib/work/QnsFormSubmit/reports/2026-07-27"
   ]
 }

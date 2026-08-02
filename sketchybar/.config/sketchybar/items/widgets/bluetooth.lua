@@ -32,8 +32,19 @@ end
 local function refresh_icon()
   sbar.exec("blueutil -p", function(power)
     local on = power and power:gsub("%s+$", "") == "1"
-    bt:set({ icon = { color = on and colors.blue or colors.subtext0 } })
-    power_toggle:set({ label = { string = on and "On" or "Off", color = on and colors.green or colors.red } })
+    if not on then
+      bt:set({ icon = { string = icons.bluetooth_off, color = colors.subtext0 } })
+      power_toggle:set({ label = { string = "Off", color = colors.red } })
+      return
+    end
+    sbar.exec("blueutil --connected --format json", function(devices)
+      local connected = #(devices or {}) > 0
+      bt:set({ icon = {
+        string = connected and icons.bluetooth_connected or icons.bluetooth,
+        color = connected and colors.green or colors.blue,
+      } })
+      power_toggle:set({ label = { string = "On", color = colors.green } })
+    end)
   end)
 end
 

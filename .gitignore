@@ -53,6 +53,7 @@ omp/.omp/agent/auth.json
 omp/.omp/agent/blobs/
 omp/.omp/gpu_cache.json
 omp/.omp/logs/
+omp/.omp/natives/
 
 # Pi (pi-coding-agent, ~/.pi) runtime / session files
 pi/.pi/agent/sessions/
@@ -62,6 +63,7 @@ pi/.pi/agent/auth.json
 pi/.pi/agent/blobs/
 pi/.pi/gpu_cache.json
 pi/.pi/logs/
+pi/.pi/natives/
 
 
 
