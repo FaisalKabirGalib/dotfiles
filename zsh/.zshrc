@@ -52,3 +52,57 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 export PATH="$HOME/.local/bin:$PATH"
 
 
+# --- Bonsai local LLM (llama.cpp, on-demand, :11436) ---
+# bz  = 1-bit (bonsai, fast/default) ; bz2 = 2-bit (ternary, sharper). Both take {8b|27b}; add "web" for UI.
+#   bz               8B 1-bit (default)     bz 27b           27B 1-bit
+#   bz2              8B 2-bit               bz2 27b          27B 2-bit
+#   bz web [args]    start with web UI      bz off | bz status   (off/status shared — one server on :11436)
+# Switching model while one is up auto-restarts. apfel still on :11434.
+_bz() {
+  local bits="$1"; shift
+  local port=11436 webui="--no-webui" size="8B" a
+  for a in "$@"; do
+    case "$a" in
+      web)            webui="" ;;                  # opt into the web UI
+      off|down|stop)  kill $(lsof -ti TCP:$port) 2>/dev/null && echo "bonsai stopped" || echo "not running"; return ;;
+      status)         curl -s --max-time 1 http://localhost:$port/health 2>/dev/null | grep -q ok \
+                        && echo "up on :$port ($(curl -s http://localhost:$port/v1/models 2>/dev/null | grep -o '[A-Za-z0-9._-]*\.gguf' | head -1))" \
+                        || echo "down"; return ;;
+      -h|--help|help) echo "bz|bz2 [web] [8b|27b]  |  bz off  |  bz status"; return ;;
+      8b|8B)          size="8B" ;;
+      27b|27B)        size="27B" ;;
+      *) echo "bz: unknown '$a' — try: bz|bz2 [web] [8b|27b] | off | status"; return 1 ;;
+    esac
+  done
+  local family file
+  [ "$bits" = 1 ] && family="bonsai" || family="ternary"   # 1-bit=bonsai, 2-bit=ternary
+  case "$family/$size" in
+    bonsai/8B)   file="Bonsai-8B-Q1_0.gguf" ;;
+    bonsai/27B)  file="Bonsai-27B-Q1_0.gguf" ;;
+    ternary/8B)  file="Ternary-Bonsai-8B-Q2_0.gguf" ;;
+    ternary/27B) file="Ternary-Bonsai-27B-Q2_0.gguf" ;;
+  esac
+  # already running? no-op if it's the same model, else restart to switch.
+  if curl -s --max-time 1 http://localhost:$port/health 2>/dev/null | grep -q ok; then
+    if curl -s http://localhost:$port/v1/models 2>/dev/null | grep -q "$file"; then
+      echo "already up: $file on :$port"; return 0
+    fi
+    echo "switching -> $file"; kill $(lsof -ti TCP:$port) 2>/dev/null; sleep 1
+  fi
+  # ponytail: $webui unquoted on purpose — empty => web UI on, set => single --no-webui token
+  ( cd "$HOME/work/bonsai/Bonsai-demo" && \
+    BONSAI_FAMILY=$family BONSAI_MODEL="$size" BONSAI_CTX=32768 BONSAI_PORT=$port \
+    nohup ./scripts/start_llama_server.sh $webui >"$HOME/Library/Logs/bonsai.log" 2>&1 & )
+  printf "starting %s-bit %s (%s) on :%s" "$bits" "$size" "$family" "$port"
+  [ -z "$webui" ] && printf " +webui http://localhost:%s" "$port"
+  local i
+  for i in {1..40}; do
+    curl -s --max-time 1 http://localhost:$port/health 2>/dev/null | grep -q ok && { echo " ready"; return 0; }
+    printf "."; sleep 1
+  done
+  echo " (still loading — see ~/Library/Logs/bonsai.log)"
+}
+bz()  { _bz 1 "$@"; }   # 1-bit (bonsai) — fast, default
+bz2() { _bz 2 "$@"; }   # 2-bit (ternary) — sharper
+
+

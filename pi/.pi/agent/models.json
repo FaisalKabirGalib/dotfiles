@@ -13,6 +13,20 @@
           "reasoning": false
         }
       ]
+    },
+    "bonsai": {
+      "baseUrl": "http://127.0.0.1:11436/v1",
+      "api": "openai-completions",
+      "apiKey": "none",
+      "models": [
+        {
+          "id": "Bonsai-8B-Q1_0.gguf",
+          "name": "Bonsai 8B (1-bit)",
+          "contextWindow": 32768,
+          "maxTokens": 4096,
+          "reasoning": true
+        }
+      ]
     }
   }
 }

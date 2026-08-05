@@ -71,6 +71,55 @@ pi() {
 	command pi "$@"
 }
 
+# === Local-model helpers (apfel / bonsai via pi -p) ===
+# Maps $AI_MODEL keyword -> pi provider+model flags. Default: apfel (Apple Intelligence).
+# Switch with: export AI_MODEL=bonsai   (start its server on 11436 first)
+# NOTE: pi needs --provider and --model as SEPARATE flags; the combined
+# "provider/id" form silently returns empty. Callers split with ${=...}.
+_ai_model() {
+	case "${AI_MODEL:-apfel}" in
+	bonsai) echo "--provider bonsai --model Bonsai-8B-Q1_0.gguf" ;;
+	*) echo "--provider apfel --model apple-foundationmodel" ;;
+	esac
+}
+
+# Type a QUOTED phrase at the prompt -> shell command staged on your next line
+# (via print -z, never auto-run). A real typo (no space in the name) errors normally.
+command_not_found_handler() {
+	if [[ "$1" == *" "* ]]; then # quoted natural-language phrase, not a typo
+		local out
+		out=$(pi -p -nt -ne -ns -np -nc --no-session \
+			${=$(_ai_model)} \
+			--system-prompt 'Output ONLY one shell command for macOS zsh that does what is asked. No prose, no markdown, no code fences.' \
+			"$*" 2>/dev/null)
+		# ponytail: small models wrap output in ```bash fences — strip fences,
+		# a leading language-tag line, and surrounding whitespace. Tune here if needed.
+		out="${out//\`\`\`/}"
+		out="${out#"${out%%[![:space:]]*}"}" # trim leading whitespace
+		case "${out%%$'\n'*}" in             # drop a leading "bash"/"sh"/"zsh" line
+		bash | sh | zsh | shell) out="${out#*$'\n'}" ;;
+		esac
+		out="${out#"${out%%[![:space:]]*}"}" # trim leading whitespace again
+		out="${out%"${out##*[![:space:]]}"}" # trim trailing whitespace
+		if [[ -n "$out" ]]; then
+			print -z "$out"
+		else
+			echo "no command produced" >&2
+		fi
+	else
+		echo "zsh: command not found: $1" >&2
+		return 127
+	fi
+}
+
+# pp "rough idea" -> one tight, small-model-friendly prompt printed for reuse
+pp() {
+	pi -p -nt -ne -ns -np -nc --no-session \
+		${=$(_ai_model)} \
+		--system-prompt 'Rewrite the user request into ONE tight prompt for a small (4-8B) local LLM: single task, explicit output format, no multi-step "and then", minimal context. Output only the rewritten prompt.' \
+		"$*"
+}
+
 # Automated Wireless Mirroring Utility
 scrcpy-wireless() {
   local adb_path="/opt/homebrew/share/android-commandlinetools/platform-tools/adb"
@@ -237,6 +286,12 @@ _yt_cookies() {
   print -r -- "$f"
 }
 
+_yt_clear() {
+  # Wipe residual fzf preview image (chafa kitty/sixel) + redraw the pane.
+  clear
+  [[ -z "$TMUX" ]] && printf '\e_Ga=d\e\\'  # kitty graphics: drop floating preview image
+}
+
 yt() {
   [[ -z "$1" ]] && { echo "Usage: yt <youtube-url | search terms>"; return 1; }
 
@@ -250,13 +305,14 @@ yt() {
     local pick
     pick=$(yt-dlp --cookies "$ck" --flat-playlist --no-warnings \
              --print $'%(id)s\t%(title)s\t%(duration_string)s\t%(uploader)s\t%(view_count)s' \
-             "ytsearch15:$*" 2>/dev/null \
+             "ytsearch30:$*" 2>/dev/null \
            | fzf --delimiter='\t' --with-nth=2,3,4 --reverse --height=90% \
                  --prompt="Select video: " \
-                 --preview='pt=none; [ -n "$TMUX" ] && pt=tmux; L=${FZF_PREVIEW_LINES:-20}; C=${FZF_PREVIEW_COLUMNS:-40}; printf "\033[1m%s\033[0m\n\033[2m%s  •  %s  •  %s views\033[0m\n" {2} {4} {3} {5}; { curl -fsL --max-time 6 https://i.ytimg.com/vi/{1}/maxresdefault.jpg 2>/dev/null || curl -sL --max-time 6 https://i.ytimg.com/vi/{1}/mqdefault.jpg 2>/dev/null; } | chafa --format=kitty --passthrough=$pt --size=${C}x$((L-3)) --animate=off - 2>/dev/null || echo "(thumbnail unavailable — brew install chafa)"; yes "" | head -n "$L"' \
+                 --preview='fmt=kitty; [ -n "$TMUX" ] && fmt=sixels; L=${FZF_PREVIEW_LINES:-20}; C=${FZF_PREVIEW_COLUMNS:-40}; printf "\033[1m%s\033[0m\n\033[2m%s  •  %s  •  %s views\033[0m\n" {2} {4} {3} {5}; { curl -fsL --max-time 6 https://i.ytimg.com/vi/{1}/maxresdefault.jpg 2>/dev/null || curl -sL --max-time 6 https://i.ytimg.com/vi/{1}/mqdefault.jpg 2>/dev/null; } | chafa --format=$fmt --passthrough=none --size=${C}x$((L-3)) --animate=off - 2>/dev/null || echo "(thumbnail unavailable — brew install chafa)"; yes "" | head -n "$L"' \
                  --preview-window='right,55%,border-left') || return
     [[ -z "$pick" ]] && { echo "❌ Nothing selected"; return 1; }
     url="https://www.youtube.com/watch?v=${pick%%$'\t'*}"
+    _yt_clear
   fi
 
   local action
@@ -280,10 +336,10 @@ _yt_watch() {
     local h="${choice%% *}"   # leading number
     fmt="bestvideo[vcodec^=vp9][height<=$h]+bestaudio/bestvideo[height<=$h]+bestaudio/best"
   fi
-  echo "▶  Streaming ($choice)…  (prefers VP9 for M2 hardware decode)"
-  mpv --hwdec=videotoolbox --vo=gpu-next \
+  echo "▶  Streaming ($choice)…  (VP9 / M2 hwdec, backgrounded — close the window to stop)"
+  nohup mpv --hwdec=videotoolbox --vo=gpu-next \
       --ytdl-raw-options=cookies="$ck" \
-      --ytdl-format="$fmt" "$url"
+      --ytdl-format="$fmt" "$url" </dev/null >/dev/null 2>&1 &!
 }
 
 _yt_download() {

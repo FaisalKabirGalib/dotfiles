@@ -33,12 +33,19 @@ exec-on-workspace-change = ['/bin/bash', '-c',
 # Trigger sketchybar updates instantly on window focus changes
 on-focus-changed = ['exec-and-forget sketchybar --trigger aerospace_focus_change']
 
-# Autostart: workspace 1 gets ghostty+tmux, workspace 2 gets zen-browser.
+# Autostart: ws1 = ghostty+tmux, ws2 = Zen browser, ws3 = WhatsApp. Nothing
+# else should come back on restart -- macOS's "Reopen windows when logging
+# back in" (TALLogoutSavesState) is what relaunches every previously-open app,
+# so we force it off here. It's read at logout/shutdown, so setting it on each
+# login guarantees it's false before the next restart. Idempotent.
 after-startup-command = [
+  'exec-and-forget defaults write com.apple.loginwindow TALLogoutSavesState -bool false',
   'workspace 1',
   'exec-and-forget open -a Ghostty -n --args -e tmux new -A -s Home',
   'workspace 2',
   'exec-and-forget open -a Zen',
+  'workspace 3',
+  'exec-and-forget open -a WhatsApp',
   'workspace 1',
 ]
 
@@ -187,3 +194,7 @@ run = 'move-node-to-workspace 1'
 [[on-window-detected]]
 if.app-id = 'app.zen-browser.zen'
 run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'net.whatsapp.WhatsApp'
+run = 'move-node-to-workspace 3'

@@ -1,7 +1,7 @@
 {
-  "defaultProvider": "apfel",
-  "defaultModel": "apple-foundationmodel",
-  "defaultThinkingLevel": "high",
+  "defaultProvider": "bonsai",
+  "defaultModel": "Bonsai-8B-Q1_0.gguf",
+  "defaultThinkingLevel": "medium",
   "lastChangelogVersion": "0.80.5",
   "theme": "dark"
 }

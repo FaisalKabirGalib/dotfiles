@@ -1,5 +1,13 @@
 # AGENTS.md - Dotfiles Workspace Instructions
 
+This workspace contains personal dotfiles managed with GNU Stow.
+It is optimized for a modular, Vim-centric, and aesthetically consistent Arch Linux environment.
+
+## Project Overview
+
+- **Management:** GNU Stow symlinks configurations from top-level directories to their targets (mostly ~/.config/).
+- **Structure:** One directory per application (
+
 This workspace contains personal dotfiles managed with **GNU Stow**. It is optimized for a modular, Vim-centric, and aesthetically consistent Arch Linux environment.
 
 ## Project Overview
