@@ -6,7 +6,6 @@
       "Bash(aerospace list-windows *)",
       "Bash(aerospace list-workspaces *)",
       "Bash(brew --version)",
-      "mcp__claude_ai_Google_Drive__search_files",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(tmux -V)",

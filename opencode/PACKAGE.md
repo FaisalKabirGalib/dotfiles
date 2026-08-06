@@ -17,10 +17,8 @@ source opencode/mcp-env.sh  # Load API keys
 
 ## MCP Servers Configured
 
-- `context7` — Codebase indexing/search
-- `sequential-thinking` — Advanced reasoning
+- `context7` — Library/framework documentation lookup
 - `zai-mcp-server` — Z.AI services
-- `Ref` — Reference tools
 - `web-search-prime` — Web search
 - `web-reader` — Web content reading
 

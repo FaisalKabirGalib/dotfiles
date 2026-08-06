@@ -32,7 +32,6 @@ return {
         "CONTEXT7_API_KEY",
         "ZAI_API_KEY",
         "ZAI_WEB_SEARCH_KEY",
-        "REF_API_KEY",
       }
       for _, var in ipairs(env_vars) do
         if not vim.env[var] then
