@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(brew:*)",
+      "Shell(python3 -c import json,sys; d=json.load(sys.stdin); print(d[0]['desc']))",
+      "Shell(python3 -c import json,sys; d=json.load(sys.stdin); print(d['desc']))",
+      "Shell(rm:*)",
+      "Shell(tsc:*)",
+      "Shell(cat /Users/galib/dotfiles/zsh/.config/zsh/.stow-local-ignore 2>/dev/null; echo \"---\"; ls -la /Users/galib/dotfiles/zsh/.config/zsh/ | head -20)",
+      "Shell(/opt/homebrew/opt/fzf/shell/key-bindings.zsh 2>/dev/null | grep -A 5 \"complete\" | head -30; echo \"---\"; ls /opt/homebrew/opt/fzf/shell/ 2>/dev/null; ls /usr/local/opt/fzf/shell/ 2>/dev/null)",
+      "Shell(fzf:*)",
+      "Shell(for:*)",
+      "Shell(do:*)",
+      "Shell(head:*)",
+      "Shell(grep:*)",
+      "Shell(done:*)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

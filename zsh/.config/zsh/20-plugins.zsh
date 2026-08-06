@@ -33,7 +33,6 @@ zinit light MichaelAquilina/zsh-you-should-use
 # Basic
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-zinit snippet OMZP::fzf
 zinit snippet OMZP::command-not-found
 
 # Tools
