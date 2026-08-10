@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze *)",
+      "Bash(sketchybar --query *)",
+      "Bash(aerospace list-windows *)",
+      "Bash(aerospace list-workspaces *)",
+      "Bash(brew --version)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(tmux -V)",
+      "Bash(tmux ls *)",
+      "Bash(tmux start-server *)"
+    ]
+  }
+}

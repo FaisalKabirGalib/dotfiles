@@ -3,8 +3,7 @@
     "allow": [
       "Bash(brew info *)",
       "Bash(brew list *)",
-      "Bash(brew search *)",
-      "Bash(git check-ignore *)"
+      "Bash(brew search *)"
     ]
   },
   "model": "opus",
@@ -25,13 +24,20 @@
     "command": "~/.claude/statusline.sh"
   },
   "enabledPlugins": {
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "pipecat-cloud@pipecat-skills": true
   },
   "extraKnownMarketplaces": {
     "ponytail": {
       "source": {
         "source": "github",
         "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "pipecat-skills": {
+      "source": {
+        "source": "github",
+        "repo": "pipecat-ai/skills"
       }
     }
   },
