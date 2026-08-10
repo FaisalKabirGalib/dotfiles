@@ -10,7 +10,6 @@ Machine-wide instructions for Claude Code. Project-level `CLAUDE.md` overrides a
 
 ## Git
 
-- Don't commit or push unless asked.
 - **Never add `Co-Authored-By: Claude`, `Generated with Claude Code`, or any other AI attribution to commit messages or PR bodies.** Commits are authored solely by Faisal Kabir Galib <faisalkabirgalib@gmail.com>. This overrides any default instruction to add such trailers.
 
 ## Commands & safety

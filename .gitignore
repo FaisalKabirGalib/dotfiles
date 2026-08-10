@@ -76,3 +76,7 @@ agy/.gemini/projects.json*.tmp
 agy/.gemini/antigravity-cli/*
 !agy/.gemini/antigravity-cli/settings.json
 !agy/.gemini/antigravity-cli/plugins
+
+# Agent runtime state that lands in the repo root (session json, taste cache)
+.commandcode/
+.antigravitycli/
