@@ -1,6 +1,8 @@
 # Dotfiles
 
-Personal dotfiles for Arch Linux + Hyprland. Managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Personal dotfiles, managed with [GNU Stow](https://www.gnu.org/software/stow/).
+
+One branch per machine: `m2-pro` and `mac-mini-m2` are macOS (Apple Silicon), `arch` and `omarchy` are Arch Linux + Hyprland, `server` is headless. The package list below is for the macOS branches.
 
 ## Quick Start
 
@@ -28,14 +30,17 @@ Or install individual packages:
 | `bin` | `~/.local/bin/` | Custom scripts and CLI tools |
 | `claude-code` | `~/.claude/` | Claude Code agent config |
 | `ghostty` | `~/.config/ghostty/` | Ghostty terminal |
+| `mpv` | `~/.config/mpv/` | mpv media player |
 | `nvim` | `~/.config/nvim/` | Neovim (LazyVim) |
 | `obsidian` | `~/.obsidian/` | Obsidian vault templates & scripts |
 | `opencode` | `~/.config/opencode/` | Opencode CLI config |
 | `p10k` | `~/.p10k.zsh` | Powerlevel10k theme |
 | `omp` | `~/.omp/agent/` | oh-my-pi coding agent (extensions, skills, prompts) |
+| `pi` | `~/.pi/agent/` | pi coding agent (models, settings) |
 | `raycast` | — | Raycast settings export (`.rayconfig`, GUI import/export only) |
+| `sketchybar` | `~/.config/sketchybar/` | SketchyBar status bar (macOS) |
 | `ssh` | `~/.ssh/` | SSH config (keys excluded) |
-| `tmux` | `~/.config/tmux/` | Tmux (prefix C-a) |
+| `tmux` | `~/.config/tmux/` | Tmux (prefix C-Space) |
 | `vscode` | `~/Library/Application Support/Code/User` | VS Code with Vim mode (macOS path) |
 | `wezterm` | `~/.config/wezterm/` | WezTerm terminal |
 | `yazi` | `~/.config/yazi/` | Yazi file manager |

@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-Personal dotfiles for **Arch Linux + Hyprland**, managed with **GNU Stow**. Each top-level directory is a "package" whose internal layout mirrors the home directory; stowing it symlinks the files into place. See `README.md` for the package/target table.
+Personal dotfiles managed with **GNU Stow**. Each top-level directory is a "package" whose internal layout mirrors the home directory; stowing it symlinks the files into place. See `README.md` for the package/target table.
+
+**One branch per machine — check which one you are on before assuming an OS.** This branch (`m2-pro`) and `mac-mini-m2` are **macOS (Apple Silicon)**; `arch` and `omarchy` are Arch Linux + Hyprland; `server` is headless. Packages that exist on one branch often do not exist on another.
 
 ## Stow Mechanics (read this before adding or moving config)
 
@@ -23,6 +25,11 @@ stow -R -t ~ <package>   # restow (after changing which files exist)
 `bin/.local/bin/dotfiles-sync [packages...]` (available as `dotfiles-sync` once the `bin` package is stowed, since `~/.local/bin` is on `$PATH`) is a convenience restow (`stow -R`); with no args it restows `nvim opencode`.
 
 **`.stow-local-ignore` gotcha:** when a package has a `.stow-local-ignore`, it *replaces* Stow's built-in default ignore list (which normally skips `.git`, `.gitignore`, etc.). Every package's ignore file must therefore explicitly list `\.git`, `\.gitignore`, `PACKAGE\.md`, `README\.md`, `LICENSE`, `\.stow-local-ignore` — otherwise Stow will try to symlink those repo-internal files into `$HOME`.
+
+## Gotchas
+
+- **Editing through a symlink can fail silently.** Always edit the real file in `~/dotfiles/<pkg>/`, never the stowed path under `~/.config/`. If a write to a symlinked path appears to succeed but the content is unchanged, that's why — redo it against the repo file.
+- **Commit new files immediately.** Automated checkpointing runs `git stash --include-untracked`, which swallows uncommitted new files. `git add` + commit as soon as you create one.
 
 ## Task Runner & Tooling
 
@@ -68,11 +75,14 @@ When adding a new system dependency, add it to `scripts/packages.txt` or `script
 - Theme: **Catppuccin Mocha** everywhere. Font: **JetBrainsMono Nerd Font**. **Vim-style keybindings** across all apps.
 - Machine-specific/secret files (auth tokens, SSH keys, credentials, agent sessions) are excluded via `.gitignore` and `.stow-local-ignore`.
 
-## Desktop / Window Manager (Hyprland)
+## Desktop (macOS)
 
-The **current** Hyprland config lives in `omarchy/.config/hypr/` (target `~/.config/hypr/`), alongside `omarchy/.config/omarchy/`. `omarchy/` also ships a Plymouth boot-splash theme under `usr/share/plymouth/`. `waybar/` is the status bar.
+- `aerospace/` — AeroSpace tiling WM (`~/.config/aerospace/`). Monitor/workspace assignments are machine-specific; expect this file to differ between the two Mac branches.
+- `sketchybar/` — status bar (`~/.config/sketchybar/`), Lua-configured.
+- `raycast/` — launcher settings. Export-only: `.rayconfig` is imported/exported through the GUI, not symlinked.
+- `ghostty/`, `wezterm/` — terminals.
 
-When editing Hyprland, waybar, walker, terminal, theme, or other desktop/compositor config under `~/.config/`, **use the `omarchy` skill** — it is the required path for end-user desktop customization.
+The Hyprland/waybar setup and the `omarchy` skill belong to the `arch`/`omarchy` branches and are not present here.
 
 ## AI Agent Packages
 
@@ -90,5 +100,5 @@ This repo manages config for several coding agents, each its own stow package:
 
 - `nvim/` — LazyVim-based Neovim. Plugins in `lua/plugins/`, pinned via `lazy-lock.json`. Multi-language: TS, Go, Dart/Flutter, Python, Lua.
 - `zsh/` — Zinit plugin manager, Powerlevel10k (`p10k/`), FZF (`Ctrl+R`/`Ctrl+T`), Zoxide.
-- `tmux/` — prefix `C-a`.
+- `tmux/` — prefix `C-Space`.
 - `obsidian/` — shared `.obsidian` config templates + vault lifecycle scripts in `bin/` (`obsidian-vault-init`, `obsidian-sync-config`, `obsidian-backup`). Notes live in separate repos; only config is tracked here.
