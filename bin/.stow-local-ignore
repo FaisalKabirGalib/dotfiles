@@ -4,3 +4,4 @@ LICENSE
 \.git
 \.stow-local-ignore
 \.gitignore
+dotfiles-sync
