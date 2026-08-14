@@ -11,6 +11,7 @@ LICENSE
 \.gemini/antigravity-cli/history\.jsonl
 \.gemini/antigravity-cli/import_manifest\.json
 \.gemini/antigravity-cli/installation_id
+\.gemini/antigravity-cli/settings\.json
 \.gemini/antigravity-cli/last_check\.timestamp
 \.gemini/antigravity-cli/updater/
 \.gemini/antigravity-cli/plugins/code-review/

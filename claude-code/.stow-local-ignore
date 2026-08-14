@@ -4,3 +4,11 @@ LICENSE
 \.git
 \.stow-local-ignore
 \.gitignore
+
+# Machine-generated plugin state, redownloaded by Claude Code on demand.
+# Mirrors .claude/.gitignore -- only plugins/blocklist.json is ours to manage.
+^/\.claude/plugins/marketplaces
+^/\.claude/plugins/cache
+^/\.claude/plugins/install-counts-cache\.json
+^/\.claude/plugins/installed_plugins\.json
+^/\.claude/plugins/known_marketplaces\.json

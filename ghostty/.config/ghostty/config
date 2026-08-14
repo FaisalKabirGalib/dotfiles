@@ -38,7 +38,7 @@ shell-integration = detect
 
 # Colors: inherit entirely from the active Omarchy theme so the terminal
 # tracks `omarchy theme set` automatically (no hardcoded palette overrides).
-theme = "/home/galib/.config/omarchy/current/theme/ghostty.conf"
+theme = "/home/galib/.local/state/omarchy/current/theme/ghostty.conf"
 
 # Cursor (style only — color is derived from the theme)
 cursor-style = block
@@ -49,3 +49,9 @@ mouse-scroll-multiplier = 0.95
 
 # Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
 async-backend = epoll
+
+# Send Shift+Enter as CSI-u so TUIs can distinguish it from Enter.
+keybind = shift+enter=csi:13;2u
+
+# Legacy encoding sends Alt+Shift+Enter the same as Alt+Enter; send CSI-u so tmux can match M-S-Enter.
+keybind = alt+shift+enter=csi:13;4u

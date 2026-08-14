@@ -5,7 +5,7 @@
 -- renders a 960x540 logical desktop -- everything looks zoomed in. Keep both
 -- of these at 1.
 local omarchy_gdk_scale = 1
-local omarchy_monitor_scale = 1
+local omarchy_monitor_scale = 1.25
 
 hl.env("GDK_SCALE", tostring(omarchy_gdk_scale))
 

@@ -11,6 +11,21 @@
       }
     ]
   },
-  "enabledPlugins": {},
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "model": "opus",
+  "extraKnownMarketplaces": {
+    "zai-coding-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "zai-org/zai-coding-plugins"
+      }
+    }
+  },
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
+  "editorMode": "vim",
+  "enabledPlugins": {
+    "glm-plan-usage@zai-coding-plugins": true
+  }
 }
