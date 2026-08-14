@@ -70,9 +70,18 @@ When adding a new system dependency, add it to `scripts/packages.txt` or `script
 
 ## Desktop / Window Manager (Hyprland)
 
-The **current** Hyprland config lives in `omarchy/.config/hypr/` (target `~/.config/hypr/`), alongside `omarchy/.config/omarchy/`. `omarchy/` also ships a Plymouth boot-splash theme under `usr/share/plymouth/`. `waybar/` is the status bar.
+The **current** Hyprland config lives in `omarchy/.config/hypr/` (target `~/.config/hypr/`), alongside `omarchy/.config/omarchy/`. `omarchy/` also ships a Plymouth boot-splash theme under `usr/share/plymouth/`.
 
-When editing Hyprland, waybar, walker, terminal, theme, or other desktop/compositor config under `~/.config/`, **use the `omarchy` skill** — it is the required path for end-user desktop customization.
+**Hyprland is configured in Lua, not `.conf`.** Since the Omarchy 4 ("Quattro") upgrade, `hyprctl systeminfo` reports `configProvider: lua` and Hyprland reads only `hyprland.lua` and the modules it requires (`monitors.lua`, `input.lua`, `bindings.lua`, `looknfeel.lua`, `autostart.lua`). Any `.conf` file placed here is silently ignored. Two consequences worth remembering:
+
+- `hyprctl keyword ...` no longer works ("keyword can't work with non-legacy parsers"). Scripts that reconfigure Hyprland at runtime must be rewritten against the Lua API (`hl.config`, `hl.animation`, `hl.workspace_rule`, `hl.on(...)`).
+- `hypridle.conf`, `hyprlock.conf` and `hyprsunset.conf` stay `.conf` — they are read by separate processes, not by Hyprland.
+
+The Lua API is stubbed at `/usr/share/hypr/stubs/hl.meta.lua`, and Omarchy's helpers (`o.bind`, `o.window`, `o.launch_on_start`) at `/usr/share/omarchy/default/hypr/helpers.lua`. Read both before editing.
+
+The status bar, launcher and notifications are Omarchy 4's own Quickshell shell, configured via `~/.config/omarchy/shell.json` — waybar, walker and swaync are no longer used here.
+
+When editing Hyprland, terminal, theme, or other desktop/compositor config under `~/.config/`, **use the `omarchy` skill** — it is the required path for end-user desktop customization.
 
 ## AI Agent Packages
 

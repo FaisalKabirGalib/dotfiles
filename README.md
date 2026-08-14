@@ -30,14 +30,13 @@ Or install individual packages:
 | `kitty` | `~/.config/kitty/` | Kitty terminal |
 | `nvim` | `~/.config/nvim/` | Neovim (LazyVim) |
 | `obsidian` | `~/.obsidian/` | Obsidian vault templates & scripts |
-| `omarchy` | `~/.config/hypr/` | Hyprland compositor + waybar |
+| `omarchy` | `~/.config/hypr/` | Hyprland compositor (Lua config) |
 | `opencode` | `~/.config/opencode/` | Opencode CLI config |
 | `p10k` | `~/` | Powerlevel10k theme |
 | `pi` | `~/.pi/` | Pi coding agent (extensions, skills, prompts) |
 | `ssh` | `~/.ssh/` | SSH config (keys excluded) |
 | `tmux` | `~/.config/tmux/` | Tmux (prefix C-a) |
 | `vscode` | `~/.config/Code/` | VS Code with Vim mode |
-| `waybar` | `~/.config/waybar/` | Waybar status bar |
 | `yazi` | `~/.config/yazi/` | Yazi file manager |
 | `zen-browser` | `~/.zen/` | Zen browser config |
 | `zsh` | `~/.config/zsh/` | Zsh + zinit + aliases |
