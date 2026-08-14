@@ -42,9 +42,11 @@ hl.config({
       xray = false,
       noise = 0.015,
       contrast = 1.0,
-      brightness = 0.9,
+      -- Keep the blur from darkening what shows through: at 0.65 terminal
+      -- opacity, brightness < 1 and any vibrancy_darkness read as "opaque".
+      brightness = 1.0,
       vibrancy = 0.18,
-      vibrancy_darkness = 0.05,
+      vibrancy_darkness = 0.0,
     },
 
     shadow = {
