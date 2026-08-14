@@ -1,5 +1,6 @@
 PACKAGE\.md
 README\.md
+.*\.md
 LICENSE
 \.git
 \.stow-local-ignore
