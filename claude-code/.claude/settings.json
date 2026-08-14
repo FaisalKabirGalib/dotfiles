@@ -8,6 +8,18 @@
   },
   "model": "opus",
   "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/plan-to-vault.sh\"",
+            "async": true
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
@@ -25,7 +37,8 @@
   },
   "enabledPlugins": {
     "ponytail@ponytail": true,
-    "pipecat-cloud@pipecat-skills": true
+    "pipecat-cloud@pipecat-skills": true,
+    "mattpocock-skills@mattpocock": true
   },
   "extraKnownMarketplaces": {
     "ponytail": {
@@ -39,10 +52,16 @@
         "source": "github",
         "repo": "pipecat-ai/skills"
       }
+    },
+    "mattpocock": {
+      "source": {
+        "source": "github",
+        "repo": "mattpocock/skills"
+      }
     }
   },
   "alwaysThinkingEnabled": true,
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "auto",
-  "tui": "fullscreen"
+  "theme": "auto"
 }
