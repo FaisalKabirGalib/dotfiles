@@ -25,15 +25,7 @@ done
 # source "$ZSH_CONFIG_DIR/60-functions.zsh"
 # source "$ZSH_CONFIG_DIR/70-theme.zsh"
 
-# NVM Configuration - Load after all other configurations
-export NVM_DIR="$HOME/.config/nvm"
-# Fix NPM_CONFIG_PREFIX issue before and after loading NVM
-unset NPM_CONFIG_PREFIX
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# Ensure NVM default is loaded and NPM_CONFIG_PREFIX is unset
-unset NPM_CONFIG_PREFIX
-nvm use default > /dev/null 2>&1
+# Node is managed by mise (see .config/zsh/80-mise.zsh); nvm has been removed.
 
 ## [Completion]
 ## Completion scripts setup. Remove the following line to uninstall
@@ -43,10 +35,6 @@ nvm use default > /dev/null 2>&1
 
 # Shopify Hydrogen alias to local projects
 alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
-
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
 
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"

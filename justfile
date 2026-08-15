@@ -1,5 +1,6 @@
 # Dotfiles task runner. Run `just` or `just --list` to see all commands.
-# Install just with: sudo pacman -S just  (or it's in scripts/packages.txt)
+# just is mise-managed (`mise use -g just`), installed by scripts/setup-mise.sh.
+# On a machine with neither, bootstrap with `./install.sh` instead.
 
 # Show available commands
 default:
@@ -29,29 +30,42 @@ packages:
 aur:
     bash scripts/install-aur.sh
 
+# Install the mise toolchain from mise/.config/mise/config.toml
+tools:
+    bash scripts/setup-mise.sh
+
+# Upgrade every mise-managed tool and refresh generated shell completions
+tools-upgrade:
+    mise upgrade
+    @rm -f "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/_bun"
+
+# Show mise-managed tools with a newer release available
+tools-outdated:
+    @mise outdated
+
 # Health check: stow conflicts, broken symlinks, missing PACKAGE.md markers
 doctor:
     @bash scripts/doctor.sh
 
 # Lint all shell scripts with shellcheck (no-op if not installed)
 lint:
-    @command -v shellcheck >/dev/null 2>&1 \
-        && git ls-files '*.sh' stowup stowDown install.sh bin/ | xargs -r shellcheck \
-        && echo "shellcheck: clean" \
-        || echo "shellcheck not installed (pacman -S shellcheck)"
+    @if command -v shellcheck >/dev/null 2>&1; then \
+        git ls-files '*.sh' stowup stowDown install.sh bin/ | xargs -r shellcheck \
+            && echo "shellcheck: clean"; \
+    else echo "shellcheck not installed (mise use -g shellcheck)"; fi
 
 # Format all shell scripts with shfmt (tabs, no-op if not installed)
 fmt:
-    @command -v shfmt >/dev/null 2>&1 \
-        && shfmt -w -i 0 $(git ls-files '*.sh' stowup stowDown install.sh) \
-        && echo "shfmt: formatted" \
-        || echo "shfmt not installed (pacman -S shfmt)"
+    @if command -v shfmt >/dev/null 2>&1; then \
+        shfmt -w -i 0 $(git ls-files '*.sh' stowup stowDown install.sh) \
+            && echo "shfmt: formatted"; \
+    else echo "shfmt not installed (mise use -g shfmt)"; fi
 
 # Scan working tree for committed secrets (no-op if gitleaks not installed)
 secrets:
-    @command -v gitleaks >/dev/null 2>&1 \
-        && gitleaks detect --no-banner --source . \
-        || echo "gitleaks not installed (pacman -S gitleaks)"
+    @if command -v gitleaks >/dev/null 2>&1; then \
+        gitleaks detect --no-banner --source .; \
+    else echo "gitleaks not installed (mise use -g gitleaks)"; fi
 
 # Install the pre-commit hook (gitleaks + shellcheck) into .git/hooks
 install-hooks:

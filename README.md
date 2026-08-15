@@ -28,6 +28,7 @@ Or install individual packages:
 | `claude-code` | `~/.claude/` | Claude Code agent config |
 | `ghostty` | `~/.config/ghostty/` | Ghostty terminal |
 | `kitty` | `~/.config/kitty/` | Kitty terminal |
+| `mise` | `~/.config/mise/` | Toolchain manager (runtimes + dev CLIs) |
 | `nvim` | `~/.config/nvim/` | Neovim (LazyVim) |
 | `obsidian` | `~/.obsidian/` | Obsidian vault templates & scripts |
 | `omarchy` | `~/.config/hypr/` | Hyprland compositor (Lua config) |
@@ -53,13 +54,25 @@ Or install individual packages:
 
 | Script | Purpose |
 |--------|---------|
-| `install.sh` | Full setup (packages + stow + shell + nvim) |
+| `install.sh` | Full setup (packages + stow + mise + shell + nvim) |
 | `stowup` / `stowDown` | Symlink management |
 | `scripts/install-packages.sh` | pacman packages from `scripts/packages.txt` |
 | `scripts/install-aur.sh` | AUR packages from `scripts/aur-packages.txt` |
 | `scripts/stow-all.sh` | Stow all packages |
+| `scripts/setup-mise.sh` | Runtimes, dev CLIs and coding-agent wrappers |
 | `scripts/setup-shell.sh` | zsh + zinit |
 | `scripts/setup-neovim.sh` | Lazy.nvim bootstrap |
+
+## Toolchain
+
+Language runtimes and developer CLIs are managed by [mise](https://mise.jdx.dev),
+not pacman — see `mise/PACKAGE.md` for the ownership split.
+
+```bash
+just tools           # install everything in mise/.config/mise/config.toml
+just tools-outdated  # what has a newer release
+just tools-upgrade   # upgrade and refresh generated completions
+```
 
 ## Theme & Fonts
 

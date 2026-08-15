@@ -3,6 +3,10 @@
 # =============================================================================
 # This file contains all PATH exports and environment variables
 
+# Keep $path (and therefore $PATH) unique. Every export below prepends
+# unconditionally, so without this a nested zsh accumulates duplicate entries.
+typeset -U path PATH
+
 # Homebrew (macOS)
 if [[ -f "/opt/homebrew/bin/brew" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -14,25 +18,17 @@ export PATH="$HOME/.local/script:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 
-# Bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Dynamic Flutter Setup
-# Adds the first existing Flutter SDK bin dir to PATH (manual installs); the
-# AUR/system flutter at /usr/bin/flutter is already on PATH via /usr/bin.
-for flutter_dir in "$HOME/development/flutter" "$HOME/Dev/flutter" "/opt/homebrew/share/flutter"; do
-  if [[ -d "$flutter_dir/bin" ]]; then
-    export PATH="$flutter_dir/bin:$PATH"
-    break
-  fi
-done
+# Bun, Flutter/Dart, Go, Java, Node, Python, Rust and Ruby are all mise-managed.
+# See .config/zsh/80-mise.zsh for activation and mise/PACKAGE.md for the rationale.
 
 # Mason (Dart tooling)
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-#Go path 
-GOPATH=$HOME/go PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+# Binaries from `go install` (mise sets GOROOT/GOPATH itself; this is only the
+# bin dir). NOTE: the previous line here was `GOPATH=$HOME/go PATH=...` without
+# `export`, which is a prefix assignment — neither variable ever reached the
+# environment.
+export PATH="$PATH:$HOME/go/bin"
 
 # Shorebird
 export PATH="$PATH":"$HOME/.shorebird/bin/shorebird"
@@ -44,6 +40,5 @@ export PATH="$HOME/.claude-code-templates/bin:$PATH"
 
 # Preferred editor
 export EDITOR="nvim"
-# SDKMAN (MUST BE AT THE END FOR SDKMAN TO WORK)
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# (SDKMAN removed: ~/.sdkman never existed on this machine and mise provides java.)

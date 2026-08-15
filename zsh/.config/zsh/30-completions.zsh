@@ -19,5 +19,5 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 [[ -f "$HOME/.config/.dart-cli-completion/zsh-config.zsh" ]] && . "$HOME/.config/.dart-cli-completion/zsh-config.zsh" || true
 ## [/Completion]
 
-# Bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+# Bun completions live in 80-mise.zsh — bun is mise-managed and only resolves to
+# the right binary after `mise activate`.

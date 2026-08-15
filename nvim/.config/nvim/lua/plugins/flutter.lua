@@ -12,10 +12,16 @@ return {
     config = function()
       require("flutter-tools").setup({
         flutter_path = (function()
+          -- Flutter is mise-managed, so PATH is the source of truth. exepath()
+          -- resolves whatever `mise activate` (or the mise shims dir) put there.
+          local on_path = vim.fn.exepath("flutter")
+          if on_path ~= "" then
+            return on_path
+          end
+          -- Fallbacks for machines that still carry a manual SDK.
           local candidates = {
             "/usr/bin/flutter", -- Arch AUR / system install
             vim.fn.expand("$HOME/development/flutter/bin/flutter"),
-            vim.fn.expand("$HOME/Dev/flutter/bin/flutter"),
             "/opt/homebrew/share/flutter/bin/flutter", -- macOS
           }
           for _, path in ipairs(candidates) do

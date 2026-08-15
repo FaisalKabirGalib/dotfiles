@@ -12,8 +12,9 @@ echo "This script will:"
 echo "  1. Install system packages (pacman)"
 echo "  2. Install AUR packages (yay/paru)"
 echo "  3. Stow dotfile packages"
-echo "  4. Set up zsh + zinit"
-echo "  5. Bootstrap neovim"
+echo "  4. Install the mise toolchain (runtimes, dev CLIs, coding agents)"
+echo "  5. Set up zsh + zinit"
+echo "  6. Bootstrap neovim"
 echo ""
 read -p "Continue? (Y/n): " -r
 [[ "${REPLY,,}" == "n" ]] && echo "Cancelled." && exit 0
@@ -38,12 +39,17 @@ echo ""
 echo "--- Stowing Dotfiles ---"
 bash "$SCRIPTS_DIR/stow-all.sh"
 
-# Step 4: Shell setup
+# Step 4: Toolchain (must follow stow: reads the stowed ~/.config/mise/config.toml)
+echo ""
+echo "--- Toolchain (mise) ---"
+bash "$SCRIPTS_DIR/setup-mise.sh"
+
+# Step 5: Shell setup
 echo ""
 echo "--- Shell Setup ---"
 bash "$SCRIPTS_DIR/setup-shell.sh"
 
-# Step 5: Neovim setup
+# Step 6: Neovim setup
 echo ""
 echo "--- Neovim Setup ---"
 bash "$SCRIPTS_DIR/setup-neovim.sh"

@@ -42,6 +42,36 @@ just install-hooks   # enable the .githooks pre-commit hook
 - **`scripts/doctor.sh`** (`just doctor`) reports: packages missing a `PACKAGE.md`, packages whose target is a *real file* instead of a symlink (config drift — resolve with `stow --adopt <pkg>` after reviewing), and broken symlinks. Expect `auth.json`-type secrets to show as real files; that's intentional.
 - **`.githooks/pre-commit`** runs `gitleaks` (secret scan of staged changes) and `shellcheck` (staged shell scripts). Enabled via `git config core.hooksPath .githooks`. Each check no-ops gracefully if its tool isn't installed. The tooling (`just`, `shellcheck`, `shfmt`, `gitleaks`, `stow`) is in `scripts/packages.txt`.
 
+## Toolchain: mise Owns Runtimes, pacman Owns the System
+
+**Never add a language runtime or dev CLI to `scripts/packages.txt`.** They belong
+in `mise/.config/mise/config.toml` (stow package `mise`, target `~/.config/mise/`).
+
+| Manager | Owns |
+|---------|------|
+| `mise` | node, bun, python, go, rust, java, ruby, flutter (Dart comes bundled with it); dev CLIs — `uv`, `just`, `shellcheck`, `shfmt`, `gitleaks`, `terraform`, `awscli`, `sqlc`, `hugo`, `lazygit`, `lazydocker`, `tree-sitter`, `pnpm`, `npm:typescript`, `npm:ts-node`, `npm:wscat`; all AI coding agents |
+| `pacman` | desktop, system libraries, and everyday CLI utilities Arch patches for security (`rg`, `fd`, `bat`, `eza`, `fzf`, `zoxide`, `starship`, `delta`, `nvim`, `tmux`, `docker`), plus `mise` and `stow` themselves |
+
+Not in the mise registry, so they stay on pacman: `stow`, `composer`, `luarocks`,
+`cursor-cli`. `deno` also stays — it is a hard dependency of `yt-dlp-ejs`.
+
+**Precedence is the subtle part.** Omarchy *appends* `~/.local/share/mise/shims`
+to `PATH` (`/usr/share/omarchy/default/bash/env-bootstrap`), which leaves
+`/usr/bin` shadowing every mise runtime. `zsh/.config/zsh/80-mise.zsh` runs
+`mise activate zsh`, which *prepends*. It is numbered `80` deliberately: it must
+load after every `export PATH="...:$PATH"` in the earlier zsh modules.
+
+AI agents are **not** installed directly. Omarchy's `omarchy-mise-install <pkg>
+[cmd] [bin]` writes a self-updating wrapper into `~/.local/bin` that runs
+`mise use -g <pkg>` on each invocation. Since `~/.config/mise/config.toml` is a
+symlink into this repo, those writes land in the git tree — every wrapper-managed
+tool is pinned `"latest"` there so the write stays content-neutral. `scripts/setup-mise.sh`
+recreates the wrappers and no-ops off Omarchy.
+
+Global npm packages (pi extensions, MCP servers) live in mise's node install
+prefix and are **wiped when the pinned node version changes** — reinstall them
+with `mise x node -- npm install -g ...` after a major node bump.
+
 ## Installation Flow
 
 `./install.sh` is the orchestrator and calls, in order, the scripts in `scripts/`:
@@ -49,10 +79,11 @@ just install-hooks   # enable the .githooks pre-commit hook
 1. `install-packages.sh` — pacman packages listed in `scripts/packages.txt`
 2. `install-aur.sh` — AUR packages in `scripts/aur-packages.txt` (skipped if no `yay`/`paru`)
 3. `stow-all.sh` — stows all `PACKAGE.md` packages (same loop as `stowup`)
-4. `setup-shell.sh` — zsh + zinit
-5. `setup-neovim.sh` — Lazy.nvim bootstrap
+4. `setup-mise.sh` — `mise install` + coding-agent wrappers. **Must run after `stow-all.sh`**: it reads the stowed `~/.config/mise/config.toml`.
+5. `setup-shell.sh` — zsh + zinit
+6. `setup-neovim.sh` — Lazy.nvim bootstrap
 
-When adding a new system dependency, add it to `scripts/packages.txt` or `scripts/aur-packages.txt` (one per line, `#` comments allowed) rather than hardcoding installs elsewhere.
+When adding a new **system** dependency, add it to `scripts/packages.txt` or `scripts/aur-packages.txt` (one per line, `#` comments allowed) rather than hardcoding installs elsewhere. For a **runtime or dev CLI**, run `mise use -g <tool>` instead — it writes through the symlink into `mise/.config/mise/config.toml`.
 
 ## Adding a Package
 

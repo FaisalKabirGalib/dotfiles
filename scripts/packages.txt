@@ -16,21 +16,20 @@ ripgrep
 bat
 eza
 zoxide
-nodejs
-npm
 python
-python-pip
 hyprland
 waybar
 rofi
 wl-clipboard
 cliphist
 
-# Dotfiles tooling: task runner, shell lint/format, secret scanning, symlinks
-just
-shellcheck
-shfmt
-gitleaks
+# Toolchain manager. Owns language runtimes (node, bun, python, go, rust, java,
+# ruby, flutter) and dev CLIs (just, shellcheck, shfmt, gitleaks, terraform, ...)
+# — see mise/PACKAGE.md. Deliberately NOT duplicated here as pacman packages.
+mise
+
+# Symlink manager. Stays on pacman: no mise registry entry, and it is needed
+# before ~/.config/mise/config.toml can be stowed into place.
 stow
 
 # Desktop rice: notification center, media control for waybar, audio visualizer
