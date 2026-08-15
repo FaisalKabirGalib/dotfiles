@@ -13,7 +13,12 @@ if [[ -f "/opt/homebrew/bin/brew" ]]; then
 fi
 
 # Custom PATH entries
-export PATH="$HOME/dotfiles/bin:$HOME/dotfiles:$PATH"
+# NOTE: the repo root itself is deliberately NOT on PATH. Every top-level stow
+# package is a directory there, so a package named after a real command (`mise`,
+# `nvim`, `tmux`, ...) becomes a PATH candidate — mise resolved its own binary to
+# ~/dotfiles/mise and generated 136 broken shims. stowup/stowDown are exposed
+# through the `bin` package (~/.local/bin) instead.
+export PATH="$HOME/dotfiles/bin:$PATH"
 export PATH="$HOME/.local/script:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
