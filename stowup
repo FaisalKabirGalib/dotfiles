@@ -1,27 +1,14 @@
 #!/usr/bin/env bash
-# Stow dotfile packages. With no args, stows every package containing a
-# PACKAGE.md marker. With args, stows only the named packages.
-#
-#   ./stowup            # stow all packages
-#   ./stowup nvim zsh   # stow only nvim and zsh
-
 set -euo pipefail
 
-stow_pkg() {
-	local pkg="${1%/}"
-	if [ ! -f "$pkg/PACKAGE.md" ]; then
-		echo "skipping $pkg (no PACKAGE.md)" >&2
-		return
-	fi
-	echo "stowing $pkg"
-	stow -D "$pkg" 2>/dev/null || true
-	stow "$pkg"
-}
+source "$(dirname -- "${BASH_SOURCE[0]}")/scripts/stow-common.sh"
 
-echo "stowing dotfiles....."
+echo "stowing dotfiles..."
 
-if [ "$#" -gt 0 ]; then
-	for pkg in "$@"; do stow_pkg "$pkg"; done
+if [[ "$#" -gt 0 ]]; then
+	for package in "$@"; do
+		stow_package stow "$package"
+	done
 else
-	for pkg in */; do stow_pkg "$pkg"; done
+	stow_all_packages stow
 fi

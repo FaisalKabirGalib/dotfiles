@@ -47,17 +47,22 @@ tools-outdated:
 doctor:
     @bash scripts/doctor.sh
 
+# Repository-only validation: shell syntax plus dotfile health checks
+validate:
+    @bash -n $(git ls-files '*.sh' stowup stowDown install.sh)
+    @bash scripts/doctor.sh
+
 # Lint all shell scripts with shellcheck (no-op if not installed)
 lint:
     @if command -v shellcheck >/dev/null 2>&1; then \
-        git ls-files '*.sh' stowup stowDown install.sh bin/ | xargs -r shellcheck \
+        shellcheck -x --severity=error $(git ls-files '*.sh' 'bin/.local/bin/*' 'bin/.local/script/*' stowup stowDown install.sh) scripts/stow-common.sh \
             && echo "shellcheck: clean"; \
     else echo "shellcheck not installed (mise use -g shellcheck)"; fi
 
 # Format all shell scripts with shfmt (tabs, no-op if not installed)
 fmt:
     @if command -v shfmt >/dev/null 2>&1; then \
-        shfmt -w -i 0 $(git ls-files '*.sh' stowup stowDown install.sh) \
+        shfmt -w -i 0 $(git ls-files '*.sh' stowup stowDown install.sh) scripts/stow-common.sh \
             && echo "shfmt: formatted"; \
     else echo "shfmt not installed (mise use -g shfmt)"; fi
 

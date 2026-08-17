@@ -25,19 +25,26 @@ Or install individual packages:
 |---------|--------|-------------|
 | `bin` | `~/.local/bin/` | Custom scripts and CLI tools |
 | `boot` | `/boot/` | Bootloader config (limine) |
+| `cava` | `~/.config/cava/` | Audio visualizer |
 | `claude-code` | `~/.claude/` | Claude Code agent config |
+| `gemini` | `~/.gemini/` | Gemini CLI agents, policies, and commands |
+| `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI config |
 | `ghostty` | `~/.config/ghostty/` | Ghostty terminal |
 | `kitty` | `~/.config/kitty/` | Kitty terminal |
 | `mise` | `~/.config/mise/` | Toolchain manager (runtimes + dev CLIs) |
+| `mpv` | `~/.config/mpv/` | GPU-accelerated media player |
 | `nvim` | `~/.config/nvim/` | Neovim (LazyVim) |
 | `obsidian` | `~/.obsidian/` | Obsidian vault templates & scripts |
 | `omarchy` | `~/.config/hypr/` | Hyprland compositor (Lua config) |
 | `opencode` | `~/.config/opencode/` | Opencode CLI config |
 | `p10k` | `~/` | Powerlevel10k theme |
-| `pi` | `~/.pi/` | Pi coding agent (extensions, skills, prompts) |
+| `pi` | `~/.omp/agent/` | oh-my-pi coding agent config |
+| `pi.old` | `~/.pi/` | Deprecated legacy Pi config |
 | `ssh` | `~/.ssh/` | SSH config (keys excluded) |
+| `swaync` | `~/.config/swaync/` | Notification center |
 | `tmux` | `~/.config/tmux/` | Tmux (prefix C-a) |
 | `vscode` | `~/.config/Code/` | VS Code with Vim mode |
+| `wlogout` | `~/.config/wlogout/` | Wayland power menu |
 | `yazi` | `~/.config/yazi/` | Yazi file manager |
 | `zen-browser` | `~/.zen/` | Zen browser config |
 | `zsh` | `~/.config/zsh/` | Zsh + zinit + aliases |
@@ -79,6 +86,8 @@ just tools-upgrade   # upgrade and refresh generated completions
 - **Theme**: Catppuccin Mocha (everywhere)
 - **Font**: JetBrainsMono Nerd Font
 - **Keybindings**: Vim-style across all apps
+
+`pi.old` is retained for reference and should not be installed on new machines.
 
 ## Philosophy
 

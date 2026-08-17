@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$DOTFILES_DIR"
+# shellcheck source=scripts/stow-common.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/stow-common.sh"
 
 echo "Stowing all dotfile packages..."
-
-for pkg in */; do
-	pkg="${pkg%/}"
-	[ -f "$pkg/PACKAGE.md" ] || continue
-	echo "  stowing $pkg"
-	stow -D "$pkg" 2>/dev/null || true
-	stow "$pkg"
-done
+stow_all_packages stow
 
 echo "All packages stowed."
