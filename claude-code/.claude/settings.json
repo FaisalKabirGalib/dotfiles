@@ -1,4 +1,5 @@
 {
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -11,21 +12,27 @@
       }
     ]
   },
-  "alwaysThinkingEnabled": true,
-  "model": "opus",
+  "enabledPlugins": {
+    "glm-plan-usage@zai-coding-plugins": true,
+    "understand-anything@understand-anything": true
+  },
   "extraKnownMarketplaces": {
     "zai-coding-plugins": {
       "source": {
         "source": "github",
         "repo": "zai-org/zai-coding-plugins"
       }
+    },
+    "understand-anything": {
+      "source": {
+        "source": "github",
+        "repo": "Egonex-AI/Understand-Anything"
+      }
     }
   },
+  "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "editorMode": "vim",
-  "enabledPlugins": {
-    "glm-plan-usage@zai-coding-plugins": true
-  }
+  "editorMode": "vim"
 }

@@ -36,3 +36,16 @@ stow
 swaync
 playerctl
 cava
+
+# Media + the `yt` shell function (zsh/.config/zsh/60-functions.zsh):
+# yt-dlp fetches, mpv streams, chafa renders thumbnails in the fzf picker.
+# intel-media-driver provides VA-API hardware decode for Iris Xe — see mpv/PACKAGE.md.
+mpv
+yt-dlp
+chafa
+intel-media-driver
+
+# Wireless Android screen mirroring via the `mirror` alias / scrcpy-wireless.
+# android-tools supplies adb.
+scrcpy
+android-tools

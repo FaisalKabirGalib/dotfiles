@@ -126,7 +126,76 @@ This repo manages config for several coding agents, each its own stow package:
 | `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI — **symlinks its agents from the `gemini` package** to avoid duplication |
 | `pi.old` | `~/.pi/` | Deprecated previous pi config, kept for reference |
 
+### Skills & Extensions
+
+- **Agent Browser** skill installed at `~/.agents/skills/agent-browser/` (managed by `npx skills add`, not stowed)
+  - Provides browser automation for web testing, form filling, screenshots, and data extraction
+  - See "Browser Automation: Agent Browser" section below for usage
+
 `opencode/` is a separate CLI; its MCP API keys load from `opencode/mcp-env.sh` (private, not committed) via the `opencode` zsh function.
+
+## Browser Automation: Agent Browser
+
+**Agent Browser** is installed as a skill for Claude Code at `~/.agents/skills/agent-browser/`. It provides browser automation for web testing, form filling, screenshots, and data extraction.
+
+### When to Use Agent Browser
+
+Use it for:
+- Opening websites and taking screenshots
+- Filling forms, clicking buttons, testing web apps
+- Scraping data from web pages
+- Automating login flows or authenticated sessions
+- Running E2E tests or QA checks
+- Dogfooding and exploratory testing
+- Automating Electron apps (VS Code, Slack, Discord, etc.)
+
+### Core Workflow
+
+```bash
+# Navigate to a page
+agent-browser open <url>
+
+# Get interactive elements with refs (@e1, @e2, etc.)
+agent-browser snapshot -i
+
+# Interact using refs
+agent-browser click @e1
+agent-browser fill @e2 "text"
+
+# Take screenshot
+agent-browser screenshot page.png
+
+# Close browser when done
+agent-browser close
+```
+
+### Key Commands
+
+| Command | Description |
+|---------|-------------|
+| `open <url>` | Navigate to URL |
+| `snapshot -i` | Get interactive elements with refs |
+| `click @eN` | Click element by ref |
+| `fill @eN "text"` | Fill input by ref |
+| `screenshot [path]` | Take screenshot |
+| `read [url]` | Fetch agent-readable markdown |
+| `close` | Close browser |
+| `--headed` | Show browser window for debugging |
+
+### Session Persistence
+
+```bash
+# Save and restore auth state across sessions
+SESSION="$(agent-browser session id --scope worktree --prefix myapp)"
+agent-browser --session "$SESSION" --restore open https://app.example.com
+```
+
+### Notes
+
+- Refs (`@e1`, `@e2`) from `snapshot -i` are deterministic and AI-friendly
+- Re-run `snapshot` after page changes to get fresh refs
+- First run downloads Chrome from Chrome for Testing automatically
+- Skill is loaded at runtime from the CLI: `agent-browser skills get core`
 
 ## Other Notable Packages
 

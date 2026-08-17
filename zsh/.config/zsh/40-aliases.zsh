@@ -73,3 +73,7 @@ alias zln='zmv -L'
 # === Named Directories (Bookmarks) ===
 hash -d dot=~/dotfiles
 hash -d dl=~/Downloads
+
+# === Wireless Mirroring Shortcut ===
+# scrcpy-wireless is defined in 60-functions.zsh
+alias mirror="scrcpy-wireless"

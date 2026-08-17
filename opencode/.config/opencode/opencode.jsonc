@@ -71,6 +71,14 @@
         "Authorization": "Bearer {env:ZAI_WEB_SEARCH_KEY}"
       },
       "enabled": true
+    },
+    "agent-browser": {
+      "type": "local",
+      "command": [
+        "agent-browser",
+        "mcp"
+      ],
+      "enabled": true
     }
   }
 }
