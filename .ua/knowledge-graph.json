@@ -33,7 +33,7 @@
     ],
     "description": "Personal Arch Linux and Hyprland dotfiles managed with GNU Stow.",
     "analyzedAt": "2026-08-18T07:04:53.905Z",
-    "gitCommitHash": "92e047bbc589e17125c8abb20aadca34d50f9766"
+    "gitCommitHash": "bae7cf95426e799e18bb0372925350080674af26"
   },
   "nodes": [
     {
