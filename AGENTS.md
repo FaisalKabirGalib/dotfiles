@@ -55,3 +55,9 @@ The local environment may use automated checkpointing or stashing.
 - **Pi Agent:** Config and extensions in `pi/.pi/`.
 - **Claude Code:** Custom commands in `claude-code/.claude/commands/`.
 - **Opencode:** MCP server configuration in `opencode/.config/opencode/`.
+
+## Knowledge Graph
+
+- **Graph:** `.ua/knowledge-graph.json` maps the repository architecture, files, and relationships.
+- **Metadata:** `.ua/meta.json` records the commit and analysis time.
+- **Refresh:** Run `/understand` after structural changes; preserve `.ua/intermediate/scan-result.json` for incremental updates.

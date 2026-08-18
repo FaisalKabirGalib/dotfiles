@@ -1,0 +1,100 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions — uncomment to activate.
+# Use ! prefix to force-include something excluded by defaults.
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+
+# --- From .gitignore (uncomment to exclude) ---
+
+# *.pem
+# *.key
+# id_rsa
+# id_ed25519
+# ssh/.ssh/id_*
+# ssh/.ssh/*.pem
+# ssh/.ssh/*.key
+# ssh/.ssh/known_hosts
+# ssh/.ssh/known_hosts.old
+# ssh/.ssh/authorized_keys
+# !ssh/.ssh/config
+# *.local
+# !bin/.local/
+# !bin/.local/**
+# .env
+# credentials*
+# *.bak
+# *~
+# *.swp
+# tmux-client-*.log
+# tmux-server-*.log
+# pi/.omp/agent/sessions/
+# pi/.omp/agent/terminal-sessions/
+# pi/.omp/agent/blobs/
+# pi/.omp/agent/*.db*
+# pi/.omp/agent/auth.json
+# pi/.omp/agent/last-changelog-version
+# pi.old/.pi/agent/sessions/
+# pi.old/.pi/agent/terminal-sessions/
+# pi.old/.pi/agent/blobs/
+# pi.old/.pi/agent/*.db*
+# pi.old/.pi/agent/auth.json
+# pi.old/.pi/agent/last-changelog-version
+# agy/.gemini/antigravity-cli/settings.json
+
+# --- Detected directories (uncomment to exclude) ---
+
+# scripts/
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# JS / TS
+# *.test.*
+# *.spec.*
+# *.snap
+# C# / .NET
+# **/*Tests.cs
+# **/*Test.cs
+# **/*Fixture.cs
+# **/*.Tests.csproj
+# Java / Kotlin
+# **/src/test/**
+# **/*Test.java
+# **/*IT.java
+# **/*Spec.kt
+# Go
+# **/*_test.go
+# C++
+# **/*_test.cc
+# **/*_test.cpp
+# **/*_test.cxx
+# **/*Test.cc
+# **/*Test.cpp
+# **/*_unittest.cc
+# **/*_unittest.cpp
+# **/*_browsertest.cc
+# **/*_benchmark.cc
+# **/*Benchmark.cpp
+# Python
+# **/test_*.py
+# **/*_test.py
+# **/tests.py
+# **/conftest.py
+# Rust
+# **/tests.rs
+# **/test_*.rs
+# **/*_test.rs
+# **/bench_*.rs
+# **/*_bench.rs
+# Ruby
+# **/*_spec.rb
+# **/*_test.rb
+# **/test_*.rb
+# **/spec_helper.rb
+# **/test_helper.rb
+# **/rails_helper.rb
+# Swift
+# **/Tests/**/*.swift
+# **/Specs/**/*.swift

@@ -1,0 +1,4650 @@
+{
+  "scriptCompleted": true,
+  "contentDigest": "0857576b109a9837df20adc3b2c68f35e75f9f86eb497a526bd8fdd34dccfb92",
+  "name": "Dotfiles",
+  "description": "Personal Arch Linux and Hyprland dotfiles managed with GNU Stow.",
+  "languages": [
+    "markdown",
+    "unknown",
+    "json",
+    "conf",
+    "frag",
+    "vert",
+    "toml",
+    "shell",
+    "lua",
+    "template",
+    "base",
+    "css",
+    "txt",
+    "hook",
+    "list",
+    "jsonc",
+    "typescript",
+    "javascript",
+    "python",
+    "xml",
+    "yaml",
+    "config",
+    "backup"
+  ],
+  "frameworks": [
+    "GNU Stow",
+    "Hyprland",
+    "LazyVim"
+  ],
+  "files": [
+    {
+      "path": ".commandcode/taste/taste.md",
+      "language": "markdown",
+      "sizeLines": 2,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".gitattributes",
+      "language": "unknown",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".githooks/pre-commit",
+      "language": "unknown",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".ua/.understandignore",
+      "language": "unknown",
+      "sizeLines": 100,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".ua/config.json",
+      "language": "json",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 57,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "sizeLines": 205,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "GEMINI.md",
+      "language": "markdown",
+      "sizeLines": 91,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "MEMORY.md",
+      "language": "markdown",
+      "sizeLines": 8,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 97,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "agy/.gemini/antigravity-cli/plugins/custom-agents/plugin.json",
+      "language": "json",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "agy/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "agy/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 21,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "bin/.local/bin/battery-info",
+      "language": "unknown",
+      "sizeLines": 54,
+      "fileCategory": "code"
+    },
+    {
+      "path": "bin/.local/bin/hyprlock-nowplaying",
+      "language": "unknown",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "bin/.local/bin/omarchy-keybinding-run",
+      "language": "unknown",
+      "sizeLines": 61,
+      "fileCategory": "code"
+    },
+    {
+      "path": "bin/.local/bin/omp",
+      "language": "unknown",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "bin/.local/bin/toggle-border-anim",
+      "language": "unknown",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "bin/.local/script/code_ext_installer",
+      "language": "unknown",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "bin/.local/script/tmux-se",
+      "language": "unknown",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "bin/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "bin/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 24,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "bin/dotfiles-sync",
+      "language": "unknown",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "boot/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "boot/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 17,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "boot/limine.conf",
+      "language": "conf",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/config",
+      "language": "unknown",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/shaders/bar_spectrum.frag",
+      "language": "frag",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/shaders/eye_of_phi.frag",
+      "language": "frag",
+      "sizeLines": 117,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/shaders/northern_lights.frag",
+      "language": "frag",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/shaders/pass_through.vert",
+      "language": "vert",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/shaders/spectrogram.frag",
+      "language": "frag",
+      "sizeLines": 53,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/shaders/winamp_line_style_spectrum.frag",
+      "language": "frag",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/themes/solarized_dark",
+      "language": "unknown",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.config/cava/themes/tricolor",
+      "language": "unknown",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "cava/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 22,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/ai-engineer.md",
+      "language": "markdown",
+      "sizeLines": 33,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/code-reviewer.md",
+      "language": "markdown",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/context-manager.md",
+      "language": "markdown",
+      "sizeLines": 65,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/debugger.md",
+      "language": "markdown",
+      "sizeLines": 31,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/error-detective.md",
+      "language": "markdown",
+      "sizeLines": 33,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/fullstack-developer.md",
+      "language": "markdown",
+      "sizeLines": 1204,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/prompt-engineer.md",
+      "language": "markdown",
+      "sizeLines": 112,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/search-specialist.md",
+      "language": "markdown",
+      "sizeLines": 59,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/agents/ui-ux-designer.md",
+      "language": "markdown",
+      "sizeLines": 35,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/architecture-review.md",
+      "language": "markdown",
+      "sizeLines": 35,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/code-review.md",
+      "language": "markdown",
+      "sizeLines": 68,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/create-feature.md",
+      "language": "markdown",
+      "sizeLines": 128,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/create-prd.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/explain-code.md",
+      "language": "markdown",
+      "sizeLines": 193,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/plannotator-annotate.md",
+      "language": "markdown",
+      "sizeLines": 12,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/plannotator-last.md",
+      "language": "markdown",
+      "sizeLines": 12,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/plannotator-review.md",
+      "language": "markdown",
+      "sizeLines": 12,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/refactor-code.md",
+      "language": "markdown",
+      "sizeLines": 115,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/commands/todo.md",
+      "language": "markdown",
+      "sizeLines": 61,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/plugins/blocklist.json",
+      "language": "json",
+      "sizeLines": 16,
+      "fileCategory": "config"
+    },
+    {
+      "path": "claude-code/.claude/settings.json",
+      "language": "json",
+      "sizeLines": 38,
+      "fileCategory": "config"
+    },
+    {
+      "path": "claude-code/.claude/skills/api-design/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 24,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/skills/code-quality/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 53,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.claude/skills/dart-signals/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 450,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "claude-code/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 27,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "claude-code/README.md",
+      "language": "markdown",
+      "sizeLines": 263,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 63,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/agents/arch-expert.md",
+      "language": "markdown",
+      "sizeLines": 19,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/agents/code-reviewer.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/agents/flutter-expert.md",
+      "language": "markdown",
+      "sizeLines": 21,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/agents/ts-expert.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/commands/plannotator-annotate.toml",
+      "language": "toml",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    },
+    {
+      "path": "gemini/.gemini/commands/start.toml",
+      "language": "toml",
+      "sizeLines": 15,
+      "fileCategory": "config"
+    },
+    {
+      "path": "gemini/.gemini/policies/plannotator.toml",
+      "language": "toml",
+      "sizeLines": 6,
+      "fileCategory": "config"
+    },
+    {
+      "path": "gemini/.gemini/policies/sensitive-files.toml",
+      "language": "toml",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "gemini/.gemini/policies/stow-safety.toml",
+      "language": "toml",
+      "sizeLines": 21,
+      "fileCategory": "config"
+    },
+    {
+      "path": "gemini/.gemini/settings.json",
+      "language": "json",
+      "sizeLines": 34,
+      "fileCategory": "config"
+    },
+    {
+      "path": "gemini/.gemini/skills/caveman/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 28,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/diagnose/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 91,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/git-guardrails/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/grill-me/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 23,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/grill-with-docs/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/improve-codebase-architecture/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 46,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/prototype/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 24,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/tdd/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 64,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/to-issues/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/to-prd/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 25,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.gemini/skills/zoom-out/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 28,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "gemini/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "gemini/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "ghostty/.config/ghostty/config",
+      "language": "unknown",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "ghostty/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "ghostty/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "ghostty/README.md",
+      "language": "markdown",
+      "sizeLines": 67,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "install.sh",
+      "language": "shell",
+      "sizeLines": 67,
+      "fileCategory": "script"
+    },
+    {
+      "path": "justfile",
+      "language": "unknown",
+      "sizeLines": 77,
+      "fileCategory": "code"
+    },
+    {
+      "path": "kitty/.config/kitty/catppuccin_mocha.conf",
+      "language": "conf",
+      "sizeLines": 71,
+      "fileCategory": "code"
+    },
+    {
+      "path": "kitty/.config/kitty/kitty.conf",
+      "language": "conf",
+      "sizeLines": 98,
+      "fileCategory": "code"
+    },
+    {
+      "path": "kitty/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "kitty/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "mise/.config/mise/config.toml",
+      "language": "toml",
+      "sizeLines": 41,
+      "fileCategory": "config"
+    },
+    {
+      "path": "mise/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "mise/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 43,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "mpv/.config/mpv/mpv.conf",
+      "language": "conf",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "mpv/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "mpv/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 35,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "nvim/.config/nvim/.neoconf.json",
+      "language": "json",
+      "sizeLines": 15,
+      "fileCategory": "config"
+    },
+    {
+      "path": "nvim/.config/nvim/KEYBINDINGS.md",
+      "language": "markdown",
+      "sizeLines": 250,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "nvim/.config/nvim/README.md",
+      "language": "markdown",
+      "sizeLines": 4,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "nvim/.config/nvim/init.lua",
+      "language": "lua",
+      "sizeLines": 2,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lazy-lock.json",
+      "language": "json",
+      "sizeLines": 68,
+      "fileCategory": "config"
+    },
+    {
+      "path": "nvim/.config/nvim/lazyvim.json",
+      "language": "json",
+      "sizeLines": 9,
+      "fileCategory": "config"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/config/autocmds.lua",
+      "language": "lua",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/config/keymaps.lua",
+      "language": "lua",
+      "sizeLines": 235,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/config/lazy.lua",
+      "language": "lua",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/config/options.lua",
+      "language": "lua",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/config/remote_clipboard.lua",
+      "language": "lua",
+      "sizeLines": 99,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/bash.lua",
+      "language": "lua",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/core.lua",
+      "language": "lua",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/disable-ai.lua",
+      "language": "lua",
+      "sizeLines": 4,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/flutter.lua",
+      "language": "lua",
+      "sizeLines": 139,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/harpoon.lua",
+      "language": "lua",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/laravel.lua",
+      "language": "lua",
+      "sizeLines": 1308,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/lazygit.lua",
+      "language": "lua",
+      "sizeLines": 97,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/lualine.lua",
+      "language": "lua",
+      "sizeLines": 118,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/luasnip.lua",
+      "language": "lua",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/obsidian.lua",
+      "language": "lua",
+      "sizeLines": 194,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/oil.lua",
+      "language": "lua",
+      "sizeLines": 191,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/opencode.lua",
+      "language": "lua",
+      "sizeLines": 77,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/override-colorscheme.lua",
+      "language": "lua",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/php.lua",
+      "language": "lua",
+      "sizeLines": 212,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/productivity.lua",
+      "language": "lua",
+      "sizeLines": 397,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/rose-pine.lua",
+      "language": "lua",
+      "sizeLines": 147,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/telescope.lua",
+      "language": "lua",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/theme.lua",
+      "language": "lua",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/treesitter.lua",
+      "language": "lua",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/undotree.lua",
+      "language": "lua",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/lua/plugins/vim_tmux_nav.lua",
+      "language": "lua",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/.config/nvim/stylua.toml",
+      "language": "toml",
+      "sizeLines": 2,
+      "fileCategory": "config"
+    },
+    {
+      "path": "nvim/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "nvim/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "nvim/install-plugins.sh",
+      "language": "shell",
+      "sizeLines": 16,
+      "fileCategory": "script"
+    },
+    {
+      "path": "obsidian/.config/obsidian/personal-config/.gitignore.template",
+      "language": "template",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/.config/obsidian/public-config/.gitignore.template",
+      "language": "template",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/.config/obsidian/shared-config/.gitignore.base",
+      "language": "base",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/.config/obsidian/shared-config/app.json",
+      "language": "json",
+      "sizeLines": 7,
+      "fileCategory": "config"
+    },
+    {
+      "path": "obsidian/.config/obsidian/shared-config/appearance.json",
+      "language": "json",
+      "sizeLines": 0,
+      "fileCategory": "config"
+    },
+    {
+      "path": "obsidian/.config/obsidian/shared-config/core-plugins.json",
+      "language": "json",
+      "sizeLines": 32,
+      "fileCategory": "config"
+    },
+    {
+      "path": "obsidian/.config/obsidian/shared-config/graph.json",
+      "language": "json",
+      "sizeLines": 21,
+      "fileCategory": "config"
+    },
+    {
+      "path": "obsidian/.config/obsidian/shared-config/themes/Omarchy/manifest.json",
+      "language": "json",
+      "sizeLines": 8,
+      "fileCategory": "config"
+    },
+    {
+      "path": "obsidian/.config/obsidian/shared-config/themes/Omarchy/theme.css",
+      "language": "css",
+      "sizeLines": 218,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "obsidian/.config/obsidian/work-config/.gitignore.template",
+      "language": "template",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/.local/bin/obsidian-backup",
+      "language": "unknown",
+      "sizeLines": 200,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/.local/bin/obsidian-sync-config",
+      "language": "unknown",
+      "sizeLines": 172,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/.local/bin/obsidian-vault-init",
+      "language": "unknown",
+      "sizeLines": 262,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/.local/bin/project-doc-init",
+      "language": "unknown",
+      "sizeLines": 373,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "obsidian/MCP-INTEGRATION.md",
+      "language": "markdown",
+      "sizeLines": 305,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "obsidian/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "obsidian/README.md",
+      "language": "markdown",
+      "sizeLines": 482,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "omarchy/.config/hypr/autostart.lua",
+      "language": "lua",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/hypr/bindings.lua",
+      "language": "lua",
+      "sizeLines": 152,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/hypr/hypridle.conf",
+      "language": "conf",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/hypr/hyprland.lua",
+      "language": "lua",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/hypr/hyprlock.conf",
+      "language": "conf",
+      "sizeLines": 114,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/hypr/hyprsunset.conf",
+      "language": "conf",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/hypr/input.lua",
+      "language": "lua",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/hypr/looknfeel.lua",
+      "language": "lua",
+      "sizeLines": 104,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/hypr/monitors.lua",
+      "language": "lua",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/omarchy/branding/about.txt",
+      "language": "txt",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "omarchy/.config/omarchy/branding/screensaver.txt",
+      "language": "txt",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "omarchy/.config/omarchy/hooks/theme-set.d/tmux-transparency.hook",
+      "language": "hook",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.config/xdg-terminals.list",
+      "language": "list",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "omarchy/OMARCHY-4-NOTES.md",
+      "language": "markdown",
+      "sizeLines": 235,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "omarchy/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 70,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "omarchy/usr/share/plymouth/themes/omarchy/fix-logo.sh",
+      "language": "shell",
+      "sizeLines": 35,
+      "fileCategory": "script"
+    },
+    {
+      "path": "opencode/.config/opencode/AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 22,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/ai-engineer.md",
+      "language": "markdown",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/code-reviewer.md",
+      "language": "markdown",
+      "sizeLines": 35,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/context-manager.md",
+      "language": "markdown",
+      "sizeLines": 68,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/debugger.md",
+      "language": "markdown",
+      "sizeLines": 36,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/error-detective.md",
+      "language": "markdown",
+      "sizeLines": 38,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/fullstack-developer.md",
+      "language": "markdown",
+      "sizeLines": 1208,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/prompt-engineer.md",
+      "language": "markdown",
+      "sizeLines": 115,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/search-specialist.md",
+      "language": "markdown",
+      "sizeLines": 59,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/agents/ui-ux-designer.md",
+      "language": "markdown",
+      "sizeLines": 38,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/commands/architecture-review.md",
+      "language": "markdown",
+      "sizeLines": 39,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/commands/code-review.md",
+      "language": "markdown",
+      "sizeLines": 72,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/commands/code-simplifier.md",
+      "language": "markdown",
+      "sizeLines": 64,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/commands/create-feature.md",
+      "language": "markdown",
+      "sizeLines": 132,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/commands/create-prd.md",
+      "language": "markdown",
+      "sizeLines": 39,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/commands/explain-code.md",
+      "language": "markdown",
+      "sizeLines": 203,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/commands/refactor-code.md",
+      "language": "markdown",
+      "sizeLines": 125,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/commands/todo.md",
+      "language": "markdown",
+      "sizeLines": 63,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/ocx.jsonc",
+      "language": "jsonc",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "opencode/.config/opencode/opencode.jsonc",
+      "language": "jsonc",
+      "sizeLines": 84,
+      "fileCategory": "config"
+    },
+    {
+      "path": "opencode/.config/opencode/skills/dart-signals/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 461,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/skills/flutter-hooks/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 250,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/skills/flutter-local-notifications/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 483,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/skills/fpdart/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 581,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/skills/fquery/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 604,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/skills/freezed/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 401,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.config/opencode/skills/tanstack-store/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 438,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "opencode/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 28,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/README.md",
+      "language": "markdown",
+      "sizeLines": 306,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode/mcp-env.sh",
+      "language": "shell",
+      "sizeLines": 9,
+      "fileCategory": "script"
+    },
+    {
+      "path": "p10k/.p10k.zsh",
+      "language": "shell",
+      "sizeLines": 199,
+      "fileCategory": "script"
+    },
+    {
+      "path": "p10k/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "p10k/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 21,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 237,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/agent-orchestrator/index.ts",
+      "language": "typescript",
+      "sizeLines": 418,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/ask-user-question.ts",
+      "language": "typescript",
+      "sizeLines": 641,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/confirm-destructive.ts",
+      "language": "typescript",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/consult.ts",
+      "language": "typescript",
+      "sizeLines": 253,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/doc-search.ts",
+      "language": "typescript",
+      "sizeLines": 194,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/filechanges/README.md",
+      "language": "markdown",
+      "sizeLines": 32,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/filechanges/index.ts",
+      "language": "typescript",
+      "sizeLines": 606,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/filechanges/package.json",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/CHANGELOG.md",
+      "language": "markdown",
+      "sizeLines": 157,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/DESIGN.md",
+      "language": "markdown",
+      "sizeLines": 452,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/README.md",
+      "language": "markdown",
+      "sizeLines": 124,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/TODO.md",
+      "language": "markdown",
+      "sizeLines": 141,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/browser.ts",
+      "language": "typescript",
+      "sizeLines": 1068,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/comment.ts",
+      "language": "typescript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/constants.ts",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/file-tree.ts",
+      "language": "typescript",
+      "sizeLines": 287,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/file-viewer.ts",
+      "language": "typescript",
+      "sizeLines": 275,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/git.ts",
+      "language": "typescript",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/index.ts",
+      "language": "typescript",
+      "sizeLines": 93,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/input-utils.ts",
+      "language": "typescript",
+      "sizeLines": 96,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/package.json",
+      "language": "json",
+      "sizeLines": 30,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/types.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/utils.ts",
+      "language": "typescript",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/files-widget/viewer.ts",
+      "language": "typescript",
+      "sizeLines": 577,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/git-checkpoint.ts",
+      "language": "typescript",
+      "sizeLines": 92,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/leader-key/context-helpers.ts",
+      "language": "typescript",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/leader-key/favourite-models.json",
+      "language": "json",
+      "sizeLines": 44,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/leader-key/favourite-models.ts",
+      "language": "typescript",
+      "sizeLines": 222,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/leader-key/index.ts",
+      "language": "typescript",
+      "sizeLines": 504,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/leader-key/label-actions.ts",
+      "language": "typescript",
+      "sizeLines": 141,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/leader-key/model-switcher.ts",
+      "language": "typescript",
+      "sizeLines": 415,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/leader-key/session-actions.ts",
+      "language": "typescript",
+      "sizeLines": 166,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/leader-key/types.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/memory.ts",
+      "language": "typescript",
+      "sizeLines": 117,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/omarchy-system-theme.ts",
+      "language": "typescript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 59,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/CHANGELOG.md",
+      "language": "markdown",
+      "sizeLines": 10,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/README.md",
+      "language": "markdown",
+      "sizeLines": 125,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/commands.ts",
+      "language": "typescript",
+      "sizeLines": 355,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/compress-tool.ts",
+      "language": "typescript",
+      "sizeLines": 231,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/config.ts",
+      "language": "typescript",
+      "sizeLines": 251,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/index.ts",
+      "language": "typescript",
+      "sizeLines": 250,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/package.json",
+      "language": "json",
+      "sizeLines": 37,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/prompts.ts",
+      "language": "typescript",
+      "sizeLines": 228,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/pruner.ts",
+      "language": "typescript",
+      "sizeLines": 492,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/state.ts",
+      "language": "typescript",
+      "sizeLines": 203,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-ralph-wiggum/CHANGELOG.md",
+      "language": "markdown",
+      "sizeLines": 33,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-ralph-wiggum/README.md",
+      "language": "markdown",
+      "sizeLines": 97,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-ralph-wiggum/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 73,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-ralph-wiggum/index.ts",
+      "language": "typescript",
+      "sizeLines": 825,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-ralph-wiggum/package.json",
+      "language": "json",
+      "sizeLines": 26,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/frecency.ts",
+      "language": "typescript",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/index.ts",
+      "language": "typescript",
+      "sizeLines": 283,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/preview.ts",
+      "language": "typescript",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/providers/commands.ts",
+      "language": "typescript",
+      "sizeLines": 76,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/providers/files.ts",
+      "language": "typescript",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/providers/git-branches.ts",
+      "language": "typescript",
+      "sizeLines": 116,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/providers/git-log.ts",
+      "language": "typescript",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/providers/sessions.ts",
+      "language": "typescript",
+      "sizeLines": 344,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/providers/skills.ts",
+      "language": "typescript",
+      "sizeLines": 150,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/scoring.ts",
+      "language": "typescript",
+      "sizeLines": 277,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/telescope.ts",
+      "language": "typescript",
+      "sizeLines": 877,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/pi-telescope/types.ts",
+      "language": "typescript",
+      "sizeLines": 87,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/review/index.ts",
+      "language": "typescript",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/review/review.ts",
+      "language": "typescript",
+      "sizeLines": 1322,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/review/sem-guidance.mjs",
+      "language": "javascript",
+      "sizeLines": 83,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/review/sem-guidance.test.mjs",
+      "language": "javascript",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/session-recap/CHANGELOG.md",
+      "language": "markdown",
+      "sizeLines": 15,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/session-recap/DESIGN.md",
+      "language": "markdown",
+      "sizeLines": 173,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/session-recap/README.md",
+      "language": "markdown",
+      "sizeLines": 101,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/session-recap/index.ts",
+      "language": "typescript",
+      "sizeLines": 570,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/session-recap/package.json",
+      "language": "json",
+      "sizeLines": 23,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/shared/overlay.ts",
+      "language": "typescript",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/shared/thinking-colors.ts",
+      "language": "typescript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/subagents/README.md",
+      "language": "markdown",
+      "sizeLines": 171,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/subagents/agents/researcher.md",
+      "language": "markdown",
+      "sizeLines": 46,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/subagents/agents/scout.md",
+      "language": "markdown",
+      "sizeLines": 35,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/subagents/agents/worker.md",
+      "language": "markdown",
+      "sizeLines": 27,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/subagents/index.ts",
+      "language": "typescript",
+      "sizeLines": 1100,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/subagents/tools/safe-bash.ts",
+      "language": "typescript",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/system-notify.ts",
+      "language": "typescript",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/tool-pills/diff-renderer.ts",
+      "language": "typescript",
+      "sizeLines": 1543,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/tool-pills/index.ts",
+      "language": "typescript",
+      "sizeLines": 139,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/tool-pills/package.json",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/tool-pills/pill.ts",
+      "language": "typescript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/usage-extension/CHANGELOG.md",
+      "language": "markdown",
+      "sizeLines": 65,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/usage-extension/README.md",
+      "language": "markdown",
+      "sizeLines": 151,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/usage-extension/index.ts",
+      "language": "typescript",
+      "sizeLines": 1128,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/usage-extension/package.json",
+      "language": "json",
+      "sizeLines": 23,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/vision.ts",
+      "language": "typescript",
+      "sizeLines": 341,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/web-fetch/index.ts",
+      "language": "typescript",
+      "sizeLines": 650,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/web-fetch/package.json",
+      "language": "json",
+      "sizeLines": 14,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/web-search.ts",
+      "language": "typescript",
+      "sizeLines": 283,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/welcome.ts",
+      "language": "typescript",
+      "sizeLines": 79,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/extensions/zread.ts",
+      "language": "typescript",
+      "sizeLines": 212,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/keybindings.json",
+      "language": "json",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/prompts/commit.md",
+      "language": "markdown",
+      "sizeLines": 16,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/prompts/explain.md",
+      "language": "markdown",
+      "sizeLines": 11,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/prompts/fix-types.md",
+      "language": "markdown",
+      "sizeLines": 11,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/prompts/handoff.md",
+      "language": "markdown",
+      "sizeLines": 18,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/prompts/review.md",
+      "language": "markdown",
+      "sizeLines": 11,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/settings.json",
+      "language": "json",
+      "sizeLines": 36,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/caveman/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 49,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/diagnose/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 117,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/diagnose/scripts/hitl-loop.template.sh",
+      "language": "shell",
+      "sizeLines": 41,
+      "fileCategory": "script"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/doc-coauthoring/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 375,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/LICENSE.txt",
+      "language": "txt",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 590,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/__init__.py",
+      "language": "python",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/accept_changes.py",
+      "language": "python",
+      "sizeLines": 135,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/comment.py",
+      "language": "python",
+      "sizeLines": 318,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/helpers/__init__.py",
+      "language": "python",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/helpers/merge_runs.py",
+      "language": "python",
+      "sizeLines": 199,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/helpers/simplify_redlines.py",
+      "language": "python",
+      "sizeLines": 197,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/pack.py",
+      "language": "python",
+      "sizeLines": 159,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd",
+      "language": "xml",
+      "sizeLines": 1499,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 146,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd",
+      "language": "xml",
+      "sizeLines": 1085,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd",
+      "language": "xml",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd",
+      "language": "xml",
+      "sizeLines": 3081,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd",
+      "language": "xml",
+      "sizeLines": 23,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 185,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 287,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd",
+      "language": "xml",
+      "sizeLines": 1676,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd",
+      "language": "xml",
+      "sizeLines": 28,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd",
+      "language": "xml",
+      "sizeLines": 144,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd",
+      "language": "xml",
+      "sizeLines": 174,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd",
+      "language": "xml",
+      "sizeLines": 25,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd",
+      "language": "xml",
+      "sizeLines": 18,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd",
+      "language": "xml",
+      "sizeLines": 59,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd",
+      "language": "xml",
+      "sizeLines": 56,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd",
+      "language": "xml",
+      "sizeLines": 195,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd",
+      "language": "xml",
+      "sizeLines": 582,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd",
+      "language": "xml",
+      "sizeLines": 25,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd",
+      "language": "xml",
+      "sizeLines": 4439,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd",
+      "language": "xml",
+      "sizeLines": 570,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 509,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 12,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 108,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 96,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd",
+      "language": "xml",
+      "sizeLines": 3646,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd",
+      "language": "xml",
+      "sizeLines": 116,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd",
+      "language": "xml",
+      "sizeLines": 42,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd",
+      "language": "xml",
+      "sizeLines": 50,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd",
+      "language": "xml",
+      "sizeLines": 49,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd",
+      "language": "xml",
+      "sizeLines": 33,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/mce/mc.xsd",
+      "language": "xml",
+      "sizeLines": 75,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-2010.xsd",
+      "language": "xml",
+      "sizeLines": 560,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-2012.xsd",
+      "language": "xml",
+      "sizeLines": 67,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-2018.xsd",
+      "language": "xml",
+      "sizeLines": 14,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-cex-2018.xsd",
+      "language": "xml",
+      "sizeLines": 20,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-cid-2016.xsd",
+      "language": "xml",
+      "sizeLines": 13,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd",
+      "language": "xml",
+      "sizeLines": 4,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-symex-2015.xsd",
+      "language": "xml",
+      "sizeLines": 8,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/soffice.py",
+      "language": "python",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/unpack.py",
+      "language": "python",
+      "sizeLines": 132,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/validate.py",
+      "language": "python",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/validators/__init__.py",
+      "language": "python",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/validators/base.py",
+      "language": "python",
+      "sizeLines": 847,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/validators/docx.py",
+      "language": "python",
+      "sizeLines": 446,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/validators/pptx.py",
+      "language": "python",
+      "sizeLines": 275,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/office/validators/redlining.py",
+      "language": "python",
+      "sizeLines": 247,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/templates/comments.xml",
+      "language": "xml",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/templates/commentsExtended.xml",
+      "language": "xml",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/templates/commentsExtensible.xml",
+      "language": "xml",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/templates/commentsIds.xml",
+      "language": "xml",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/docx/scripts/templates/people.xml",
+      "language": "xml",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/frontend-design/LICENSE.txt",
+      "language": "txt",
+      "sizeLines": 177,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/frontend-design/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 42,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/grill-me/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 10,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/improve-codebase-architecture/DEEPENING.md",
+      "language": "markdown",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/improve-codebase-architecture/INTERFACE-DESIGN.md",
+      "language": "markdown",
+      "sizeLines": 42,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/improve-codebase-architecture/LANGUAGE.md",
+      "language": "markdown",
+      "sizeLines": 53,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/improve-codebase-architecture/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 71,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/improve-codebase-architecture/grill-with-docs/ADR-FORMAT.md",
+      "language": "markdown",
+      "sizeLines": 47,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/improve-codebase-architecture/grill-with-docs/CONTEXT-FORMAT.md",
+      "language": "markdown",
+      "sizeLines": 77,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mastra/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 204,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mastra/references/common-errors.md",
+      "language": "markdown",
+      "sizeLines": 537,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mastra/references/create-mastra.md",
+      "language": "markdown",
+      "sizeLines": 222,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mastra/references/embedded-docs.md",
+      "language": "markdown",
+      "sizeLines": 103,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mastra/references/migration-guide.md",
+      "language": "markdown",
+      "sizeLines": 180,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mastra/references/remote-docs.md",
+      "language": "markdown",
+      "sizeLines": 193,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mastra/scripts/provider-registry.mjs",
+      "language": "javascript",
+      "sizeLines": 180,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/LICENSE.txt",
+      "language": "txt",
+      "sizeLines": 201,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 236,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/reference/evaluation.md",
+      "language": "markdown",
+      "sizeLines": 601,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/reference/mcp_best_practices.md",
+      "language": "markdown",
+      "sizeLines": 249,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/reference/node_mcp_server.md",
+      "language": "markdown",
+      "sizeLines": 969,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/reference/python_mcp_server.md",
+      "language": "markdown",
+      "sizeLines": 718,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/scripts/connections.py",
+      "language": "python",
+      "sizeLines": 151,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/scripts/evaluation.py",
+      "language": "python",
+      "sizeLines": 373,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/scripts/example_evaluation.xml",
+      "language": "xml",
+      "sizeLines": 22,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/mcp-builder/scripts/requirements.txt",
+      "language": "txt",
+      "sizeLines": 2,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/orchestrator/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 83,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/LICENSE.txt",
+      "language": "txt",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 314,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/forms.md",
+      "language": "markdown",
+      "sizeLines": 294,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/reference.md",
+      "language": "markdown",
+      "sizeLines": 611,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/scripts/check_bounding_boxes.py",
+      "language": "python",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/scripts/check_fillable_fields.py",
+      "language": "python",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/scripts/convert_pdf_to_images.py",
+      "language": "python",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/scripts/create_validation_image.py",
+      "language": "python",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/scripts/extract_form_field_info.py",
+      "language": "python",
+      "sizeLines": 122,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/scripts/extract_form_structure.py",
+      "language": "python",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/scripts/fill_fillable_fields.py",
+      "language": "python",
+      "sizeLines": 98,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pdf/scripts/fill_pdf_form_with_annotations.py",
+      "language": "python",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pi-ralph-wiggum/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 73,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/LICENSE.txt",
+      "language": "txt",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 232,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/editing.md",
+      "language": "markdown",
+      "sizeLines": 205,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/pptxgenjs.md",
+      "language": "markdown",
+      "sizeLines": 420,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/__init__.py",
+      "language": "python",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/add_slide.py",
+      "language": "python",
+      "sizeLines": 195,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/clean.py",
+      "language": "python",
+      "sizeLines": 286,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/helpers/__init__.py",
+      "language": "python",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/helpers/merge_runs.py",
+      "language": "python",
+      "sizeLines": 199,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/helpers/simplify_redlines.py",
+      "language": "python",
+      "sizeLines": 197,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/pack.py",
+      "language": "python",
+      "sizeLines": 159,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd",
+      "language": "xml",
+      "sizeLines": 1499,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 146,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd",
+      "language": "xml",
+      "sizeLines": 1085,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd",
+      "language": "xml",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd",
+      "language": "xml",
+      "sizeLines": 3081,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd",
+      "language": "xml",
+      "sizeLines": 23,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 185,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 287,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd",
+      "language": "xml",
+      "sizeLines": 1676,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd",
+      "language": "xml",
+      "sizeLines": 28,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd",
+      "language": "xml",
+      "sizeLines": 144,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd",
+      "language": "xml",
+      "sizeLines": 174,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd",
+      "language": "xml",
+      "sizeLines": 25,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd",
+      "language": "xml",
+      "sizeLines": 18,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd",
+      "language": "xml",
+      "sizeLines": 59,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd",
+      "language": "xml",
+      "sizeLines": 56,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd",
+      "language": "xml",
+      "sizeLines": 195,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd",
+      "language": "xml",
+      "sizeLines": 582,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd",
+      "language": "xml",
+      "sizeLines": 25,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd",
+      "language": "xml",
+      "sizeLines": 4439,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd",
+      "language": "xml",
+      "sizeLines": 570,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 509,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 12,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 108,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 96,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd",
+      "language": "xml",
+      "sizeLines": 3646,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd",
+      "language": "xml",
+      "sizeLines": 116,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd",
+      "language": "xml",
+      "sizeLines": 42,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd",
+      "language": "xml",
+      "sizeLines": 50,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd",
+      "language": "xml",
+      "sizeLines": 49,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd",
+      "language": "xml",
+      "sizeLines": 33,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/mce/mc.xsd",
+      "language": "xml",
+      "sizeLines": 75,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-2010.xsd",
+      "language": "xml",
+      "sizeLines": 560,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-2012.xsd",
+      "language": "xml",
+      "sizeLines": 67,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-2018.xsd",
+      "language": "xml",
+      "sizeLines": 14,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-cex-2018.xsd",
+      "language": "xml",
+      "sizeLines": 20,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-cid-2016.xsd",
+      "language": "xml",
+      "sizeLines": 13,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd",
+      "language": "xml",
+      "sizeLines": 4,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-symex-2015.xsd",
+      "language": "xml",
+      "sizeLines": 8,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/soffice.py",
+      "language": "python",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/unpack.py",
+      "language": "python",
+      "sizeLines": 132,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/validate.py",
+      "language": "python",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/validators/__init__.py",
+      "language": "python",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/validators/base.py",
+      "language": "python",
+      "sizeLines": 847,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/validators/docx.py",
+      "language": "python",
+      "sizeLines": 446,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/validators/pptx.py",
+      "language": "python",
+      "sizeLines": 275,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/office/validators/redlining.py",
+      "language": "python",
+      "sizeLines": 247,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/pptx/scripts/thumbnail.py",
+      "language": "python",
+      "sizeLines": 289,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/stop-slop/README.md",
+      "language": "markdown",
+      "sizeLines": 62,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/stop-slop/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 65,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/stop-slop/references/examples.md",
+      "language": "markdown",
+      "sizeLines": 59,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/stop-slop/references/phrases.md",
+      "language": "markdown",
+      "sizeLines": 128,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/stop-slop/references/structures.md",
+      "language": "markdown",
+      "sizeLines": 134,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/tdd/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 109,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/tdd/deep-modules.md",
+      "language": "markdown",
+      "sizeLines": 33,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/tdd/interface-design.md",
+      "language": "markdown",
+      "sizeLines": 31,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/tdd/mocking.md",
+      "language": "markdown",
+      "sizeLines": 59,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/tdd/refactoring.md",
+      "language": "markdown",
+      "sizeLines": 10,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/tdd/tests.md",
+      "language": "markdown",
+      "sizeLines": 61,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/webapp-testing/LICENSE.txt",
+      "language": "txt",
+      "sizeLines": 201,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/webapp-testing/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 95,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/webapp-testing/examples/console_logging.py",
+      "language": "python",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/webapp-testing/examples/element_discovery.py",
+      "language": "python",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/webapp-testing/examples/static_html_automation.py",
+      "language": "python",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/webapp-testing/scripts/with_server.py",
+      "language": "python",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/LICENSE.txt",
+      "language": "txt",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 291,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/helpers/__init__.py",
+      "language": "python",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/helpers/merge_runs.py",
+      "language": "python",
+      "sizeLines": 199,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/helpers/simplify_redlines.py",
+      "language": "python",
+      "sizeLines": 197,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/pack.py",
+      "language": "python",
+      "sizeLines": 159,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd",
+      "language": "xml",
+      "sizeLines": 1499,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 146,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd",
+      "language": "xml",
+      "sizeLines": 1085,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd",
+      "language": "xml",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd",
+      "language": "xml",
+      "sizeLines": 3081,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd",
+      "language": "xml",
+      "sizeLines": 23,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 185,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 287,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd",
+      "language": "xml",
+      "sizeLines": 1676,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd",
+      "language": "xml",
+      "sizeLines": 28,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd",
+      "language": "xml",
+      "sizeLines": 144,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd",
+      "language": "xml",
+      "sizeLines": 174,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd",
+      "language": "xml",
+      "sizeLines": 25,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd",
+      "language": "xml",
+      "sizeLines": 18,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd",
+      "language": "xml",
+      "sizeLines": 59,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd",
+      "language": "xml",
+      "sizeLines": 56,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd",
+      "language": "xml",
+      "sizeLines": 195,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd",
+      "language": "xml",
+      "sizeLines": 582,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd",
+      "language": "xml",
+      "sizeLines": 25,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd",
+      "language": "xml",
+      "sizeLines": 4439,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd",
+      "language": "xml",
+      "sizeLines": 570,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 509,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 12,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 108,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd",
+      "language": "xml",
+      "sizeLines": 96,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd",
+      "language": "xml",
+      "sizeLines": 3646,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd",
+      "language": "xml",
+      "sizeLines": 116,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd",
+      "language": "xml",
+      "sizeLines": 42,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd",
+      "language": "xml",
+      "sizeLines": 50,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd",
+      "language": "xml",
+      "sizeLines": 49,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd",
+      "language": "xml",
+      "sizeLines": 33,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/mce/mc.xsd",
+      "language": "xml",
+      "sizeLines": 75,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-2010.xsd",
+      "language": "xml",
+      "sizeLines": 560,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-2012.xsd",
+      "language": "xml",
+      "sizeLines": 67,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-2018.xsd",
+      "language": "xml",
+      "sizeLines": 14,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-cex-2018.xsd",
+      "language": "xml",
+      "sizeLines": 20,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-cid-2016.xsd",
+      "language": "xml",
+      "sizeLines": 13,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd",
+      "language": "xml",
+      "sizeLines": 4,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-symex-2015.xsd",
+      "language": "xml",
+      "sizeLines": 8,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/soffice.py",
+      "language": "python",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/unpack.py",
+      "language": "python",
+      "sizeLines": 132,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/validate.py",
+      "language": "python",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/__init__.py",
+      "language": "python",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/base.py",
+      "language": "python",
+      "sizeLines": 847,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/docx.py",
+      "language": "python",
+      "sizeLines": 446,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/pptx.py",
+      "language": "python",
+      "sizeLines": 275,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/redlining.py",
+      "language": "python",
+      "sizeLines": 247,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/agent/skills/xlsx/scripts/recalc.py",
+      "language": "python",
+      "sizeLines": 184,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/.pi/telescope-frecency.json",
+      "language": "json",
+      "sizeLines": 0,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi.old/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi.old/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 40,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi.old/README.md",
+      "language": "markdown",
+      "sizeLines": 69,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 237,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/agents/designer.md",
+      "language": "markdown",
+      "sizeLines": 67,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/agents/explore.md",
+      "language": "markdown",
+      "sizeLines": 62,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/agents/gemini-researcher.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/agents/librarian.md",
+      "language": "markdown",
+      "sizeLines": 128,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/agents/plan.md",
+      "language": "markdown",
+      "sizeLines": 59,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/agents/quick_task.md",
+      "language": "markdown",
+      "sizeLines": 24,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/agents/reviewer.md",
+      "language": "markdown",
+      "sizeLines": 153,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/agents/task.md",
+      "language": "markdown",
+      "sizeLines": 25,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.omp/agent/config.yml",
+      "language": "yaml",
+      "sizeLines": 17,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pi/.omp/agent/extensions/gemini-delegate.ts",
+      "language": "typescript",
+      "sizeLines": 307,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi/.omp/agent/extensions/greeting.ts",
+      "language": "typescript",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi/.omp/agent/skills/deep-research/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "pi/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "pi/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 23,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "scripts/aur-packages.txt",
+      "language": "txt",
+      "sizeLines": 10,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "scripts/doctor.sh",
+      "language": "shell",
+      "sizeLines": 80,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/install-aur.sh",
+      "language": "shell",
+      "sizeLines": 16,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/install-packages.sh",
+      "language": "shell",
+      "sizeLines": 10,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/packages.txt",
+      "language": "txt",
+      "sizeLines": 51,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "scripts/setup-mise.sh",
+      "language": "shell",
+      "sizeLines": 47,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/setup-neovim.sh",
+      "language": "shell",
+      "sizeLines": 13,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/setup-shell.sh",
+      "language": "shell",
+      "sizeLines": 20,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/stow-all.sh",
+      "language": "shell",
+      "sizeLines": 10,
+      "fileCategory": "script"
+    },
+    {
+      "path": "scripts/stow-common.sh",
+      "language": "shell",
+      "sizeLines": 42,
+      "fileCategory": "script"
+    },
+    {
+      "path": "ssh/.ssh/config",
+      "language": "unknown",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "ssh/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "ssh/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "stowDown",
+      "language": "unknown",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "stowup",
+      "language": "unknown",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "swaync/.config/swaync/config.json",
+      "language": "json",
+      "sizeLines": 56,
+      "fileCategory": "config"
+    },
+    {
+      "path": "swaync/.config/swaync/style.css",
+      "language": "css",
+      "sizeLines": 169,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "swaync/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "swaync/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 32,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "tmux/.config/tmux/tmux.conf",
+      "language": "conf",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tmux/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tmux/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 22,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "vscode/.config/Code/User/keybindings.json",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "vscode/.config/Code/User/settings.json",
+      "language": "json",
+      "sizeLines": 261,
+      "fileCategory": "config"
+    },
+    {
+      "path": "vscode/.config/Code/extensions.txt",
+      "language": "txt",
+      "sizeLines": 11,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "vscode/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "vscode/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "wlogout/.config/wlogout/layout",
+      "language": "unknown",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "wlogout/.config/wlogout/style.css",
+      "language": "css",
+      "sizeLines": 54,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "wlogout/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "wlogout/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 22,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "yazi/.config/yazi/init.lua",
+      "language": "lua",
+      "sizeLines": 2,
+      "fileCategory": "code"
+    },
+    {
+      "path": "yazi/.config/yazi/keymap.toml",
+      "language": "toml",
+      "sizeLines": 77,
+      "fileCategory": "config"
+    },
+    {
+      "path": "yazi/.config/yazi/package.toml",
+      "language": "toml",
+      "sizeLines": 34,
+      "fileCategory": "config"
+    },
+    {
+      "path": "yazi/.config/yazi/theme.toml",
+      "language": "toml",
+      "sizeLines": 12,
+      "fileCategory": "config"
+    },
+    {
+      "path": "yazi/.config/yazi/yazi.toml",
+      "language": "toml",
+      "sizeLines": 244,
+      "fileCategory": "config"
+    },
+    {
+      "path": "yazi/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "yazi/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "zen-browser/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zen-browser/.zen/profile-template/chrome/zen-themes.css",
+      "language": "css",
+      "sizeLines": 427,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "zen-browser/.zen/profile-template/chrome/zen-themes/642854b5-88b4-4c40-b256-e035532109df/chrome.css",
+      "language": "css",
+      "sizeLines": 415,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "zen-browser/.zen/profile-template/chrome/zen-themes/642854b5-88b4-4c40-b256-e035532109df/preferences.json",
+      "language": "json",
+      "sizeLines": 185,
+      "fileCategory": "config"
+    },
+    {
+      "path": "zen-browser/.zen/profile-template/chrome/zen-themes/642854b5-88b4-4c40-b256-e035532109df/readme.md",
+      "language": "markdown",
+      "sizeLines": 6,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "zen-browser/.zen/profile-template/zen-keyboard-shortcuts.json",
+      "language": "json",
+      "sizeLines": 0,
+      "fileCategory": "config"
+    },
+    {
+      "path": "zen-browser/.zen/profile-template/zen-themes.json",
+      "language": "json",
+      "sizeLines": 0,
+      "fileCategory": "config"
+    },
+    {
+      "path": "zen-browser/.zen/profiles.ini",
+      "language": "config",
+      "sizeLines": 19,
+      "fileCategory": "config"
+    },
+    {
+      "path": "zen-browser/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "zen-browser/README.md",
+      "language": "markdown",
+      "sizeLines": 229,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "zsh/.config/zsh/00-core.zsh",
+      "language": "shell",
+      "sizeLines": 66,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.config/zsh/10-environment.zsh",
+      "language": "shell",
+      "sizeLines": 49,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.config/zsh/20-plugins.zsh",
+      "language": "shell",
+      "sizeLines": 56,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.config/zsh/30-completions.zsh",
+      "language": "shell",
+      "sizeLines": 22,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.config/zsh/40-aliases.zsh",
+      "language": "shell",
+      "sizeLines": 79,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.config/zsh/50-tools.zsh",
+      "language": "shell",
+      "sizeLines": 42,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.config/zsh/60-functions.zsh",
+      "language": "shell",
+      "sizeLines": 304,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.config/zsh/70-theme.zsh",
+      "language": "shell",
+      "sizeLines": 6,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.config/zsh/80-mise.zsh",
+      "language": "shell",
+      "sizeLines": 27,
+      "fileCategory": "script"
+    },
+    {
+      "path": "zsh/.stow-local-ignore",
+      "language": "unknown",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zsh/.zshrc",
+      "language": "unknown",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zsh/.zshrc.backup",
+      "language": "backup",
+      "sizeLines": 274,
+      "fileCategory": "code"
+    },
+    {
+      "path": "zsh/PACKAGE.md",
+      "language": "markdown",
+      "sizeLines": 22,
+      "fileCategory": "docs"
+    }
+  ],
+  "totalFiles": 628,
+  "filteredByIgnore": 0,
+  "estimatedComplexity": "very-large",
+  "stats": {
+    "filesScanned": 628,
+    "byCategory": {
+      "docs": 198,
+      "code": 233,
+      "config": 169,
+      "script": 23,
+      "markup": 5
+    },
+    "byLanguage": {
+      "markdown": 185,
+      "unknown": 50,
+      "json": 31,
+      "conf": 8,
+      "frag": 5,
+      "vert": 1,
+      "toml": 11,
+      "shell": 23,
+      "lua": 34,
+      "template": 3,
+      "base": 1,
+      "css": 5,
+      "txt": 13,
+      "hook": 1,
+      "list": 1,
+      "jsonc": 2,
+      "typescript": 67,
+      "javascript": 3,
+      "python": 58,
+      "xml": 123,
+      "yaml": 1,
+      "config": 1,
+      "backup": 1
+    }
+  },
+  "importMap": {
+    ".commandcode/taste/taste.md": [],
+    ".gitattributes": [],
+    ".githooks/pre-commit": [],
+    ".ua/.understandignore": [],
+    ".ua/config.json": [],
+    "AGENTS.md": [],
+    "CLAUDE.md": [],
+    "GEMINI.md": [],
+    "MEMORY.md": [],
+    "README.md": [],
+    "agy/.gemini/antigravity-cli/plugins/custom-agents/plugin.json": [],
+    "agy/.stow-local-ignore": [],
+    "agy/PACKAGE.md": [],
+    "bin/.local/bin/battery-info": [],
+    "bin/.local/bin/hyprlock-nowplaying": [],
+    "bin/.local/bin/omarchy-keybinding-run": [],
+    "bin/.local/bin/omp": [],
+    "bin/.local/bin/toggle-border-anim": [],
+    "bin/.local/script/code_ext_installer": [],
+    "bin/.local/script/tmux-se": [],
+    "bin/.stow-local-ignore": [],
+    "bin/PACKAGE.md": [],
+    "bin/dotfiles-sync": [],
+    "boot/.stow-local-ignore": [],
+    "boot/PACKAGE.md": [],
+    "boot/limine.conf": [],
+    "cava/.config/cava/config": [],
+    "cava/.config/cava/shaders/bar_spectrum.frag": [],
+    "cava/.config/cava/shaders/eye_of_phi.frag": [],
+    "cava/.config/cava/shaders/northern_lights.frag": [],
+    "cava/.config/cava/shaders/pass_through.vert": [],
+    "cava/.config/cava/shaders/spectrogram.frag": [],
+    "cava/.config/cava/shaders/winamp_line_style_spectrum.frag": [],
+    "cava/.config/cava/themes/solarized_dark": [],
+    "cava/.config/cava/themes/tricolor": [],
+    "cava/.stow-local-ignore": [],
+    "cava/PACKAGE.md": [],
+    "claude-code/.claude/agents/ai-engineer.md": [],
+    "claude-code/.claude/agents/code-reviewer.md": [],
+    "claude-code/.claude/agents/context-manager.md": [],
+    "claude-code/.claude/agents/debugger.md": [],
+    "claude-code/.claude/agents/error-detective.md": [],
+    "claude-code/.claude/agents/fullstack-developer.md": [],
+    "claude-code/.claude/agents/prompt-engineer.md": [],
+    "claude-code/.claude/agents/search-specialist.md": [],
+    "claude-code/.claude/agents/ui-ux-designer.md": [],
+    "claude-code/.claude/commands/architecture-review.md": [],
+    "claude-code/.claude/commands/code-review.md": [],
+    "claude-code/.claude/commands/create-feature.md": [],
+    "claude-code/.claude/commands/create-prd.md": [],
+    "claude-code/.claude/commands/explain-code.md": [],
+    "claude-code/.claude/commands/plannotator-annotate.md": [],
+    "claude-code/.claude/commands/plannotator-last.md": [],
+    "claude-code/.claude/commands/plannotator-review.md": [],
+    "claude-code/.claude/commands/refactor-code.md": [],
+    "claude-code/.claude/commands/todo.md": [],
+    "claude-code/.claude/plugins/blocklist.json": [],
+    "claude-code/.claude/settings.json": [],
+    "claude-code/.claude/skills/api-design/SKILL.md": [],
+    "claude-code/.claude/skills/code-quality/SKILL.md": [],
+    "claude-code/.claude/skills/dart-signals/SKILL.md": [],
+    "claude-code/.stow-local-ignore": [],
+    "claude-code/PACKAGE.md": [],
+    "claude-code/README.md": [],
+    "gemini/.gemini/AGENTS.md": [],
+    "gemini/.gemini/agents/arch-expert.md": [],
+    "gemini/.gemini/agents/code-reviewer.md": [],
+    "gemini/.gemini/agents/flutter-expert.md": [],
+    "gemini/.gemini/agents/ts-expert.md": [],
+    "gemini/.gemini/commands/plannotator-annotate.toml": [],
+    "gemini/.gemini/commands/start.toml": [],
+    "gemini/.gemini/policies/plannotator.toml": [],
+    "gemini/.gemini/policies/sensitive-files.toml": [],
+    "gemini/.gemini/policies/stow-safety.toml": [],
+    "gemini/.gemini/settings.json": [],
+    "gemini/.gemini/skills/caveman/SKILL.md": [],
+    "gemini/.gemini/skills/diagnose/SKILL.md": [],
+    "gemini/.gemini/skills/git-guardrails/SKILL.md": [],
+    "gemini/.gemini/skills/grill-me/SKILL.md": [],
+    "gemini/.gemini/skills/grill-with-docs/SKILL.md": [],
+    "gemini/.gemini/skills/improve-codebase-architecture/SKILL.md": [],
+    "gemini/.gemini/skills/prototype/SKILL.md": [],
+    "gemini/.gemini/skills/tdd/SKILL.md": [],
+    "gemini/.gemini/skills/to-issues/SKILL.md": [],
+    "gemini/.gemini/skills/to-prd/SKILL.md": [],
+    "gemini/.gemini/skills/zoom-out/SKILL.md": [],
+    "gemini/.stow-local-ignore": [],
+    "gemini/PACKAGE.md": [],
+    "ghostty/.config/ghostty/config": [],
+    "ghostty/.stow-local-ignore": [],
+    "ghostty/PACKAGE.md": [],
+    "ghostty/README.md": [],
+    "install.sh": [],
+    "justfile": [],
+    "kitty/.config/kitty/catppuccin_mocha.conf": [],
+    "kitty/.config/kitty/kitty.conf": [],
+    "kitty/.stow-local-ignore": [],
+    "kitty/PACKAGE.md": [],
+    "mise/.config/mise/config.toml": [],
+    "mise/.stow-local-ignore": [],
+    "mise/PACKAGE.md": [],
+    "mpv/.config/mpv/mpv.conf": [],
+    "mpv/.stow-local-ignore": [],
+    "mpv/PACKAGE.md": [],
+    "nvim/.config/nvim/.neoconf.json": [],
+    "nvim/.config/nvim/KEYBINDINGS.md": [],
+    "nvim/.config/nvim/README.md": [],
+    "nvim/.config/nvim/init.lua": [],
+    "nvim/.config/nvim/lazy-lock.json": [],
+    "nvim/.config/nvim/lazyvim.json": [],
+    "nvim/.config/nvim/lua/config/autocmds.lua": [],
+    "nvim/.config/nvim/lua/config/keymaps.lua": [],
+    "nvim/.config/nvim/lua/config/lazy.lua": [],
+    "nvim/.config/nvim/lua/config/options.lua": [],
+    "nvim/.config/nvim/lua/config/remote_clipboard.lua": [],
+    "nvim/.config/nvim/lua/plugins/bash.lua": [],
+    "nvim/.config/nvim/lua/plugins/core.lua": [],
+    "nvim/.config/nvim/lua/plugins/disable-ai.lua": [],
+    "nvim/.config/nvim/lua/plugins/flutter.lua": [],
+    "nvim/.config/nvim/lua/plugins/harpoon.lua": [],
+    "nvim/.config/nvim/lua/plugins/laravel.lua": [],
+    "nvim/.config/nvim/lua/plugins/lazygit.lua": [],
+    "nvim/.config/nvim/lua/plugins/lualine.lua": [],
+    "nvim/.config/nvim/lua/plugins/luasnip.lua": [],
+    "nvim/.config/nvim/lua/plugins/obsidian.lua": [],
+    "nvim/.config/nvim/lua/plugins/oil.lua": [],
+    "nvim/.config/nvim/lua/plugins/opencode.lua": [],
+    "nvim/.config/nvim/lua/plugins/override-colorscheme.lua": [],
+    "nvim/.config/nvim/lua/plugins/php.lua": [],
+    "nvim/.config/nvim/lua/plugins/productivity.lua": [],
+    "nvim/.config/nvim/lua/plugins/rose-pine.lua": [],
+    "nvim/.config/nvim/lua/plugins/telescope.lua": [],
+    "nvim/.config/nvim/lua/plugins/theme.lua": [],
+    "nvim/.config/nvim/lua/plugins/treesitter.lua": [],
+    "nvim/.config/nvim/lua/plugins/undotree.lua": [],
+    "nvim/.config/nvim/lua/plugins/vim_tmux_nav.lua": [],
+    "nvim/.config/nvim/stylua.toml": [],
+    "nvim/.stow-local-ignore": [],
+    "nvim/PACKAGE.md": [],
+    "nvim/install-plugins.sh": [],
+    "obsidian/.config/obsidian/personal-config/.gitignore.template": [],
+    "obsidian/.config/obsidian/public-config/.gitignore.template": [],
+    "obsidian/.config/obsidian/shared-config/.gitignore.base": [],
+    "obsidian/.config/obsidian/shared-config/app.json": [],
+    "obsidian/.config/obsidian/shared-config/appearance.json": [],
+    "obsidian/.config/obsidian/shared-config/core-plugins.json": [],
+    "obsidian/.config/obsidian/shared-config/graph.json": [],
+    "obsidian/.config/obsidian/shared-config/themes/Omarchy/manifest.json": [],
+    "obsidian/.config/obsidian/shared-config/themes/Omarchy/theme.css": [],
+    "obsidian/.config/obsidian/work-config/.gitignore.template": [],
+    "obsidian/.local/bin/obsidian-backup": [],
+    "obsidian/.local/bin/obsidian-sync-config": [],
+    "obsidian/.local/bin/obsidian-vault-init": [],
+    "obsidian/.local/bin/project-doc-init": [],
+    "obsidian/.stow-local-ignore": [],
+    "obsidian/MCP-INTEGRATION.md": [],
+    "obsidian/PACKAGE.md": [],
+    "obsidian/README.md": [],
+    "omarchy/.config/hypr/autostart.lua": [],
+    "omarchy/.config/hypr/bindings.lua": [],
+    "omarchy/.config/hypr/hypridle.conf": [],
+    "omarchy/.config/hypr/hyprland.lua": [],
+    "omarchy/.config/hypr/hyprlock.conf": [],
+    "omarchy/.config/hypr/hyprsunset.conf": [],
+    "omarchy/.config/hypr/input.lua": [],
+    "omarchy/.config/hypr/looknfeel.lua": [],
+    "omarchy/.config/hypr/monitors.lua": [],
+    "omarchy/.config/omarchy/branding/about.txt": [],
+    "omarchy/.config/omarchy/branding/screensaver.txt": [],
+    "omarchy/.config/omarchy/hooks/theme-set.d/tmux-transparency.hook": [],
+    "omarchy/.config/xdg-terminals.list": [],
+    "omarchy/.stow-local-ignore": [],
+    "omarchy/OMARCHY-4-NOTES.md": [],
+    "omarchy/PACKAGE.md": [],
+    "omarchy/usr/share/plymouth/themes/omarchy/fix-logo.sh": [],
+    "opencode/.config/opencode/AGENTS.md": [],
+    "opencode/.config/opencode/agents/ai-engineer.md": [],
+    "opencode/.config/opencode/agents/code-reviewer.md": [],
+    "opencode/.config/opencode/agents/context-manager.md": [],
+    "opencode/.config/opencode/agents/debugger.md": [],
+    "opencode/.config/opencode/agents/error-detective.md": [],
+    "opencode/.config/opencode/agents/fullstack-developer.md": [],
+    "opencode/.config/opencode/agents/prompt-engineer.md": [],
+    "opencode/.config/opencode/agents/search-specialist.md": [],
+    "opencode/.config/opencode/agents/ui-ux-designer.md": [],
+    "opencode/.config/opencode/commands/architecture-review.md": [],
+    "opencode/.config/opencode/commands/code-review.md": [],
+    "opencode/.config/opencode/commands/code-simplifier.md": [],
+    "opencode/.config/opencode/commands/create-feature.md": [],
+    "opencode/.config/opencode/commands/create-prd.md": [],
+    "opencode/.config/opencode/commands/explain-code.md": [],
+    "opencode/.config/opencode/commands/refactor-code.md": [],
+    "opencode/.config/opencode/commands/todo.md": [],
+    "opencode/.config/opencode/ocx.jsonc": [],
+    "opencode/.config/opencode/opencode.jsonc": [],
+    "opencode/.config/opencode/skills/dart-signals/SKILL.md": [],
+    "opencode/.config/opencode/skills/flutter-hooks/SKILL.md": [],
+    "opencode/.config/opencode/skills/flutter-local-notifications/SKILL.md": [],
+    "opencode/.config/opencode/skills/fpdart/SKILL.md": [],
+    "opencode/.config/opencode/skills/fquery/SKILL.md": [],
+    "opencode/.config/opencode/skills/freezed/SKILL.md": [],
+    "opencode/.config/opencode/skills/tanstack-store/SKILL.md": [],
+    "opencode/.stow-local-ignore": [],
+    "opencode/PACKAGE.md": [],
+    "opencode/README.md": [],
+    "opencode/mcp-env.sh": [],
+    "p10k/.p10k.zsh": [],
+    "p10k/.stow-local-ignore": [],
+    "p10k/PACKAGE.md": [],
+    "pi.old/.pi/agent/AGENTS.md": [],
+    "pi.old/.pi/agent/extensions/agent-orchestrator/index.ts": [],
+    "pi.old/.pi/agent/extensions/ask-user-question.ts": [],
+    "pi.old/.pi/agent/extensions/confirm-destructive.ts": [],
+    "pi.old/.pi/agent/extensions/consult.ts": [],
+    "pi.old/.pi/agent/extensions/doc-search.ts": [],
+    "pi.old/.pi/agent/extensions/filechanges/README.md": [],
+    "pi.old/.pi/agent/extensions/filechanges/index.ts": [],
+    "pi.old/.pi/agent/extensions/filechanges/package.json": [],
+    "pi.old/.pi/agent/extensions/files-widget/CHANGELOG.md": [],
+    "pi.old/.pi/agent/extensions/files-widget/DESIGN.md": [],
+    "pi.old/.pi/agent/extensions/files-widget/README.md": [],
+    "pi.old/.pi/agent/extensions/files-widget/TODO.md": [],
+    "pi.old/.pi/agent/extensions/files-widget/browser.ts": [
+      "pi.old/.pi/agent/extensions/files-widget/constants.ts",
+      "pi.old/.pi/agent/extensions/files-widget/file-tree.ts",
+      "pi.old/.pi/agent/extensions/files-widget/git.ts",
+      "pi.old/.pi/agent/extensions/files-widget/input-utils.ts",
+      "pi.old/.pi/agent/extensions/files-widget/types.ts",
+      "pi.old/.pi/agent/extensions/files-widget/utils.ts",
+      "pi.old/.pi/agent/extensions/files-widget/viewer.ts"
+    ],
+    "pi.old/.pi/agent/extensions/files-widget/comment.ts": [
+      "pi.old/.pi/agent/extensions/files-widget/viewer.ts"
+    ],
+    "pi.old/.pi/agent/extensions/files-widget/constants.ts": [],
+    "pi.old/.pi/agent/extensions/files-widget/file-tree.ts": [
+      "pi.old/.pi/agent/extensions/files-widget/constants.ts",
+      "pi.old/.pi/agent/extensions/files-widget/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/files-widget/file-viewer.ts": [
+      "pi.old/.pi/agent/extensions/files-widget/git.ts",
+      "pi.old/.pi/agent/extensions/files-widget/utils.ts"
+    ],
+    "pi.old/.pi/agent/extensions/files-widget/git.ts": [
+      "pi.old/.pi/agent/extensions/files-widget/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/files-widget/index.ts": [
+      "pi.old/.pi/agent/extensions/files-widget/browser.ts",
+      "pi.old/.pi/agent/extensions/files-widget/comment.ts",
+      "pi.old/.pi/agent/extensions/files-widget/constants.ts",
+      "pi.old/.pi/agent/extensions/files-widget/utils.ts"
+    ],
+    "pi.old/.pi/agent/extensions/files-widget/input-utils.ts": [],
+    "pi.old/.pi/agent/extensions/files-widget/package.json": [],
+    "pi.old/.pi/agent/extensions/files-widget/types.ts": [],
+    "pi.old/.pi/agent/extensions/files-widget/utils.ts": [],
+    "pi.old/.pi/agent/extensions/files-widget/viewer.ts": [
+      "pi.old/.pi/agent/extensions/files-widget/constants.ts",
+      "pi.old/.pi/agent/extensions/files-widget/file-viewer.ts",
+      "pi.old/.pi/agent/extensions/files-widget/input-utils.ts",
+      "pi.old/.pi/agent/extensions/files-widget/types.ts",
+      "pi.old/.pi/agent/extensions/files-widget/utils.ts"
+    ],
+    "pi.old/.pi/agent/extensions/git-checkpoint.ts": [],
+    "pi.old/.pi/agent/extensions/leader-key/context-helpers.ts": [],
+    "pi.old/.pi/agent/extensions/leader-key/favourite-models.json": [],
+    "pi.old/.pi/agent/extensions/leader-key/favourite-models.ts": [
+      "pi.old/.pi/agent/extensions/leader-key/model-switcher.ts",
+      "pi.old/.pi/agent/extensions/shared/overlay.ts",
+      "pi.old/.pi/agent/extensions/shared/thinking-colors.ts"
+    ],
+    "pi.old/.pi/agent/extensions/leader-key/index.ts": [
+      "pi.old/.pi/agent/extensions/leader-key/context-helpers.ts",
+      "pi.old/.pi/agent/extensions/leader-key/favourite-models.ts",
+      "pi.old/.pi/agent/extensions/leader-key/label-actions.ts",
+      "pi.old/.pi/agent/extensions/leader-key/model-switcher.ts",
+      "pi.old/.pi/agent/extensions/leader-key/session-actions.ts",
+      "pi.old/.pi/agent/extensions/leader-key/types.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "pi.old/.pi/agent/extensions/shared/overlay.ts"
+    ],
+    "pi.old/.pi/agent/extensions/leader-key/label-actions.ts": [
+      "pi.old/.pi/agent/extensions/leader-key/context-helpers.ts",
+      "pi.old/.pi/agent/extensions/leader-key/model-switcher.ts",
+      "pi.old/.pi/agent/extensions/leader-key/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/leader-key/model-switcher.ts": [
+      "pi.old/.pi/agent/extensions/shared/overlay.ts"
+    ],
+    "pi.old/.pi/agent/extensions/leader-key/session-actions.ts": [
+      "pi.old/.pi/agent/extensions/leader-key/context-helpers.ts",
+      "pi.old/.pi/agent/extensions/leader-key/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/leader-key/types.ts": [],
+    "pi.old/.pi/agent/extensions/memory.ts": [],
+    "pi.old/.pi/agent/extensions/omarchy-system-theme.ts": [],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/AGENTS.md": [],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/CHANGELOG.md": [],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/README.md": [],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/commands.ts": [
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/config.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/state.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/compress-tool.ts": [
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/config.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/prompts.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/pruner.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/state.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/config.ts": [],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/index.ts": [
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/commands.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/compress-tool.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/config.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/prompts.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/pruner.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/state.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/package.json": [],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/prompts.ts": [],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/pruner.ts": [
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/config.ts",
+      "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/state.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-dynamic-context-pruning/state.ts": [],
+    "pi.old/.pi/agent/extensions/pi-ralph-wiggum/CHANGELOG.md": [],
+    "pi.old/.pi/agent/extensions/pi-ralph-wiggum/README.md": [],
+    "pi.old/.pi/agent/extensions/pi-ralph-wiggum/SKILL.md": [],
+    "pi.old/.pi/agent/extensions/pi-ralph-wiggum/index.ts": [],
+    "pi.old/.pi/agent/extensions/pi-ralph-wiggum/package.json": [],
+    "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts": [],
+    "pi.old/.pi/agent/extensions/pi-telescope/frecency.ts": [],
+    "pi.old/.pi/agent/extensions/pi-telescope/index.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/frecency.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/providers/commands.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/providers/files.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/providers/git-branches.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/providers/git-log.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/providers/sessions.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/providers/skills.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/scoring.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/telescope.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/preview.ts": [],
+    "pi.old/.pi/agent/extensions/pi-telescope/providers/commands.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/providers/files.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/providers/git-branches.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/providers/git-log.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/providers/sessions.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/providers/skills.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/scoring.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/telescope.ts": [
+      "pi.old/.pi/agent/extensions/pi-telescope/clipboard.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/frecency.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/preview.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/scoring.ts",
+      "pi.old/.pi/agent/extensions/pi-telescope/types.ts"
+    ],
+    "pi.old/.pi/agent/extensions/pi-telescope/types.ts": [],
+    "pi.old/.pi/agent/extensions/review/index.ts": [],
+    "pi.old/.pi/agent/extensions/review/review.ts": [
+      "pi.old/.pi/agent/extensions/review/sem-guidance.mjs"
+    ],
+    "pi.old/.pi/agent/extensions/review/sem-guidance.mjs": [],
+    "pi.old/.pi/agent/extensions/review/sem-guidance.test.mjs": [
+      "pi.old/.pi/agent/extensions/review/sem-guidance.mjs"
+    ],
+    "pi.old/.pi/agent/extensions/session-recap/CHANGELOG.md": [],
+    "pi.old/.pi/agent/extensions/session-recap/DESIGN.md": [],
+    "pi.old/.pi/agent/extensions/session-recap/README.md": [],
+    "pi.old/.pi/agent/extensions/session-recap/index.ts": [],
+    "pi.old/.pi/agent/extensions/session-recap/package.json": [],
+    "pi.old/.pi/agent/extensions/shared/overlay.ts": [],
+    "pi.old/.pi/agent/extensions/shared/thinking-colors.ts": [],
+    "pi.old/.pi/agent/extensions/subagents/README.md": [],
+    "pi.old/.pi/agent/extensions/subagents/agents/researcher.md": [],
+    "pi.old/.pi/agent/extensions/subagents/agents/scout.md": [],
+    "pi.old/.pi/agent/extensions/subagents/agents/worker.md": [],
+    "pi.old/.pi/agent/extensions/subagents/index.ts": [],
+    "pi.old/.pi/agent/extensions/subagents/tools/safe-bash.ts": [],
+    "pi.old/.pi/agent/extensions/system-notify.ts": [],
+    "pi.old/.pi/agent/extensions/tool-pills/diff-renderer.ts": [
+      "pi.old/.pi/agent/extensions/tool-pills/pill.ts"
+    ],
+    "pi.old/.pi/agent/extensions/tool-pills/index.ts": [
+      "pi.old/.pi/agent/extensions/tool-pills/diff-renderer.ts",
+      "pi.old/.pi/agent/extensions/tool-pills/pill.ts"
+    ],
+    "pi.old/.pi/agent/extensions/tool-pills/package.json": [],
+    "pi.old/.pi/agent/extensions/tool-pills/pill.ts": [],
+    "pi.old/.pi/agent/extensions/usage-extension/CHANGELOG.md": [],
+    "pi.old/.pi/agent/extensions/usage-extension/README.md": [],
+    "pi.old/.pi/agent/extensions/usage-extension/index.ts": [],
+    "pi.old/.pi/agent/extensions/usage-extension/package.json": [],
+    "pi.old/.pi/agent/extensions/vision.ts": [],
+    "pi.old/.pi/agent/extensions/web-fetch/index.ts": [],
+    "pi.old/.pi/agent/extensions/web-fetch/package.json": [],
+    "pi.old/.pi/agent/extensions/web-search.ts": [],
+    "pi.old/.pi/agent/extensions/welcome.ts": [],
+    "pi.old/.pi/agent/extensions/zread.ts": [],
+    "pi.old/.pi/agent/keybindings.json": [],
+    "pi.old/.pi/agent/prompts/commit.md": [],
+    "pi.old/.pi/agent/prompts/explain.md": [],
+    "pi.old/.pi/agent/prompts/fix-types.md": [],
+    "pi.old/.pi/agent/prompts/handoff.md": [],
+    "pi.old/.pi/agent/prompts/review.md": [],
+    "pi.old/.pi/agent/settings.json": [],
+    "pi.old/.pi/agent/skills/caveman/SKILL.md": [],
+    "pi.old/.pi/agent/skills/diagnose/SKILL.md": [],
+    "pi.old/.pi/agent/skills/diagnose/scripts/hitl-loop.template.sh": [],
+    "pi.old/.pi/agent/skills/doc-coauthoring/SKILL.md": [],
+    "pi.old/.pi/agent/skills/docx/LICENSE.txt": [],
+    "pi.old/.pi/agent/skills/docx/SKILL.md": [],
+    "pi.old/.pi/agent/skills/docx/scripts/__init__.py": [],
+    "pi.old/.pi/agent/skills/docx/scripts/accept_changes.py": [
+      "pi.old/.pi/agent/skills/docx/scripts/office/soffice.py"
+    ],
+    "pi.old/.pi/agent/skills/docx/scripts/comment.py": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/helpers/__init__.py": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/helpers/merge_runs.py": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/helpers/simplify_redlines.py": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/pack.py": [
+      "pi.old/.pi/agent/skills/docx/scripts/office/validators/__init__.py"
+    ],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/mce/mc.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-2010.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-2012.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-2018.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-cex-2018.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-cid-2016.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/schemas/microsoft/wml-symex-2015.xsd": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/soffice.py": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/unpack.py": [
+      "pi.old/.pi/agent/skills/docx/scripts/office/helpers/merge_runs.py",
+      "pi.old/.pi/agent/skills/docx/scripts/office/helpers/simplify_redlines.py"
+    ],
+    "pi.old/.pi/agent/skills/docx/scripts/office/validate.py": [
+      "pi.old/.pi/agent/skills/docx/scripts/office/validators/__init__.py"
+    ],
+    "pi.old/.pi/agent/skills/docx/scripts/office/validators/__init__.py": [
+      "pi.old/.pi/agent/skills/docx/scripts/office/validators/base.py",
+      "pi.old/.pi/agent/skills/docx/scripts/office/validators/docx.py",
+      "pi.old/.pi/agent/skills/docx/scripts/office/validators/pptx.py",
+      "pi.old/.pi/agent/skills/docx/scripts/office/validators/redlining.py"
+    ],
+    "pi.old/.pi/agent/skills/docx/scripts/office/validators/base.py": [],
+    "pi.old/.pi/agent/skills/docx/scripts/office/validators/docx.py": [
+      "pi.old/.pi/agent/skills/docx/scripts/office/validators/base.py"
+    ],
+    "pi.old/.pi/agent/skills/docx/scripts/office/validators/pptx.py": [
+      "pi.old/.pi/agent/skills/docx/scripts/office/validators/base.py"
+    ],
+    "pi.old/.pi/agent/skills/docx/scripts/office/validators/redlining.py": [],
+    "pi.old/.pi/agent/skills/docx/scripts/templates/comments.xml": [],
+    "pi.old/.pi/agent/skills/docx/scripts/templates/commentsExtended.xml": [],
+    "pi.old/.pi/agent/skills/docx/scripts/templates/commentsExtensible.xml": [],
+    "pi.old/.pi/agent/skills/docx/scripts/templates/commentsIds.xml": [],
+    "pi.old/.pi/agent/skills/docx/scripts/templates/people.xml": [],
+    "pi.old/.pi/agent/skills/frontend-design/LICENSE.txt": [],
+    "pi.old/.pi/agent/skills/frontend-design/SKILL.md": [],
+    "pi.old/.pi/agent/skills/grill-me/SKILL.md": [],
+    "pi.old/.pi/agent/skills/improve-codebase-architecture/DEEPENING.md": [],
+    "pi.old/.pi/agent/skills/improve-codebase-architecture/INTERFACE-DESIGN.md": [],
+    "pi.old/.pi/agent/skills/improve-codebase-architecture/LANGUAGE.md": [],
+    "pi.old/.pi/agent/skills/improve-codebase-architecture/SKILL.md": [],
+    "pi.old/.pi/agent/skills/improve-codebase-architecture/grill-with-docs/ADR-FORMAT.md": [],
+    "pi.old/.pi/agent/skills/improve-codebase-architecture/grill-with-docs/CONTEXT-FORMAT.md": [],
+    "pi.old/.pi/agent/skills/mastra/SKILL.md": [],
+    "pi.old/.pi/agent/skills/mastra/references/common-errors.md": [],
+    "pi.old/.pi/agent/skills/mastra/references/create-mastra.md": [],
+    "pi.old/.pi/agent/skills/mastra/references/embedded-docs.md": [],
+    "pi.old/.pi/agent/skills/mastra/references/migration-guide.md": [],
+    "pi.old/.pi/agent/skills/mastra/references/remote-docs.md": [],
+    "pi.old/.pi/agent/skills/mastra/scripts/provider-registry.mjs": [],
+    "pi.old/.pi/agent/skills/mcp-builder/LICENSE.txt": [],
+    "pi.old/.pi/agent/skills/mcp-builder/SKILL.md": [],
+    "pi.old/.pi/agent/skills/mcp-builder/reference/evaluation.md": [],
+    "pi.old/.pi/agent/skills/mcp-builder/reference/mcp_best_practices.md": [],
+    "pi.old/.pi/agent/skills/mcp-builder/reference/node_mcp_server.md": [],
+    "pi.old/.pi/agent/skills/mcp-builder/reference/python_mcp_server.md": [],
+    "pi.old/.pi/agent/skills/mcp-builder/scripts/connections.py": [],
+    "pi.old/.pi/agent/skills/mcp-builder/scripts/evaluation.py": [
+      "pi.old/.pi/agent/skills/mcp-builder/scripts/connections.py"
+    ],
+    "pi.old/.pi/agent/skills/mcp-builder/scripts/example_evaluation.xml": [],
+    "pi.old/.pi/agent/skills/mcp-builder/scripts/requirements.txt": [],
+    "pi.old/.pi/agent/skills/orchestrator/SKILL.md": [],
+    "pi.old/.pi/agent/skills/pdf/LICENSE.txt": [],
+    "pi.old/.pi/agent/skills/pdf/SKILL.md": [],
+    "pi.old/.pi/agent/skills/pdf/forms.md": [],
+    "pi.old/.pi/agent/skills/pdf/reference.md": [],
+    "pi.old/.pi/agent/skills/pdf/scripts/check_bounding_boxes.py": [],
+    "pi.old/.pi/agent/skills/pdf/scripts/check_fillable_fields.py": [],
+    "pi.old/.pi/agent/skills/pdf/scripts/convert_pdf_to_images.py": [],
+    "pi.old/.pi/agent/skills/pdf/scripts/create_validation_image.py": [],
+    "pi.old/.pi/agent/skills/pdf/scripts/extract_form_field_info.py": [],
+    "pi.old/.pi/agent/skills/pdf/scripts/extract_form_structure.py": [],
+    "pi.old/.pi/agent/skills/pdf/scripts/fill_fillable_fields.py": [
+      "pi.old/.pi/agent/skills/pdf/scripts/extract_form_field_info.py"
+    ],
+    "pi.old/.pi/agent/skills/pdf/scripts/fill_pdf_form_with_annotations.py": [],
+    "pi.old/.pi/agent/skills/pi-ralph-wiggum/SKILL.md": [],
+    "pi.old/.pi/agent/skills/pptx/LICENSE.txt": [],
+    "pi.old/.pi/agent/skills/pptx/SKILL.md": [],
+    "pi.old/.pi/agent/skills/pptx/editing.md": [],
+    "pi.old/.pi/agent/skills/pptx/pptxgenjs.md": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/__init__.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/add_slide.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/clean.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/helpers/__init__.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/helpers/merge_runs.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/helpers/simplify_redlines.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/pack.py": [
+      "pi.old/.pi/agent/skills/pptx/scripts/office/validators/__init__.py"
+    ],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/mce/mc.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-2010.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-2012.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-2018.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-cex-2018.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-cid-2016.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/schemas/microsoft/wml-symex-2015.xsd": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/soffice.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/unpack.py": [
+      "pi.old/.pi/agent/skills/pptx/scripts/office/helpers/merge_runs.py",
+      "pi.old/.pi/agent/skills/pptx/scripts/office/helpers/simplify_redlines.py"
+    ],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/validate.py": [
+      "pi.old/.pi/agent/skills/pptx/scripts/office/validators/__init__.py"
+    ],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/validators/__init__.py": [
+      "pi.old/.pi/agent/skills/pptx/scripts/office/validators/base.py",
+      "pi.old/.pi/agent/skills/pptx/scripts/office/validators/docx.py",
+      "pi.old/.pi/agent/skills/pptx/scripts/office/validators/pptx.py",
+      "pi.old/.pi/agent/skills/pptx/scripts/office/validators/redlining.py"
+    ],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/validators/base.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/validators/docx.py": [
+      "pi.old/.pi/agent/skills/pptx/scripts/office/validators/base.py"
+    ],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/validators/pptx.py": [
+      "pi.old/.pi/agent/skills/pptx/scripts/office/validators/base.py"
+    ],
+    "pi.old/.pi/agent/skills/pptx/scripts/office/validators/redlining.py": [],
+    "pi.old/.pi/agent/skills/pptx/scripts/thumbnail.py": [
+      "pi.old/.pi/agent/skills/pptx/scripts/office/soffice.py"
+    ],
+    "pi.old/.pi/agent/skills/stop-slop/README.md": [],
+    "pi.old/.pi/agent/skills/stop-slop/SKILL.md": [],
+    "pi.old/.pi/agent/skills/stop-slop/references/examples.md": [],
+    "pi.old/.pi/agent/skills/stop-slop/references/phrases.md": [],
+    "pi.old/.pi/agent/skills/stop-slop/references/structures.md": [],
+    "pi.old/.pi/agent/skills/tdd/SKILL.md": [],
+    "pi.old/.pi/agent/skills/tdd/deep-modules.md": [],
+    "pi.old/.pi/agent/skills/tdd/interface-design.md": [],
+    "pi.old/.pi/agent/skills/tdd/mocking.md": [],
+    "pi.old/.pi/agent/skills/tdd/refactoring.md": [],
+    "pi.old/.pi/agent/skills/tdd/tests.md": [],
+    "pi.old/.pi/agent/skills/webapp-testing/LICENSE.txt": [],
+    "pi.old/.pi/agent/skills/webapp-testing/SKILL.md": [],
+    "pi.old/.pi/agent/skills/webapp-testing/examples/console_logging.py": [],
+    "pi.old/.pi/agent/skills/webapp-testing/examples/element_discovery.py": [],
+    "pi.old/.pi/agent/skills/webapp-testing/examples/static_html_automation.py": [],
+    "pi.old/.pi/agent/skills/webapp-testing/scripts/with_server.py": [],
+    "pi.old/.pi/agent/skills/xlsx/LICENSE.txt": [],
+    "pi.old/.pi/agent/skills/xlsx/SKILL.md": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/helpers/__init__.py": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/helpers/merge_runs.py": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/helpers/simplify_redlines.py": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/pack.py": [
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/__init__.py"
+    ],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/mce/mc.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-2010.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-2012.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-2018.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-cex-2018.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-cid-2016.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/schemas/microsoft/wml-symex-2015.xsd": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/soffice.py": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/unpack.py": [
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/helpers/merge_runs.py",
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/helpers/simplify_redlines.py"
+    ],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/validate.py": [
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/__init__.py"
+    ],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/__init__.py": [
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/base.py",
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/docx.py",
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/pptx.py",
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/redlining.py"
+    ],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/base.py": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/docx.py": [
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/base.py"
+    ],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/pptx.py": [
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/base.py"
+    ],
+    "pi.old/.pi/agent/skills/xlsx/scripts/office/validators/redlining.py": [],
+    "pi.old/.pi/agent/skills/xlsx/scripts/recalc.py": [
+      "pi.old/.pi/agent/skills/xlsx/scripts/office/soffice.py"
+    ],
+    "pi.old/.pi/telescope-frecency.json": [],
+    "pi.old/.stow-local-ignore": [],
+    "pi.old/PACKAGE.md": [],
+    "pi.old/README.md": [],
+    "pi/.omp/agent/AGENTS.md": [],
+    "pi/.omp/agent/agents/designer.md": [],
+    "pi/.omp/agent/agents/explore.md": [],
+    "pi/.omp/agent/agents/gemini-researcher.md": [],
+    "pi/.omp/agent/agents/librarian.md": [],
+    "pi/.omp/agent/agents/plan.md": [],
+    "pi/.omp/agent/agents/quick_task.md": [],
+    "pi/.omp/agent/agents/reviewer.md": [],
+    "pi/.omp/agent/agents/task.md": [],
+    "pi/.omp/agent/config.yml": [],
+    "pi/.omp/agent/extensions/gemini-delegate.ts": [],
+    "pi/.omp/agent/extensions/greeting.ts": [],
+    "pi/.omp/agent/skills/deep-research/SKILL.md": [],
+    "pi/.stow-local-ignore": [],
+    "pi/PACKAGE.md": [],
+    "scripts/aur-packages.txt": [],
+    "scripts/doctor.sh": [],
+    "scripts/install-aur.sh": [],
+    "scripts/install-packages.sh": [],
+    "scripts/packages.txt": [],
+    "scripts/setup-mise.sh": [],
+    "scripts/setup-neovim.sh": [],
+    "scripts/setup-shell.sh": [],
+    "scripts/stow-all.sh": [],
+    "scripts/stow-common.sh": [],
+    "ssh/.ssh/config": [],
+    "ssh/.stow-local-ignore": [],
+    "ssh/PACKAGE.md": [],
+    "stowDown": [],
+    "stowup": [],
+    "swaync/.config/swaync/config.json": [],
+    "swaync/.config/swaync/style.css": [],
+    "swaync/.stow-local-ignore": [],
+    "swaync/PACKAGE.md": [],
+    "tmux/.config/tmux/tmux.conf": [],
+    "tmux/.stow-local-ignore": [],
+    "tmux/PACKAGE.md": [],
+    "vscode/.config/Code/User/keybindings.json": [],
+    "vscode/.config/Code/User/settings.json": [],
+    "vscode/.config/Code/extensions.txt": [],
+    "vscode/.stow-local-ignore": [],
+    "vscode/PACKAGE.md": [],
+    "wlogout/.config/wlogout/layout": [],
+    "wlogout/.config/wlogout/style.css": [],
+    "wlogout/.stow-local-ignore": [],
+    "wlogout/PACKAGE.md": [],
+    "yazi/.config/yazi/init.lua": [],
+    "yazi/.config/yazi/keymap.toml": [],
+    "yazi/.config/yazi/package.toml": [],
+    "yazi/.config/yazi/theme.toml": [],
+    "yazi/.config/yazi/yazi.toml": [],
+    "yazi/.stow-local-ignore": [],
+    "yazi/PACKAGE.md": [],
+    "zen-browser/.stow-local-ignore": [],
+    "zen-browser/.zen/profile-template/chrome/zen-themes.css": [],
+    "zen-browser/.zen/profile-template/chrome/zen-themes/642854b5-88b4-4c40-b256-e035532109df/chrome.css": [],
+    "zen-browser/.zen/profile-template/chrome/zen-themes/642854b5-88b4-4c40-b256-e035532109df/preferences.json": [],
+    "zen-browser/.zen/profile-template/chrome/zen-themes/642854b5-88b4-4c40-b256-e035532109df/readme.md": [],
+    "zen-browser/.zen/profile-template/zen-keyboard-shortcuts.json": [],
+    "zen-browser/.zen/profile-template/zen-themes.json": [],
+    "zen-browser/.zen/profiles.ini": [],
+    "zen-browser/PACKAGE.md": [],
+    "zen-browser/README.md": [],
+    "zsh/.config/zsh/00-core.zsh": [],
+    "zsh/.config/zsh/10-environment.zsh": [],
+    "zsh/.config/zsh/20-plugins.zsh": [],
+    "zsh/.config/zsh/30-completions.zsh": [],
+    "zsh/.config/zsh/40-aliases.zsh": [],
+    "zsh/.config/zsh/50-tools.zsh": [],
+    "zsh/.config/zsh/60-functions.zsh": [],
+    "zsh/.config/zsh/70-theme.zsh": [],
+    "zsh/.config/zsh/80-mise.zsh": [],
+    "zsh/.stow-local-ignore": [],
+    "zsh/.zshrc": [],
+    "zsh/.zshrc.backup": [],
+    "zsh/PACKAGE.md": []
+  },
+  "warnings": [
+    "9 symbolic links were skipped because the deterministic scanner does not scan symbolic links."
+  ]
+}
