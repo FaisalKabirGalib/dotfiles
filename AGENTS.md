@@ -11,7 +11,7 @@ This workspace contains personal dotfiles managed with **GNU Stow**. It is optim
 ## Tech Stack
 
 - **Shell:** Zsh (Modular, Zinit manager)
-- **Terminal:** Ghostty, Kitty
+- **Terminal:** Ghostty
 - **Editor:** Neovim (LazyVim, Lua-based)
 - **Multiplexer:** Tmux (prefix `C-Space`)
 - **Compositor:** Hyprland (configured via `omarchy`)
@@ -46,7 +46,7 @@ The local environment may use automated checkpointing or stashing.
 ### 4. Configuration Standards
 - **Keybindings:** Always prioritize Vim-style (`h/j/k/l`, `C-u`/`C-d`) in all tool configs.
 - **Theming:** Strictly follow the **Catppuccin Mocha** palette.
-- **Hyprland:** The active configuration is in **`omarchy/.config/hypr/`**. Ignore the legacy `@hyprland/` directory.
+- **Hyprland:** The active configuration is in **`omarchy/.config/hypr/`**.
 
 ## Specialized Agent Contexts
 

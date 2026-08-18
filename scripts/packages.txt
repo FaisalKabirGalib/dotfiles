@@ -18,7 +18,6 @@ eza
 zoxide
 python
 hyprland
-waybar
 rofi
 wl-clipboard
 cliphist
@@ -32,8 +31,7 @@ mise
 # before ~/.config/mise/config.toml can be stowed into place.
 stow
 
-# Desktop rice: notification center, media control for waybar, audio visualizer
-swaync
+# Desktop utilities
 playerctl
 cava
 

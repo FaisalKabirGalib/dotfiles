@@ -124,7 +124,6 @@ This repo manages config for several coding agents, each its own stow package:
 | `pi` | `~/.omp/agent/` | oh-my-pi (`omp`) — extensions, prompts, skills, `AGENTS.md` |
 | `gemini` | `~/.gemini/` | Gemini CLI — agents, policies, commands, skills, `AGENTS.md` |
 | `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI — **symlinks its agents from the `gemini` package** to avoid duplication |
-| `pi.old` | `~/.pi/` | Deprecated previous pi config, kept for reference |
 
 ### Skills & Extensions
 

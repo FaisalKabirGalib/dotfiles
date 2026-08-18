@@ -9,7 +9,7 @@ This repository contains personal dotfiles managed with **GNU Stow**. It is opti
   - **OS:** Arch Linux
   - **Window Manager:** Hyprland (`omarchy` package)
   - **Shell:** Zsh (modular configuration)
-  - **Terminal:** Ghostty / Kitty
+  - **Terminal:** Ghostty
   - **Editor:** Neovim (LazyVim)
   - **Multiplexer:** Tmux (prefix `C-Space`)
 - **Philosophy:**
@@ -21,7 +21,7 @@ This repository contains personal dotfiles managed with **GNU Stow**. It is opti
 
 - **Symlink Sensitivity:** The `write` tool (and some AI file-writing tools) may silently fail or behave unexpectedly when targeting stow-symlinked files. **Always use shell redirection** (e.g., `cat > file << 'EOF'`) if you encounter issues writing to files that might be symlinked.
 - **Git Workflow:** This repo uses a "checkpoint" system that may stash untracked files. **Always `git add` and `git commit` new files immediately** after creation to prevent them from being lost in a stash during automated processes.
-- **Hyprland Config:** **DO NOT** modify the `@hyprland/` directory; it is an old implementation kept for reference. The active Hyprland config lives in **`omarchy/.config/hypr/`**.
+- **Hyprland Config:** The active Hyprland config lives in **`omarchy/.config/hypr/`**.
 - **Stow Ignores:** Refer to `.stow-local-ignore` and `.gitignore` to identify files that should not be symlinked or committed (e.g., machine-specific secrets).
 
 ## Building and Running
@@ -54,10 +54,8 @@ This repository contains personal dotfiles managed with **GNU Stow**. It is opti
 - **Policies:** Includes `plannotator.toml` for seamless plan reviews.
 
 ### Pi Agent (`pi/`)
-- **Core:** Specialized coding agent config in `~/.pi/`.
-- **DCP (Dynamic Context Pruning):** Located at `.pi/agent/extensions/pi-dynamic-context-pruning/`. Use `/dcp` commands for context management.
-- **Extensions:** Custom TS extensions in `.pi/agent/extensions/` (e.g., `git-checkpoint.ts`).
-- **Prompts:** Custom templates like `/review`, `/commit`, and `/fix-types`.
+- **Core:** Oh-My-Pi configuration in `~/.omp/agent/`.
+- **Extensions and skills:** Stored under `.omp/agent/`.
 
 ### Claude Code (`claude-code/`)
 - **Custom Commands:** Markdown-based commands in `.claude/commands/`.
@@ -86,6 +84,6 @@ This repository contains personal dotfiles managed with **GNU Stow**. It is opti
 - `stowup`: The primary script for applying configurations.
 - `MEMORY.md`: Local "gotchas" and personal reminders.
 - `bin/`: Custom CLI tools and scripts (linked to `~/.local/bin/`).
-- `omarchy/`: Active Hyprland + Waybar configuration.
+- `omarchy/`: Active Hyprland and Quickshell configuration.
 - `nvim/`: Extensive Neovim IDE configuration (LazyVim).
 - `zsh/`: Modular shell configuration using Zinit.

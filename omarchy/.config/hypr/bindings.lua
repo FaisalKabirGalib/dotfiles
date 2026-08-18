@@ -134,19 +134,4 @@ hl.bind("SUPER + ALT + B", function()
   )
 end, { description = "Toggle border animation" })
 
--- Deliberately not bound, all superseded by Omarchy 4:
---
---   SUPER+K            -- keeps Omarchy's own keybindings cheat sheet. The
---                         custom ~/.local/bin/omarchy-keybinding-run wrapper
---                         drives its picker through walker, which Omarchy 4
---                         replaced with its own menu.
---   SUPER+SHIFT+ESCAPE -- wlogout is not installed on this machine, and
---                         SUPER+ESCAPE already opens Omarchy's system menu.
---   SUPER+COMMA        -- Omarchy's defaults dismiss the last notification
---   SUPER+SHIFT+COMMA     and all notifications respectively. The old
---                         swaync-client bindings went away with swaync itself,
---                         see autostart.lua.
-
--- Notifications stay on Omarchy's defaults (SUPER+COMMA dismisses the last
--- notification, SUPER+SHIFT+COMMA dismisses all). The old swaync-client
--- bindings are gone along with swaync -- see autostart.lua.
+-- Omarchy's defaults own the system menu and notification shortcuts.

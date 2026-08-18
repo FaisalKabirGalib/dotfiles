@@ -208,9 +208,6 @@ Roughly in order of payoff:
    the machine.
 5. **Try the vertical bar** — `omarchy bar position left`.
 6. **Enable `omarchy.media`** for transport controls in the bar.
-7. **Retire the `wlogout` package** — still stowed here, but the binary is not
-   installed and `SUPER+ESC` replaces it.
-
 ### Unrelated loose end
 
 Every file in `~/.config/hypr/shaders/` is a dangling symlink into

@@ -34,9 +34,8 @@ These three stay `.conf` — they are read by separate processes, not Hyprland:
 - `hyprlock.conf` — lock screen (`hyprlock`)
 - `hyprsunset.conf` — night light (`hyprsunset`); apply with `omarchy restart hyprsunset`
 
-Also shipped: `.config/xdg-terminals.list` — terminal preference order for
-`xdg-terminal-exec` (Omarchy sets `$TERMINAL=xdg-terminal-exec`; first valid
-entry wins). Currently **Ghostty** first, then kitty, then Alacritty.
+Also shipped: `.config/xdg-terminals.list` — terminal preference for
+`xdg-terminal-exec`. It selects **Ghostty**.
 
 ## Editing
 

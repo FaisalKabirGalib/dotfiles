@@ -20,6 +20,5 @@ hl.config({
   },
 })
 
--- App-specific touchpad scroll speeds.
-o.window("(Alacritty|kitty)", { scroll_touchpad = 1.5 })
+-- Ghostty needs a lower touchpad scroll speed than Omarchy's default.
 o.window("com.mitchellh.ghostty", { scroll_touchpad = 0.2 })
