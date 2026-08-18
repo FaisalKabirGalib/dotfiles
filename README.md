@@ -27,7 +27,6 @@ Or install individual packages:
 | `boot` | `/boot/` | Bootloader config (limine) |
 | `cava` | `~/.config/cava/` | Audio visualizer |
 | `claude-code` | `~/.claude/` | Claude Code agent config |
-| `gemini` | `~/.gemini/` | Gemini CLI agents, policies, and commands |
 | `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI config |
 | `ghostty` | `~/.config/ghostty/` | Ghostty terminal |
 | `mise` | `~/.config/mise/` | Toolchain manager (runtimes + dev CLIs) |
@@ -37,7 +36,7 @@ Or install individual packages:
 | `omarchy` | `~/.config/hypr/` | Hyprland compositor (Lua config) |
 | `opencode` | `~/.config/opencode/` | Opencode CLI config |
 | `p10k` | `~/` | Powerlevel10k theme |
-| `pi` | `~/.omp/agent/` | oh-my-pi coding agent config |
+| `omp` | `~/.omp/agent/` | oh-my-pi (omp) coding agent config |
 | `ssh` | `~/.ssh/` | SSH config (keys excluded) |
 | `tmux` | `~/.config/tmux/` | Tmux (prefix C-a) |
 | `vscode` | `~/.config/Code/` | VS Code with Vim mode |

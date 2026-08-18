@@ -47,13 +47,7 @@ This repository contains personal dotfiles managed with **GNU Stow**. It is opti
 
 ## Agent & Specialized Packages
 
-### Gemini CLI (`gemini/`)
-- **Core:** Global configuration in `~/.gemini/`.
-- **Custom Subagents:** Ported specialized agents in `.gemini/agents/` (`arch-expert`, `flutter-expert`, `ts-expert`, `code-reviewer`).
-- **Memory:** `GEMINI.md` (Global Personal Memory) is now version-controlled in this package.
-- **Policies:** Includes `plannotator.toml` for seamless plan reviews.
-
-### Pi Agent (`pi/`)
+### Oh-My-Pi (`omp/`)
 - **Core:** Oh-My-Pi configuration in `~/.omp/agent/`.
 - **Extensions and skills:** Stored under `.omp/agent/`.
 
