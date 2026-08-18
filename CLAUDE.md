@@ -122,7 +122,7 @@ This repo manages config for several coding agents, each its own stow package:
 |---------|--------|-------|
 | `claude-code` | `~/.claude/` | Claude Code (commands, hooks, `settings.json`) |
 | `omp` | `~/.omp/agent/` | oh-my-pi (`omp`) — extensions, prompts, skills, `AGENTS.md` |
-| `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI — custom agents in `plugins/custom-agents/agents/` |
+| `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI — stow package for `~/.gemini/antigravity-cli/` (settings are machine-local) |
 
 ### Skills & Extensions
 

@@ -50,7 +50,7 @@ The local environment may use automated checkpointing or stashing.
 
 ## Specialized Agent Contexts
 
-- **Antigravity CLI (agy):** Config in `agy/.gemini/antigravity-cli/`. Custom agents in `agy/.gemini/antigravity-cli/plugins/custom-agents/agents/`.
+- **Antigravity CLI (agy):** Stow package for `~/.gemini/antigravity-cli/`; its `settings.json` is machine-local (gitignored).
 - **Oh-My-Pi (omp):** Config and extensions in `omp/.omp/agent/`.
 - **Claude Code:** Custom commands in `claude-code/.claude/commands/`.
 - **Opencode:** MCP server configuration in `opencode/.config/opencode/`.

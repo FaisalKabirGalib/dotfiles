@@ -1,6 +1,6 @@
 # agy — Antigravity CLI Configuration
 
-Custom settings, plugins, and custom agents for the Antigravity CLI.
+Custom settings for the Antigravity CLI.
 
 ## Package Details
 
@@ -10,8 +10,7 @@ Custom settings, plugins, and custom agents for the Antigravity CLI.
 
 ## Features
 
-- **Custom Subagents**: Symlinked from the main `gemini` package to avoid duplication.
-- **Settings**: Keyboard-first configurations and trusted workspaces.
+- **Settings**: Machine-local `settings.json` (gitignored; stowed from this package on each machine).
 - **Stow Integration**: Seamless config management.
 
 ## Install
