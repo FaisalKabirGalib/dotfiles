@@ -7,10 +7,17 @@ profiles:
     - expo-mcp: remote OAuth, project-scoped
   next:
     - drizzle-kit-mcp: local, only when Drizzle is installed
+    - prisma-mcp: local, only when Prisma is installed
   nestjs:
     - drizzle-kit-mcp: local, only when Drizzle is installed
+    - prisma-mcp: local, only when Prisma is installed
   postgres:
     - drizzle-kit-mcp: local, only when Drizzle is installed
+    - prisma-mcp: local, only when Prisma is installed
+  drizzle:
+    - drizzle-kit-mcp: local, only when Drizzle is installed
+  prisma:
+    - prisma-mcp: local, only when Prisma is installed; do not use remote Prisma Postgres MCP for project-owned PostgreSQL
   docker:
     - docker-mcp-toolkit: manual, Docker Desktop only
   vercel:

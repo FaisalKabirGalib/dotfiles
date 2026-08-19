@@ -11,12 +11,13 @@ Run `agentctl doctor` after installation. `agentctl skills install <name>` insta
 Profiles are project-local instructions, not dependency installers. Select only the profiles whose technology is already present or explicitly chosen for the project.
 
 ```bash
-# Next.js with Drizzle, a project-owned PostgreSQL database, Docker deployment,
-# and an intentional web design workflow.
-agentctl init next postgres docker web-design
+# Next.js with a project-owned PostgreSQL database, Docker deployment,
+# intentional web design workflow, and one selected ORM.
+agentctl init next postgres docker web-design drizzle
+# Or: agentctl init next postgres docker web-design prisma
 
 # NestJS API using the same Postgres and container conventions.
-agentctl init nestjs postgres docker
+agentctl init nestjs postgres docker prisma
 
 # Flutter or Expo mobile projects.
 agentctl init flutter
@@ -29,7 +30,7 @@ agentctl init rust docker
 agentctl init workflow
 ```
 
-`next` intentionally does not select Neon, Vercel Postgres, Supabase, or Vercel deployment. It uses the project's own PostgreSQL connection and a container deployment workflow. Add `vercel` or `supabase` only when that platform is an explicit project dependency.
+`next` intentionally does not select Neon, Vercel Postgres, Supabase, or Vercel deployment. It uses the project's own PostgreSQL connection and a container deployment workflow. Preserve an existing Drizzle or Prisma choice; for a new project, choose one after confirming the trade-off, never both. Add `vercel` or `supabase` only when that platform is an explicit project dependency.
 
 Use `knowledge-graph` only when work spans code plus documents or media; code-only repositories should use the existing `understand` workflow. Use `web-design` only for web UI work. It calls for project-local UI UX Pro Max and a selected Awesome Design MD reference, then browser verification; neither is a global default.
 
@@ -37,9 +38,9 @@ Use `knowledge-graph` only when work spans code plus documents or media; code-on
 
 The MCP catalog maps profiles to optional tools. Existing Context7 and agent-browser configuration remain the default baseline. Provider or infrastructure MCPs are activated only when the project uses that provider or technology:
 
-- `drizzle-kit-mcp` when Drizzle is installed.
+- `drizzle-kit-mcp` when Drizzle is installed, or local `prisma mcp` when Prisma is installed. The remote Prisma MCP manages Prisma Postgres and is not selected for project-owned PostgreSQL.
 - `docker-mcp-toolkit` only with Docker Desktop; regular Docker Engine and Compose do not require it.
 - Flutter/Dart MCP for Dart 3.9+ projects, Expo MCP for Expo projects, and Laravel Boost for Laravel projects.
 - Vercel and Supabase MCPs only after the project is deliberately connected to those services; scope Supabase to one project and begin read-only.
 
-The skills registry also records project-managed sources such as Vercel Agent Skills, Drizzle Kit skills, Laravel Boost, Flutter/Dart, Expo, GSD, Graphify, UI UX Pro Max, and Awesome Design MD. They are intentionally not installed by `agentctl` until their source revision and project scope have been reviewed.
+The skills registry also records project-managed sources such as Vercel Agent Skills, Drizzle Kit skills, Prisma Skills, Laravel Boost, Flutter/Dart, Expo, GSD, Graphify, UI UX Pro Max, and Awesome Design MD. They are intentionally not installed by `agentctl` until their source revision and project scope have been reviewed.

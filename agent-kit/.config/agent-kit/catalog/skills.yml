@@ -31,6 +31,10 @@ skills:
     source: bundled:drizzle-kit
     revision: project-managed
     scope: postgres
+  - name: prisma-skills
+    source: skills:prisma/skills
+    revision: project-managed
+    scope: postgres
   - name: laravel-boost
     source: composer:laravel/boost
     revision: project-managed
