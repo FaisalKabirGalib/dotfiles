@@ -28,6 +28,7 @@ agentctl init laravel docker
 agentctl init go docker
 agentctl init rust docker
 agentctl init workflow
+agentctl init matt-pocock
 ```
 
 `next` intentionally does not select Neon, Vercel Postgres, Supabase, or Vercel deployment. It uses the project's own PostgreSQL connection and a container deployment workflow. Preserve an existing Drizzle or Prisma choice; for a new project, choose one after confirming the trade-off, never both. Add `vercel` or `supabase` only when that platform is an explicit project dependency.
@@ -44,3 +45,5 @@ The MCP catalog maps profiles to optional tools. Existing Context7 and agent-bro
 - Vercel and Supabase MCPs only after the project is deliberately connected to those services; scope Supabase to one project and begin read-only.
 
 The skills registry also records project-managed sources such as Vercel Agent Skills, Drizzle Kit skills, Prisma Skills, Laravel Boost, Flutter/Dart, Expo, GSD, Graphify, UI UX Pro Max, and Awesome Design MD. They are intentionally not installed by `agentctl` until their source revision and project scope have been reviewed.
+
+The `matt-pocock` profile uses the stable skills from `mattpocock/skills` for composable clarification, TDD, review, architecture, research, and handoff workflows. Configure the selected skills once per repository with `setup-matt-pocock-skills`; do not install its explicitly in-progress skills as a default.

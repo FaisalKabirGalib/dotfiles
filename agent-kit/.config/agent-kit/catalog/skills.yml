@@ -71,3 +71,7 @@ skills:
     source: github:affaan-m/everything-claude-code
     revision: project-managed
     scope: reference-only
+  - name: matt-pocock-skills
+    source: github:mattpocock/skills
+    revision: managed-plugin-or-project-copy
+    scope: workflow
