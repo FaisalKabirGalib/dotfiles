@@ -1,0 +1,23 @@
+profiles:
+  base:
+    - context7
+  flutter:
+    - dart-mcp-server: local, Dart 3.9+
+  expo:
+    - expo-mcp: remote OAuth, project-scoped
+  next:
+    - drizzle-kit-mcp: local, only when Drizzle is installed
+  nestjs:
+    - drizzle-kit-mcp: local, only when Drizzle is installed
+  postgres:
+    - drizzle-kit-mcp: local, only when Drizzle is installed
+  docker:
+    - docker-mcp-toolkit: manual, Docker Desktop only
+  vercel:
+    - vercel-mcp: remote OAuth, only for Vercel deployments
+  supabase:
+    - supabase-mcp: remote OAuth, project-scoped and read-only first
+  web-design:
+    - agent-browser: local, UI verification only
+  knowledge-graph:
+    - graphify: manual, only for mixed code and non-code knowledge bases
