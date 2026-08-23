@@ -1,0 +1,72 @@
+#!/bin/bash
+
+theme_path="$HOME/.local/state/omarchy/current/theme/colors.toml"
+powerkit_root="$HOME/.config/tmux/plugins/tmux-powerkit"
+output_path="${XDG_CACHE_HOME:-$HOME/.cache}/tmux-powerkit/omarchy-theme.sh"
+
+[[ -f $theme_path && -d $powerkit_root ]] || exit 0
+
+color() {
+  omarchy-theme-color --file "$theme_path" "$1"
+}
+
+background=$(color background)
+dark_background=$(color dark_background)
+lighter_background=$(color lighter_background)
+foreground=$(color foreground)
+dark_foreground=$(color dark_foreground)
+accent=$(color accent)
+red=$(color red)
+yellow=$(color yellow)
+green=$(color green)
+cyan=$(color cyan)
+blue=$(color blue)
+selection=$(color selection)
+
+for value in "$background" "$dark_background" "$lighter_background" "$foreground" "$dark_foreground" "$accent" "$red" "$yellow" "$green" "$cyan" "$blue" "$selection"; do
+  [[ $value =~ ^#[[:xdigit:]]{6}$ ]] || exit 0
+done
+
+mkdir -p "${output_path%/*}"
+temporary_path=$(mktemp "${output_path}.XXXXXX") || exit 0
+
+{
+  printf '%s\n' 'declare -gA THEME_COLORS=('
+  printf '  [statusbar-bg]="%s"\n' "$dark_background"
+  printf '  [statusbar-fg]="%s"\n' "$foreground"
+  printf '  [session-bg]="%s"\n' "$accent"
+  printf '  [session-fg]="%s"\n' "$dark_background"
+  printf '  [session-prefix-bg]="%s"\n' "$blue"
+  printf '  [session-copy-bg]="%s"\n' "$green"
+  printf '  [window-active-base]="%s"\n' "$accent"
+  printf '  [window-inactive-base]="%s"\n' "$dark_foreground"
+  printf '  [pane-border-active]="%s"\n' "$blue"
+  printf '  [pane-border-inactive]="%s"\n' "$dark_foreground"
+  printf '  [ok-base]="%s"\n' "$green"
+  printf '  [good-base]="%s"\n' "$cyan"
+  printf '  [info-base]="%s"\n' "$blue"
+  printf '  [warning-base]="%s"\n' "$yellow"
+  printf '  [error-base]="%s"\n' "$red"
+  printf '  [disabled-base]="%s"\n' "$dark_foreground"
+  printf '  [message-bg]="%s"\n' "$lighter_background"
+  printf '  [message-fg]="%s"\n' "$foreground"
+  printf '  [selection-bg]="%s"\n' "$selection"
+  printf '  [selection-fg]="%s"\n' "$foreground"
+  printf '  [popup-bg]="%s"\n' "$background"
+  printf '  [popup-fg]="%s"\n' "$foreground"
+  printf '  [popup-border]="%s"\n' "$accent"
+  printf '  [menu-bg]="%s"\n' "$background"
+  printf '  [menu-fg]="%s"\n' "$foreground"
+  printf '  [menu-selected-bg]="%s"\n' "$accent"
+  printf '  [menu-selected-fg]="%s"\n' "$dark_background"
+  printf '  [menu-border]="%s"\n' "$accent"
+  printf '%s\n' ')'
+  printf '%s\n' 'export THEME_COLORS'
+} >"$temporary_path"
+
+mv "$temporary_path" "$output_path"
+tmux list-sessions >/dev/null 2>&1 || exit 0
+tmux set-option -g @powerkit_theme custom
+tmux set-option -g @powerkit_custom_theme_path "$output_path"
+rm -f "${XDG_CACHE_HOME:-$HOME/.cache}/tmux-powerkit/data/theme_colors__custom__custom" "${XDG_CACHE_HOME:-$HOME/.cache}/tmux-powerkit/data/current_theme"
+POWERKIT_ROOT="$powerkit_root" bash "$powerkit_root/src/helpers/reload_theme.sh"
