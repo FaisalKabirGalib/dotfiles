@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -u
+
+harness=${1:-agent}
+event=${2:-completed}
+project=${3:-$PWD}
+message=${4:-}
+name=$(basename "$project")
+title="$harness: $name"
+
+case "$event" in
+input-required) body=${message:-Input required} ;;
+completed) body=${message:-Task completed} ;;
+*) body=${message:-$event} ;;
+esac
+
+if command -v notify-send >/dev/null 2>&1; then
+	notify-send "$title" "$body" >/dev/null 2>&1 &
+elif command -v osascript >/dev/null 2>&1; then
+	osascript -e "display notification \"$body\" with title \"$title\"" >/dev/null 2>&1 &
+fi
+
+exit 0

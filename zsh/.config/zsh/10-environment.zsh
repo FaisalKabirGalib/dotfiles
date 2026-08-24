@@ -45,5 +45,6 @@ export PATH="$HOME/.claude-code-templates/bin:$PATH"
 
 # Preferred editor
 export EDITOR="nvim"
+export ZAI_API_KEY="$(pass ApiKey/ZAi/opencode | head -n 1)"
 
 # (SDKMAN removed: ~/.sdkman never existed on this machine and mise provides java.)

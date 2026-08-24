@@ -1,7 +1,6 @@
 ---
 description: Debugging specialist for errors, test failures, and unexpected behavior. Use PROACTIVELY when encountering issues, analyzing stack traces, or investigating system problems.
 mode: subagent
-model: anthropic/claude-sonnet-4-5
 tools:
   read: true
   write: true

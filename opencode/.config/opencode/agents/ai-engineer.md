@@ -1,7 +1,6 @@
 ---
 description: LLM application and RAG system specialist. Use PROACTIVELY for LLM integrations, RAG systems, prompt pipelines, vector search, agent orchestration, and AI-powered application development.
 mode: subagent
-model: anthropic/claude-opus-4
 tools:
   read: true
   write: true

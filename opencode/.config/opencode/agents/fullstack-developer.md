@@ -1,7 +1,6 @@
 ---
 description: Full-stack development specialist covering frontend, backend, and database technologies. Use PROACTIVELY for end-to-end application development, API integration, database design, and complete feature implementation.
 mode: subagent
-model: anthropic/claude-opus-4
 tools:
   read: true
   write: true

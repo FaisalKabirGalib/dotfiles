@@ -1,0 +1,23 @@
+{
+  "agent-notifications": {
+    "PreToolUse": [
+      {
+        "matcher": "ask_permission",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-notify antigravity input-required \"$PWD\" \"Permission requested\"",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "agent-notify antigravity completed \"$PWD\"",
+        "timeout": 3
+      }
+    ]
+  }
+}

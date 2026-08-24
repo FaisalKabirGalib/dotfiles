@@ -28,14 +28,8 @@ alias ccu='claude update'      # Update Claude Code
 alias ccm='claude mcp'         # MCP server configuration
 
 # === Opencode Aliases ===
+alias ocy='opencode --auto'
 alias dsync='dotfiles-sync'
-opencode() {
-  local mcp_env="$HOME/dotfiles/opencode/mcp-env.sh"
-  if [[ -f "$mcp_env" ]]; then
-    source "$mcp_env"
-  fi
-  command opencode "$@"
-}
 
 # === Claude Code with Z.AI Endpoint ===
 alias ccz='_ccz_env claude'                                              # Z.AI endpoint

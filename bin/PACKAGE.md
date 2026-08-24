@@ -11,6 +11,7 @@ Utility scripts for dotfiles management and system administration.
 ## Scripts
 
 - `dotfiles-sync` — Sync dotfiles to git
+- `agent-notify` — Send non-blocking harness notifications
 
 ## Install
 

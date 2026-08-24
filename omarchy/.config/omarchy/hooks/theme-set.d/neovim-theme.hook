@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+runtime_dir=${XDG_RUNTIME_DIR:-/run/user/$UID}
+
+nvim --headless "+Lazy! install" "+qa" >/dev/null 2>&1 || true
+
+for server in "$runtime_dir"/nvim.*; do
+  [[ -S $server ]] || continue
+  nvim --server "$server" --remote-expr 'luaeval("require(\"config.omarchy_theme\").apply()")' >/dev/null 2>&1 || true
+done

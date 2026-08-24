@@ -7,7 +7,7 @@ This package contains OpenCode configuration for agents, commands, and MCP serve
 OpenCode is a terminal-based AI coding assistant. This configuration includes:
 
 - **9 Specialized Agents**: fullstack-developer, code-reviewer, debugger, error-detective, ai-engineer, ui-ux-designer, context-manager, prompt-engineer, search-specialist
-- **7 Custom Commands**: code-review, architecture-review, create-feature, create-prd, refactor-code, explain-code, todo
+- **8 Custom Commands**: code-review, architecture-review, create-feature, create-prd, refactor-code, explain-code, code-simplifier, todo
 - **MCP Server Configuration**: Structure ready for adding Model Context Protocol servers
 - **Global Settings**: Theme, model preferences, and autoupdate configuration
 
@@ -60,7 +60,7 @@ Execute commands with the `/` prefix:
 ```
 opencode/
 ├── .config/opencode/
-│   ├── opencode.json        # Main configuration
+│   ├── opencode.jsonc       # Main configuration
 │   ├── .gitignore           # Sensitive data exclusions
 │   ├── agents/              # 9 specialized agents
 │   │   ├── fullstack-developer.md
@@ -72,13 +72,14 @@ opencode/
 │   │   ├── context-manager.md
 │   │   ├── prompt-engineer.md
 │   │   └── search-specialist.md
-│   └── commands/            # 7 custom commands
+│   └── commands/            # 8 custom commands
 │       ├── code-review.md
 │       ├── architecture-review.md
 │       ├── create-feature.md
 │       ├── create-prd.md
 │       ├── refactor-code.md
 │       ├── explain-code.md
+│       ├── code-simplifier.md
 │       └── todo.md
 ├── README.md                # This file
 └── .gitignore               # Root-level exclusions

@@ -1,7 +1,6 @@
 ---
 description: UI/UX design specialist for user-centered design and interface systems. Use PROACTIVELY for user research, wireframes, design systems, prototyping, accessibility standards, and user experience optimization.
 mode: subagent
-model: anthropic/claude-sonnet-4-5
 tools:
   read: true
   write: true

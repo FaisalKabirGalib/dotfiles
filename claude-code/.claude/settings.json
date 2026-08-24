@@ -1,12 +1,23 @@
 {
-  "model": "opus",
+  "model": "sonnet",
   "hooks": {
     "Stop": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "DIR=$(basename $PWD); if command -v osascript >/dev/null 2>&1; then osascript -e \"display notification \\\"Task completed\\\" with title \\\"Claude Code - $DIR\\\"\"; elif command -v notify-send >/dev/null 2>&1; then notify-send \"Claude Code - $DIR\" \"Task completed\"; fi"
+            "command": "agent-notify claude completed \"$PWD\""
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "agent-notify claude input-required \"$PWD\" \"Permission requested\"",
+            "async": true
           }
         ]
       }
@@ -34,5 +45,6 @@
   "effortLevel": "high",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "editorMode": "vim"
+  "editorMode": "vim",
+  "agentPushNotifEnabled": true
 }
