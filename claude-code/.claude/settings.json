@@ -7,6 +7,40 @@
           {
             "type": "command",
             "command": "agent-notify claude completed \"$PWD\""
+          },
+          {
+            "type": "command",
+            "command": "~/.config/tmux/plugins/tmux-agent-status/hooks/better-hook.sh Stop"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.config/tmux/plugins/tmux-agent-status/hooks/better-hook.sh UserPromptSubmit"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.config/tmux/plugins/tmux-agent-status/hooks/better-hook.sh PreToolUse"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.config/tmux/plugins/tmux-agent-status/hooks/better-hook.sh Notification"
           }
         ]
       }

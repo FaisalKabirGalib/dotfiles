@@ -20,6 +20,34 @@
             "command": "bash '/home/galib/.codex/herdr-agent-state.sh' session",
             "timeout": 10,
             "type": "command"
+          },
+          {
+            "command": "bash ~/.config/tmux/plugins/tmux-agent-status/hooks/codex-hook.sh SessionStart",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "command": "bash ~/.config/tmux/plugins/tmux-agent-status/hooks/codex-hook.sh UserPromptSubmit",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "command": "bash ~/.config/tmux/plugins/tmux-agent-status/hooks/codex-hook.sh PreToolUse",
+            "timeout": 10,
+            "type": "command"
           }
         ]
       }
@@ -36,6 +64,11 @@
           {
             "command": "/home/galib/.local/bin/plannotator",
             "timeout": 345600,
+            "type": "command"
+          },
+          {
+            "command": "bash ~/.config/tmux/plugins/tmux-agent-status/hooks/codex-hook.sh Stop",
+            "timeout": 10,
             "type": "command"
           }
         ]
