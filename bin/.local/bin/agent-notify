@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -u
 
+[[ ${HERDR_ENV:-} == 1 ]] && exit 0
+
 harness=${1:-agent}
 event=${2:-completed}
 project=${3:-$PWD}

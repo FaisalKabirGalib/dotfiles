@@ -25,15 +25,6 @@
       },
       "enabled": true
     },
-    "sequential-thinking": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ],
-      "enabled": true
-    },
     "zai-mcp-server": {
       "type": "local",
       "command": [
@@ -41,14 +32,6 @@
         "-lc",
         "exec env Z_AI_MODE=ZAI Z_AI_API_KEY=\"$(pass ApiKey/ZAi/opencode | head -n 1)\" npx -y @z_ai/mcp-server"
       ],
-      "enabled": true
-    },
-    "Ref": {
-      "type": "remote",
-      "url": "https://api.ref.tools/mcp",
-      "headers": {
-        "x-ref-api-key": "{env:REF_API_KEY}"
-      },
       "enabled": true
     },
     "web-search-prime": {

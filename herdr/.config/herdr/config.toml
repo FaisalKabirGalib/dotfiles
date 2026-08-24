@@ -1,0 +1,161 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+
+[theme.custom]
+panel_bg = "black"
+
+[terminal]
+default_shell = "/usr/bin/zsh"
+shell_mode = "login"
+new_cwd = "follow"
+
+[keys]
+prefix = "ctrl+space"
+help = "prefix+?"
+settings = "prefix+shift+s"
+detach = "prefix+d"
+reload_config = "prefix+r"
+workspace_picker = "prefix+s"
+goto = "prefix+w"
+new_workspace = "prefix+shift+c"
+rename_workspace = "prefix+shift+r"
+close_workspace = "prefix+shift+k"
+previous_workspace = "alt+up"
+next_workspace = "alt+down"
+new_worktree = "prefix+shift+g"
+new_tab = "prefix+c"
+rename_tab = "prefix+comma"
+previous_tab = "alt+left"
+next_tab = ["prefix+n", "alt+right"]
+switch_tab = "prefix+1..9"
+close_tab = "prefix+ampersand"
+copy_mode = ["prefix+u", "prefix+["]
+edit_scrollback = "prefix+e"
+focus_pane_left = ""
+focus_pane_down = ""
+focus_pane_up = ""
+focus_pane_right = ""
+cycle_pane_next = "prefix+o"
+last_pane = "prefix+;"
+split_vertical = "prefix+|"
+split_horizontal = "prefix+minus"
+close_pane = "prefix+x"
+zoom = ["prefix+m", "prefix+z"]
+resize_mode = ""
+resize_pane_left = "prefix+left"
+resize_pane_down = "prefix+down"
+resize_pane_up = "prefix+up"
+resize_pane_right = "prefix+right"
+toggle_sidebar = "prefix+b"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "herdr-splits.nav-left"
+description = "Vim-aware pane left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-splits.nav-down"
+description = "Vim-aware pane down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-splits.nav-up"
+description = "Vim-aware pane up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-splits.nav-right"
+description = "Vim-aware pane right"
+
+[[keys.command]]
+key = "prefix+h"
+type = "plugin_action"
+command = "herdr-splits.nav-left"
+description = "Vim-aware pane left"
+
+[[keys.command]]
+key = "prefix+j"
+type = "plugin_action"
+command = "herdr-splits.nav-down"
+description = "Vim-aware pane down"
+
+[[keys.command]]
+key = "prefix+k"
+type = "plugin_action"
+command = "herdr-splits.nav-up"
+description = "Vim-aware pane up"
+
+[[keys.command]]
+key = "prefix+l"
+type = "plugin_action"
+command = "herdr-splits.nav-right"
+description = "Vim-aware pane right"
+
+[[keys.command]]
+key = "alt+h"
+type = "plugin_action"
+command = "herdr-splits.resize-left"
+description = "Vim-aware resize left"
+
+[[keys.command]]
+key = "alt+j"
+type = "plugin_action"
+command = "herdr-splits.resize-down"
+description = "Vim-aware resize down"
+
+[[keys.command]]
+key = "alt+k"
+type = "plugin_action"
+command = "herdr-splits.resize-up"
+description = "Vim-aware resize up"
+
+[[keys.command]]
+key = "alt+l"
+type = "plugin_action"
+command = "herdr-splits.resize-right"
+description = "Vim-aware resize right"
+
+[[keys.command]]
+key = "prefix+p"
+type = "popup"
+command = "exec /usr/bin/zsh -l"
+description = "scratch terminal"
+width = "80%"
+height = "80%"
+
+[ui]
+accent = "blue"
+pane_gaps = false
+pane_outer_borders = false
+pane_scrollbars = false
+confirm_close = true
+prompt_new_tab_name = false
+mouse_capture = true
+copy_on_select = false
+tab_bar_position = "top"
+tab_bar_right = [{ type = "zoom" }, { type = "hostname" }]
+window_title = "{hostname}: {workspace}"
+status_indicators = "symbols"
+
+[ui.toast]
+delivery = "system"
+delay_seconds = 1
+
+[ui.sound]
+enabled = false
+
+[session]
+resume_agents_on_restore = true
+
+[advanced]
+scrollback_limit_bytes = 100000000
+
+[experimental]
+pane_history = false

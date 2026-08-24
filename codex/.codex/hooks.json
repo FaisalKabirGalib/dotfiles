@@ -5,10 +5,21 @@
       {
         "hooks": [
           {
-            "type": "command",
-            "command": "agent-notify codex input-required \"$PWD\" \"Permission requested\"",
             "async": true,
-            "timeout": 3
+            "command": "agent-notify codex input-required \"$PWD\" \"Permission requested\"",
+            "timeout": 3,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "bash '/home/galib/.codex/herdr-agent-state.sh' session",
+            "timeout": 10,
+            "type": "command"
           }
         ]
       }
@@ -17,10 +28,15 @@
       {
         "hooks": [
           {
-            "type": "command",
-            "command": "agent-notify codex completed \"$PWD\"",
             "async": true,
-            "timeout": 3
+            "command": "agent-notify codex completed \"$PWD\"",
+            "timeout": 3,
+            "type": "command"
+          },
+          {
+            "command": "/home/galib/.local/bin/plannotator",
+            "timeout": 345600,
+            "type": "command"
           }
         ]
       }
