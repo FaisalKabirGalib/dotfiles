@@ -43,7 +43,7 @@ tools-upgrade:
 tools-outdated:
     @mise outdated
 
-# Restore herdr plugins + agent integrations declared in scripts/setup-herdr.sh
+# Restore Herdr plugins declared in plugins.list and agent integrations
 herdr:
     bash scripts/setup-herdr.sh
 

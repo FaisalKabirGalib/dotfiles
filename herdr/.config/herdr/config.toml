@@ -4,7 +4,7 @@ onboarding = false
 name = "terminal"
 
 [theme.custom]
-panel_bg = "black"
+panel_bg = "#1e1e2e"
 
 [terminal]
 default_shell = "/usr/bin/zsh"
@@ -17,8 +17,8 @@ help = "prefix+?"
 settings = "prefix+shift+s"
 detach = "prefix+d"
 reload_config = "prefix+r"
-workspace_picker = "prefix+s"
-goto = "prefix+w"
+workspace_picker = "prefix+w"
+goto = "prefix+s"
 new_workspace = "prefix+shift+c"
 rename_workspace = "prefix+shift+r"
 close_workspace = "prefix+shift+k"
@@ -44,7 +44,7 @@ last_pane = "prefix+;"
 split_vertical = "prefix+|"
 split_horizontal = "prefix+minus"
 close_pane = "prefix+x"
-zoom = ["prefix+m", "prefix+z"]
+zoom = "prefix+z"
 resize_mode = "prefix+shift+m"
 resize_pane_left = "prefix+left"
 resize_pane_down = "prefix+down"
@@ -120,7 +120,7 @@ sidebar_start_collapsed = false
 sidebar_collapsed_mode = "compact"
 pane_gaps = false
 pane_outer_borders = false
-pane_scrollbars = false
+pane_scrollbars = true
 confirm_close = true
 prompt_new_tab_name = false
 mouse_capture = true
@@ -135,13 +135,16 @@ delivery = "system"
 delay_seconds = 1
 
 [ui.sound]
-enabled = false
+enabled = true
 
 [session]
 resume_agents_on_restore = true
 
+[worktrees]
+directory = "~/Dev/herdr-worktrees"
+
 [advanced]
-scrollback_limit_bytes = 100000000
+scrollback_limit_bytes = 20000000
 
 [experimental]
 pane_history = false

@@ -27,8 +27,11 @@ Or install individual packages:
 | `boot` | `/boot/` | Bootloader config (limine) |
 | `cava` | `~/.config/cava/` | Audio visualizer |
 | `claude-code` | `~/.claude/` | Claude Code agent config |
+| `codex` | `~/.codex/` | Codex CLI hooks |
 | `agy` | `~/.gemini/antigravity-cli/` | Antigravity CLI config |
+| `gemini` | `~/.gemini/` | Gemini CLI hooks |
 | `ghostty` | `~/.config/ghostty/` | Ghostty terminal |
+| `herdr` | `~/.config/herdr/` | Persistent, agent-aware terminal workspaces |
 | `mise` | `~/.config/mise/` | Toolchain manager (runtimes + dev CLIs) |
 | `mpv` | `~/.config/mpv/` | GPU-accelerated media player |
 | `nvim` | `~/.config/nvim/` | Neovim (LazyVim) |
@@ -38,7 +41,7 @@ Or install individual packages:
 | `p10k` | `~/` | Powerlevel10k theme |
 | `omp` | `~/.omp/agent/` | oh-my-pi (omp) coding agent config |
 | `ssh` | `~/.ssh/` | SSH config (keys excluded) |
-| `tmux` | `~/.config/tmux/` | Tmux (prefix C-a) |
+| `tmux` | `~/.config/tmux/` | Tmux (prefix C-Space) |
 | `vscode` | `~/.config/Code/` | VS Code with Vim mode |
 | `yazi` | `~/.config/yazi/` | Yazi file manager |
 | `zen-browser` | `~/.zen/` | Zen browser config |
