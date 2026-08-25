@@ -2,6 +2,10 @@
 
 Opencode CLI configuration with Model Context Protocol servers.
 
+When OpenCode runs inside tmux, its bundled local plugin reports `working`,
+`needs input`, and `done` states to `tmux-agent-status`, alongside Claude Code
+and Codex.
+
 ## Package Details
 
 - **Type**: CLI Tool / MCP
