@@ -1,0 +1,3095 @@
+diff --git a/README.md b/README.md
+index 7703e73..043a2e1 100644
+--- a/README.md
++++ b/README.md
+@@ -100,6 +100,8 @@ Herdr's built-in navigation remains the simpler choice for a single entity type.
+ | Source | Data | Enter does |
+ | --- | --- | --- |
+ | `workspace` | `herdr workspace list` + pane cwd | Focus the exact workspace |
++| `tab` | `herdr tab list` | Focus the exact tab |
++| `pane` | `herdr pane list` | Focus the exact pane without changing zoom |
+ | `agent` | `herdr agent list` | Focus the agent pane |
+ | `project` | Herdr Plus project TOML | Reuse or create a project workspace and apply tabs and split panes |
+ | `session` | Herdr sessions + configured local entries | Attach the local session |
+@@ -121,14 +123,15 @@ Every source can be disabled. Missing optional tools degrade quietly.
+ | `Up` / `Down` | Move selection |
+ | `Tab` | Cycle source filters |
+ | `Ctrl-W` | Workspaces |
++| `Ctrl-T` | Tabs |
++| `Ctrl-P` | Panes |
+ | `Ctrl-A` / `@` | Agents, using configured status order |
+-| `Ctrl-P` | Herdr Plus projects |
+ | `Ctrl-Q` | Herdr Plus Quick Actions |
+ | `Ctrl-S` | Remotes |
+ | `Ctrl-L` | Sessions |
+ | `Ctrl-Z` | Zoxide |
+ | `Ctrl-R` | Roots |
+-| `Ctrl-X` | Close the open workspace matching the selected item |
++| `Ctrl-D` / `Ctrl-X` | Safely delete/close the selected entity after confirmation |
+ | `Ctrl-B` | Mark or unmark the selected item |
+ | `Ctrl-O` | Toggle preview |
+ | `Ctrl-U` | Clear query and filter |
+@@ -155,10 +158,12 @@ Set `vim_mode = true` for normal-mode `j`/`k`, source keys, and `/` search. All
+ 
+ ### Close an open directory
+ 
+-Select an `open` or `agent` entry, or a `project`, `root`, or `zoxide` entry that matches an open workspace, then press `Ctrl-X`. Navigator closes that workspace and refreshes the list.
++Select an `open` or `agent` entry, or a `project`, `root`, or `zoxide` entry that matches an open workspace, then press `Ctrl-D` or legacy `Ctrl-X`. Navigator confirms, closes that workspace, and refreshes the list.
+ 
+ Navigator refuses to close the workspace that owns the picker; switch away first. Directories that are not open and server, session, quick-action, or plugin entries are left unchanged.
+ 
++`Ctrl-D` confirms before closing a workspace, tab, pane, or agent hosting pane. Named sessions are stopped first when running, then deleted. Navigator never deletes filesystem data and refuses its launch workspace/tab/pane, its own plugin panes, and the current named session.
++
+ ### Jump Back
+ 
+ Navigator remembers the workspace left by a successful local navigation. Bind the dedicated action for tmux-style current/previous toggling:
+@@ -219,7 +224,7 @@ reuse_existing = true
+ create_missing = true
+ prefix_workspace_labels = true # set false to keep new labels plain
+ engine = "nucleo" # nucleo | skim | simple
+-source_order = ["workspace", "agent", "project", "session", "zoxide", "root", "server", "quick", "plugin"]
++source_order = ["workspace", "tab", "pane", "agent", "project", "session", "zoxide", "root", "server", "quick", "plugin"]
+ source_priority_boost = 5
+ agent_sort = "herdr" # herdr | priority | spaces
+ preview = true
+@@ -237,6 +242,8 @@ custom_sound = "" # Example: "~/sounds/navigator.wav"
+ 
+ [sources]
+ open_workspaces = true
++tabs = true
++panes = true
+ agents = true
+ herdr_plus_projects = true
+ herdr_plus_quick_actions = true
+diff --git a/docs/architecture.md b/docs/architecture.md
+index 0c5324f..d1337fc 100644
+--- a/docs/architecture.md
++++ b/docs/architecture.md
+@@ -44,18 +44,20 @@ src/paths.rs     path/config helpers
+ 
+ Keep new integrations in `sources.rs` unless they grow enough to deserve their own module. Keep Herdr CLI calls behind `herdr.rs` where practical.
+ 
+-Picker input is an exclusive `InputMode` state machine (`Normal`, `Search`, `Help`); key scopes, footer hints, and transitions are defined through `keymap.rs`.
++Picker input is an exclusive `InputMode` state machine (`Normal`, `Search`, `Help`, `ConfirmDelete`); key scopes, footer hints, and transitions are defined through `keymap.rs`.
+ 
+ ## Sources
+ 
+ | Source | Input | Enter behavior |
+ | --- | --- | --- |
+ | `workspace` | `herdr workspace list` + pane cwd | focus existing workspace |
++| `tab` | `herdr tab list` | focus exact tab |
++| `pane` | `herdr pane list` | focus exact pane with zoom off |
+ | `project` | Herdr Plus project TOML files | focus existing cwd or create workspace + tabs |
+ | `quick` | Herdr Plus Quick Actions | open Herdr Plus Quick Actions picker |
+ | `zoxide` | `zoxide query -l` | focus existing cwd or create workspace |
+ | `root` | configured filesystem roots | focus existing cwd or create workspace |
+-| `agent` | `herdr pane list` agent metadata | focus agent pane |
++| `agent` | `herdr agent list` | focus agent pane |
+ 
+ ## Core open rule
+ 
+diff --git a/examples/config.toml b/examples/config.toml
+index e351ff6..d2a0200 100644
+--- a/examples/config.toml
++++ b/examples/config.toml
+@@ -5,7 +5,7 @@ reuse_existing = true
+ create_missing = true
+ prefix_workspace_labels = true # set false to keep new labels plain
+ engine = "nucleo" # nucleo | skim | simple
+-source_order = ["workspace", "agent", "project", "session", "zoxide", "root", "server", "quick", "plugin"]
++source_order = ["workspace", "tab", "pane", "agent", "project", "session", "zoxide", "root", "server", "quick", "plugin"]
+ source_priority_boost = 5
+ agent_sort = "herdr" # herdr | priority | spaces
+ preview = true
+@@ -28,6 +28,8 @@ pin_previous = true
+ 
+ [sources]
+ open_workspaces = true
++tabs = true
++panes = true
+ herdr_plus_projects = true
+ zoxide = true
+ roots = true
+diff --git a/examples/default-config.toml b/examples/default-config.toml
+index 7cbbdad..125e896 100644
+--- a/examples/default-config.toml
++++ b/examples/default-config.toml
+@@ -22,8 +22,8 @@ prefix_workspace_labels = true
+ engine = "nucleo"
+ 
+ # Source priority controls initial ordering and tie/near-tie ranking.
+-# Accepted names: agent, server/remote, workspace/open, project, session, zoxide, root, quick, plugin.
+-source_order = ["workspace", "agent", "project", "session", "zoxide", "root", "server", "quick", "plugin"]
++# Accepted names: workspace/open, tab, pane, agent, project, session, zoxide, root, server/remote, quick, plugin.
++source_order = ["workspace", "tab", "pane", "agent", "project", "session", "zoxide", "root", "server", "quick", "plugin"]
+ 
+ # How strongly source_order influences search ranking.
+ # Set 0 for pure matcher score.
+@@ -58,8 +58,8 @@ vim_mode = false
+ vim_filter_search = false
+ 
+ # Optional: override source filter shortcuts. Values accept "ctrl-x", "ctrl+x", "^x", or "x".
+-# Defaults: server=ctrl-s, agent=ctrl-a, quick=ctrl-q, workspace=ctrl-w, project=ctrl-p,
+-# zoxide=ctrl-z, root=ctrl-r, session=ctrl-l.
++# Defaults: workspace=ctrl-w, tab=ctrl-t, pane=ctrl-p, agent=ctrl-a, session=ctrl-l,
++# zoxide=ctrl-z, root=ctrl-r, server=ctrl-s, quick=ctrl-q. Project has no default chord.
+ # [picker.filter_keys]
+ # server = "ctrl-g"
+ 
+@@ -88,6 +88,12 @@ pin_previous = true
+ # Existing Herdr workspaces. Selecting focuses the workspace.
+ open_workspaces = true
+ 
++# Herdr tabs from `herdr tab list`. Selecting focuses the exact tab.
++tabs = true
++
++# All Herdr panes from `herdr pane list`. Selecting focuses the exact pane.
++panes = true
++
+ # Herdr Plus project templates from:
+ # ~/.config/herdr/plugins/config/cloudmanic.herdr-plus/projects/*.toml
+ herdr_plus_projects = true
+@@ -98,7 +104,7 @@ zoxide = true
+ # Direct filesystem scan of [[roots]] below.
+ roots = true
+ 
+-# Agent panes from Herdr pane metadata. Selecting focuses the agent.
++# Agent panes from `herdr agent list`. Selecting focuses the agent.
+ agents = true
+ 
+ # Remote Herdr targets from remote entries in [sessions] below.
+diff --git a/herdr-plugin.toml b/herdr-plugin.toml
+index 0b3b7e4..7ada9cf 100644
+--- a/herdr-plugin.toml
++++ b/herdr-plugin.toml
+@@ -6,7 +6,7 @@ description = "Jump to any Herdr workspace, agent, project, session, remote, dir
+ platforms = ["linux", "macos"]
+ 
+ [[build]]
+-command = ["cargo", "build", "--release"]
++command = ["cargo", "build", "--release", "--locked"]
+ 
+ [[actions]]
+ id = "open"
+diff --git a/src/app.rs b/src/app.rs
+index edc37d1..224c842 100644
+--- a/src/app.rs
++++ b/src/app.rs
+@@ -2,17 +2,22 @@ use std::{
+     collections::{HashMap, HashSet},
+     env, fs,
+     path::Path,
++    sync::Arc,
+ };
+ 
+ use crate::{
+     config::Config,
+-    herdr::{herdr_json, notify_done, notify_error, run_herdr, run_herdr_quiet},
++    herdr::{herdr_json, notify_done, notify_error, run_herdr, CommandExecutor, ProcessExecutor},
+     integrations::{command, herdr_plus, sessions},
+     matcher::Scorer,
+     model::{Entry, EntryAction, Source, WorkspaceKind, WorkspaceRef},
+     navigator_state::NavigatorSnapshot,
+     paths::{canonical_str, herdr_plus_quick_actions_dir, home, plugin_config_dir},
+-    sources::{collect_agents, collect_roots, collect_workspaces, collect_zoxide},
++    preview::{PreviewController, PreviewStatus},
++    sources::{
++        collect_agents, collect_roots, collect_tabs_and_panes, collect_workspaces, collect_zoxide,
++        pane_infos_from_json,
++    },
+     theme::Theme,
+ };
+ 
+@@ -30,6 +35,28 @@ pub(crate) enum InputMode {
+     Normal,
+     Search,
+     Help,
++    ConfirmDelete,
++}
++
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub(crate) enum DeletePlan {
++    Workspace { id: String },
++    Tab { id: String },
++    Pane { id: String },
++    Session { name: String, running: bool },
++}
++
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub(crate) struct DeleteConfirmation {
++    pub(crate) prompt: String,
++    pub(crate) plan: DeletePlan,
++}
++
++#[derive(Clone, Debug, Default, PartialEq, Eq)]
++pub(crate) struct LaunchContext {
++    pub(crate) workspace_id: Option<String>,
++    pub(crate) tab_id: Option<String>,
++    pub(crate) pane_id: Option<String>,
+ }
+ 
+ pub(crate) struct App {
+@@ -49,11 +76,59 @@ pub(crate) struct App {
+     pub(crate) pinned_entries: HashSet<String>,
+     pub(crate) spinner_tick: u32,
+     pub(crate) update_available: Option<String>,
++    pub(crate) confirmation: Option<DeleteConfirmation>,
++    pub(crate) message: Option<String>,
++    executor: Arc<dyn CommandExecutor>,
++    previews: PreviewController,
++    launch_context: Option<LaunchContext>,
++    current_session: String,
++    navigator_plugin_workspaces: HashSet<String>,
++    navigator_plugin_tabs: HashSet<String>,
+ }
+ 
+ impl App {
+     pub(crate) fn new(config: Config, theme: Theme) -> Self {
++        Self::build(
++            config,
++            theme,
++            Arc::new(ProcessExecutor),
++            launch_context_from_env(),
++            env::var("HERDR_SESSION")
++                .ok()
++                .filter(|session| !session.trim().is_empty())
++                .unwrap_or_else(|| "default".into()),
++            NavigatorSnapshot::load(),
++        )
++    }
++
++    #[cfg(test)]
++    pub(crate) fn with_runtime(
++        config: Config,
++        theme: Theme,
++        executor: Arc<dyn CommandExecutor>,
++        launch_context: Option<LaunchContext>,
++        current_session: String,
++    ) -> Self {
++        Self::build(
++            config,
++            theme,
++            executor,
++            launch_context,
++            current_session,
++            NavigatorSnapshot::default(),
++        )
++    }
++
++    fn build(
++        config: Config,
++        theme: Theme,
++        executor: Arc<dyn CommandExecutor>,
++        launch_context: Option<LaunchContext>,
++        current_session: String,
++        navigator_snapshot: NavigatorSnapshot,
++    ) -> Self {
+         let preview = config.picker.preview;
++        let previews = PreviewController::new(executor.clone());
+         Self {
+             config,
+             theme,
+@@ -66,19 +141,46 @@ impl App {
+             source_filter: None,
+             preview,
+             path_to_workspaces: HashMap::new(),
+-            navigator_snapshot: NavigatorSnapshot::load(),
++            navigator_snapshot,
+             previous_workspace_id: None,
+             pinned_entries: HashSet::new(),
+             spinner_tick: 0,
+             update_available: None,
++            confirmation: None,
++            message: None,
++            executor,
++            previews,
++            launch_context,
++            current_session,
++            navigator_plugin_workspaces: HashSet::new(),
++            navigator_plugin_tabs: HashSet::new(),
+         }
+     }
+ 
+     pub(crate) fn refresh(&mut self) {
+         let mut entries = Vec::new();
+         let mut seen = HashSet::new();
++        let pane_json = self
++            .executor
++            .json(&["pane", "list"])
++            .unwrap_or(serde_json::Value::Null);
++        let tab_json = self
++            .executor
++            .json(&["tab", "list"])
++            .unwrap_or(serde_json::Value::Null);
++        let panes = pane_infos_from_json(&pane_json);
++        self.navigator_plugin_workspaces = panes
++            .iter()
++            .filter(|pane| pane.navigator_plugin)
++            .map(|pane| pane.workspace_id.clone())
++            .collect();
++        self.navigator_plugin_tabs = panes
++            .iter()
++            .filter(|pane| pane.navigator_plugin)
++            .map(|pane| pane.tab_id.clone())
++            .collect();
+         let (workspace_entries, path_to_workspaces, migrated_legacy, has_live_workspace_list) =
+-            collect_workspaces(&mut self.navigator_snapshot);
++            collect_workspaces(self.executor.as_ref(), &panes, &mut self.navigator_snapshot);
+         let reconciled = has_live_workspace_list
+             && self.navigator_snapshot.reconcile(
+                 workspace_entries
+@@ -95,6 +197,14 @@ impl App {
+         if self.config.sources.open_workspaces {
+             push_unique(&mut entries, &mut seen, workspace_entries.clone());
+         }
++        let (tab_entries, pane_entries) =
++            collect_tabs_and_panes(&tab_json, &panes, &workspace_entries);
++        if self.config.sources.tabs {
++            push_unique(&mut entries, &mut seen, tab_entries);
++        }
++        if self.config.sources.panes {
++            push_unique(&mut entries, &mut seen, pane_entries);
++        }
+         if self.config.sources.herdr_plus_projects {
+             push_unique(&mut entries, &mut seen, herdr_plus::collect_projects());
+         }
+@@ -115,12 +225,14 @@ impl App {
+             push_unique(
+                 &mut entries,
+                 &mut seen,
+-                sessions::collect_sessions(&self.config),
++                sessions::collect_sessions(&self.config, self.executor.as_ref()),
+             );
+         }
+         if self.config.sources.agents {
+             entries.extend(collect_agents(
++                self.executor.as_ref(),
+                 &workspace_entries,
++                &panes,
+                 &self.config.agent_aliases,
+             ));
+         }
+@@ -260,6 +372,22 @@ impl App {
+             .and_then(|idx| self.entries.get(*idx))
+     }
+ 
++    pub(crate) fn update_preview(&mut self) {
++        let target = self
++            .preview
++            .then(|| {
++                self.selected_entry()
++                    .and_then(|entry| entry.preview_target.clone())
++            })
++            .flatten();
++        self.previews.select(target);
++        self.previews.poll();
++    }
++
++    pub(crate) fn preview_status(&self) -> &PreviewStatus {
++        self.previews.status()
++    }
++
+     pub(crate) fn is_pinned(&self, entry: &Entry) -> bool {
+         self.pinned_entries.contains(&pin_key(entry))
+     }
+@@ -304,6 +432,8 @@ impl App {
+                 &e.action,
+                 EntryAction::FocusAgent { .. }
+                     | EntryAction::FocusWorkspace { .. }
++                    | EntryAction::FocusTab { .. }
++                    | EntryAction::FocusPane { .. }
+                     | EntryAction::OpenProject
+                     | EntryAction::FocusOrCreateDir
+             );
+@@ -314,18 +444,26 @@ impl App {
+         };
+         let (result, notify_success, notify_failure) = match &e.action {
+             EntryAction::FocusAgent { target } => {
+-                (run_herdr(["agent", "focus", target]), true, true)
++                (self.executor.quiet(&["agent", "focus", target]), true, true)
+             }
+             EntryAction::FocusWorkspace { id } => {
+-                (run_herdr(["workspace", "focus", id]), true, true)
++                (self.executor.quiet(&["workspace", "focus", id]), true, true)
+             }
++            EntryAction::FocusTab { id } => {
++                (self.executor.quiet(&["tab", "focus", id]), true, true)
++            }
++            EntryAction::FocusPane { id } => (
++                self.executor.quiet(&["pane", "zoom", id, "--off"]),
++                true,
++                true,
++            ),
+             EntryAction::OpenProject => (self.open_project(&e), true, true),
+             EntryAction::OpenRemote { target } => (sessions::open_remote(target), false, true),
+             EntryAction::AttachSession { name, .. } => {
+                 (sessions::attach_session(name), false, true)
+             }
+             EntryAction::InvokePluginAction { action } => (
+-                run_herdr(["plugin", "action", "invoke", action]),
++                self.executor.quiet(&["plugin", "action", "invoke", action]),
+                 true,
+                 true,
+             ),
+@@ -373,41 +511,216 @@ impl App {
+         }
+     }
+ 
+-    pub(crate) fn close_selected_workspace(&mut self) -> Result<(), String> {
+-        let (id, title) = {
+-            let e = self.selected_entry().ok_or("nothing selected")?;
+-            let id = self
+-                .workspace_to_close(e)
+-                .ok_or("no open workspace for selected item")?;
+-            (id, e.title.clone())
++    pub(crate) fn begin_delete_selected(&mut self) -> Result<(), String> {
++        let entry = self.selected_entry().cloned().ok_or("nothing selected")?;
++        let plan = self.delete_plan(&entry)?;
++        let action = match &plan {
++            DeletePlan::Workspace { .. } | DeletePlan::Tab { .. } | DeletePlan::Pane { .. } => {
++                "close"
++            }
++            DeletePlan::Session { running: true, .. } => "stop and delete",
++            DeletePlan::Session { running: false, .. } => "delete",
+         };
+-        let origin_workspace = launch_workspace_id();
+-        if let Some(err) = close_current_workspace_error(&id, origin_workspace.as_deref()) {
+-            return Err(err);
+-        }
+-        run_herdr_quiet(["workspace", "close", &id])?;
+-        let focus_result = workspace_focus_to_restore(&id, origin_workspace.as_deref())
+-            .map_or(Ok(()), |origin| {
+-                run_herdr_quiet(["workspace", "focus", origin])
+-            });
++        let target = delete_target_description(&entry, &plan);
++        self.confirmation = Some(DeleteConfirmation {
++            prompt: format!("{action} {target}? [y/N]"),
++            plan,
++        });
++        self.input_mode = InputMode::ConfirmDelete;
++        self.message = None;
++        Ok(())
++    }
++
++    pub(crate) fn cancel_delete(&mut self) {
++        self.confirmation = None;
++        self.input_mode = InputMode::Normal;
++        self.message = Some("delete cancelled".into());
++    }
++
++    pub(crate) fn confirm_delete(&mut self) -> Result<(), String> {
++        let confirmation = self.confirmation.take().ok_or("no delete pending")?;
++        self.input_mode = InputMode::Normal;
++        let selected = self.selected;
++        let result = self.execute_delete(&confirmation.plan);
++        self.previews.invalidate();
+         self.refresh();
+-        if let Err(error) = focus_result {
+-            notify_error(
+-                &format!("Closed {title}, but failed to restore focus: {error}"),
+-                &self.config.notifications,
+-            );
+-            return Ok(());
++        self.selected = selected.min(self.filtered.len().saturating_sub(1));
++        match result {
++            Ok(()) => {
++                self.message = Some("deleted".into());
++                Ok(())
++            }
++            Err(error) => {
++                self.message = Some(format!("Delete failed: {error}"));
++                Err(error)
++            }
++        }
++    }
++
++    fn delete_plan(&self, entry: &Entry) -> Result<DeletePlan, String> {
++        match entry.source {
++            Source::Workspace | Source::Project | Source::Zoxide | Source::Root => {
++                let id = self
++                    .workspace_to_close(entry)
++                    .ok_or("selected directory has no open workspace")?;
++                if self.workspace_contains_navigator_pane(&id) {
++                    return Err(
++                        "can't delete a workspace containing a Navigator plugin pane".into(),
++                    );
++                }
++                self.guard_spatial_delete(Some(&id), None, None, false)?;
++                Ok(DeletePlan::Workspace { id })
++            }
++            Source::Tab => {
++                let EntryAction::FocusTab { id } = &entry.action else {
++                    return Err("selected tab has no stable id".into());
++                };
++                if self.tab_contains_navigator_pane(id) {
++                    return Err("can't delete a tab containing a Navigator plugin pane".into());
++                }
++                self.guard_spatial_delete(entry.workspace_id.as_deref(), Some(id), None, false)?;
++                Ok(DeletePlan::Tab { id: id.clone() })
++            }
++            Source::Pane => {
++                let EntryAction::FocusPane { id } = &entry.action else {
++                    return Err("selected pane has no stable id".into());
++                };
++                self.guard_spatial_delete(
++                    entry.workspace_id.as_deref(),
++                    None,
++                    Some(id),
++                    entry.navigator_plugin_pane,
++                )?;
++                Ok(DeletePlan::Pane { id: id.clone() })
++            }
++            Source::Agent => {
++                let id = entry
++                    .agent_target
++                    .as_deref()
++                    .filter(|id| !id.is_empty())
++                    .ok_or("selected agent has no hosting pane")?;
++                self.guard_spatial_delete(
++                    entry.workspace_id.as_deref(),
++                    None,
++                    Some(id),
++                    entry.navigator_plugin_pane,
++                )?;
++                Ok(DeletePlan::Pane { id: id.into() })
++            }
++            Source::Session => {
++                let EntryAction::AttachSession { name, remote: None } = &entry.action else {
++                    return Err("remote or integration sessions cannot be deleted here".into());
++                };
++                if name == &self.current_session {
++                    return Err("can't delete the current named session".into());
++                }
++                Ok(DeletePlan::Session {
++                    name: name.clone(),
++                    running: entry.session_running,
++                })
++            }
++            Source::Server | Source::QuickAction | Source::Integration => {
++                Err("this source cannot be deleted".into())
++            }
++        }
++    }
++
++    fn guard_spatial_delete(
++        &self,
++        workspace_id: Option<&str>,
++        tab_id: Option<&str>,
++        pane_id: Option<&str>,
++        navigator_plugin_pane: bool,
++    ) -> Result<(), String> {
++        let context = self
++            .launch_context
++            .as_ref()
++            .ok_or("delete refused: Navigator launch context is unavailable")?;
++        if pane_id.is_some() && context.pane_id.is_none()
++            || tab_id.is_some() && context.tab_id.is_none()
++            || pane_id.is_none()
++                && tab_id.is_none()
++                && workspace_id.is_some()
++                && context.workspace_id.is_none()
++        {
++            return Err("delete refused: Navigator launch ownership is unavailable".into());
++        }
++        if tab_id.is_none()
++            && pane_id.is_none()
++            && workspace_id.is_some()
++            && workspace_id == context.workspace_id.as_deref()
++        {
++            return Err("can't delete the Navigator launch workspace".into());
++        }
++        if tab_id.is_some() && tab_id == context.tab_id.as_deref() {
++            return Err("can't delete the Navigator launch tab".into());
++        }
++        if pane_id.is_some() && pane_id == context.pane_id.as_deref() {
++            return Err("can't delete the Navigator launch pane".into());
++        }
++        if navigator_plugin_pane {
++            return Err("can't delete a Navigator plugin pane".into());
+         }
+-        notify_done(&format!("Closed {title}"), &self.config.notifications);
+         Ok(())
+     }
+ 
++    fn workspace_contains_navigator_pane(&self, workspace_id: &str) -> bool {
++        self.navigator_plugin_workspaces.contains(workspace_id)
++            || self.entries.iter().any(|entry| {
++                entry.source == Source::Pane
++                    && entry.navigator_plugin_pane
++                    && entry.workspace_id.as_deref() == Some(workspace_id)
++            })
++    }
++
++    fn tab_contains_navigator_pane(&self, tab_id: &str) -> bool {
++        self.navigator_plugin_tabs.contains(tab_id)
++            || self.entries.iter().any(|entry| {
++                entry.source == Source::Pane
++                    && entry.navigator_plugin_pane
++                    && entry.search_terms.iter().any(|term| term == tab_id)
++            })
++    }
++
++    fn execute_delete(&self, plan: &DeletePlan) -> Result<(), String> {
++        match plan {
++            DeletePlan::Workspace { id } => {
++                self.executor.quiet(&["workspace", "close", id])?;
++                if let Some(origin) = self
++                    .launch_context
++                    .as_ref()
++                    .and_then(|ctx| ctx.workspace_id.as_deref())
++                {
++                    let _ = self.executor.quiet(&["workspace", "focus", origin]);
++                }
++                Ok(())
++            }
++            DeletePlan::Tab { id } => self.executor.quiet(&["tab", "close", id]),
++            DeletePlan::Pane { id } => self.executor.quiet(&["pane", "close", id]),
++            DeletePlan::Session { name, running } => {
++                let running = sessions::session_running(self.executor.as_ref(), name)
++                    .ok()
++                    .flatten()
++                    .unwrap_or(*running);
++                if running {
++                    self.executor.quiet(&["session", "stop", name])?;
++                }
++                self.executor.quiet(&["session", "delete", name])
++            }
++        }
++    }
++
+     fn workspace_to_close(&self, e: &Entry) -> Option<String> {
+         match e.source {
+             Source::Workspace | Source::Agent => e.workspace_id.clone(),
+             Source::Project => self.matching_project_workspace(e).map(|ws| ws.id.clone()),
+             Source::Zoxide | Source::Root => self.matching_dir_workspace(e).map(|ws| ws.id.clone()),
+-            Source::Server | Source::Session | Source::QuickAction | Source::Integration => None,
++            Source::Tab
++            | Source::Pane
++            | Source::Server
++            | Source::Session
++            | Source::QuickAction
++            | Source::Integration => None,
+         }
+     }
+ 
+@@ -550,6 +863,28 @@ impl App {
+     }
+ }
+ 
++fn delete_target_description(entry: &Entry, plan: &DeletePlan) -> String {
++    let workspace = match (
++        entry.workspace_label.as_deref(),
++        entry.workspace_id.as_deref(),
++    ) {
++        (Some(label), Some(id)) => format!("; workspace: {label} [{id}]"),
++        (None, Some(id)) => format!("; workspace: [{id}]"),
++        _ => String::new(),
++    };
++    match plan {
++        DeletePlan::Workspace { id } => format!("workspace '{}' [id: {id}]", entry.title),
++        DeletePlan::Tab { id } => format!("tab '{}' [id: {id}{workspace}]", entry.title),
++        DeletePlan::Pane { id } if entry.source == Source::Agent => {
++            format!("agent '{}' [hosting pane: {id}{workspace}]", entry.title)
++        }
++        DeletePlan::Pane { id } => format!("pane '{}' [id: {id}{workspace}]", entry.title),
++        DeletePlan::Session { name, .. } => {
++            format!("session '{}' [name: {name}]", entry.title)
++        }
++    }
++}
++
+ struct Query {
+     plain: String,
+     agent: Vec<String>,
+@@ -811,20 +1146,33 @@ fn save_pinned_entries(path: &Path, entries: &HashSet<String>) -> Result<(), Str
+ }
+ 
+ fn launch_workspace_id() -> Option<String> {
+-    env::var("HERDR_PLUGIN_CONTEXT_JSON")
+-        .ok()
+-        .and_then(|s| serde_json::from_str::<serde_json::Value>(&s).ok())
+-        .and_then(|v| v.get("workspace_id")?.as_str().map(str::to_string))
+-        .filter(|s| !s.is_empty())
++    launch_context_from_env()?.workspace_id
+ }
+ 
+-fn close_current_workspace_error(id: &str, current: Option<&str>) -> Option<String> {
+-    (current == Some(id))
+-        .then(|| "can't close the workspace that owns this picker; switch away first".into())
++fn launch_context_from_env() -> Option<LaunchContext> {
++    env::var("HERDR_PLUGIN_CONTEXT_JSON")
++        .ok()
++        .and_then(|value| serde_json::from_str(&value).ok())
++        .and_then(|value| launch_context_from_json(&value))
+ }
+ 
+-fn workspace_focus_to_restore<'a>(closed_id: &str, origin: Option<&'a str>) -> Option<&'a str> {
+-    origin.filter(|origin| *origin != closed_id)
++fn launch_context_from_json(value: &serde_json::Value) -> Option<LaunchContext> {
++    fn id(value: &serde_json::Value, direct: &str, nested: &str) -> Option<String> {
++        value
++            .get(direct)
++            .and_then(serde_json::Value::as_str)
++            .or_else(|| value.pointer(nested).and_then(serde_json::Value::as_str))
++            .filter(|id| !id.is_empty())
++            .map(str::to_string)
++    }
++    let context = LaunchContext {
++        workspace_id: id(value, "workspace_id", "/workspace/workspace_id"),
++        tab_id: id(value, "tab_id", "/tab/tab_id"),
++        pane_id: id(value, "focused_pane_id", "/pane/focused_pane_id")
++            .or_else(|| id(value, "pane_id", "/pane/pane_id")),
++    };
++    (context.workspace_id.is_some() || context.tab_id.is_some() || context.pane_id.is_some())
++        .then_some(context)
+ }
+ 
+ fn agent_sort(configured: &str) -> String {
+@@ -856,6 +1204,8 @@ fn herdr_agent_panel_sort() -> String {
+ fn pin_key(entry: &Entry) -> String {
+     match &entry.action {
+         EntryAction::FocusWorkspace { id } => format!("workspace:{id}"),
++        EntryAction::FocusTab { id } => format!("tab:{id}"),
++        EntryAction::FocusPane { id } => format!("pane:{id}"),
+         EntryAction::FocusAgent { target } => format!("agent:{target}"),
+         EntryAction::OpenProject => format!("project:{}", entry.key()),
+         EntryAction::OpenRemote { target } => format!("remote:{target}"),
+@@ -876,6 +1226,8 @@ fn push_unique(entries: &mut Vec<Entry>, seen: &mut HashSet<String>, incoming: V
+     for e in incoming {
+         let key = match &e.action {
+             EntryAction::FocusWorkspace { id } => format!("open:{id}"),
++            EntryAction::FocusTab { id } => format!("tab:{id}"),
++            EntryAction::FocusPane { id } => format!("pane:{id}"),
+             EntryAction::OpenRemote { target } => format!("remote:{target}"),
+             EntryAction::AttachSession { name, remote } => {
+                 format!("session:{}:{name}", remote.as_deref().unwrap_or("local"))
+@@ -893,12 +1245,93 @@ fn push_unique(entries: &mut Vec<Entry>, seen: &mut HashSet<String>, incoming: V
+ mod tests {
+     use std::{
+         path::PathBuf,
+-        sync::OnceLock,
++        sync::{Arc, Mutex, OnceLock},
+         time::{SystemTime, UNIX_EPOCH},
+     };
+ 
++    use serde_json::Value;
++
+     use super::*;
+-    use crate::{config::Config, model::Project, theme::Theme};
++    use crate::{config::Config, herdr::CommandExecutor, model::Project, theme::Theme};
++
++    const HERDR_PLUGIN_CONTEXT_FIXTURE: &str =
++        r#"{"workspace_id":"w1","tab_id":"w1:t1","focused_pane_id":"w1:p2"}"#;
++
++    #[derive(Default)]
++    struct TestExecutor {
++        calls: Mutex<Vec<Vec<String>>>,
++        panes: Mutex<Vec<Value>>,
++        tabs: Mutex<Vec<Value>>,
++        workspaces: Mutex<Vec<Value>>,
++        sessions: Mutex<Vec<Value>>,
++        fail: Mutex<Option<Vec<String>>>,
++    }
++
++    impl CommandExecutor for TestExecutor {
++        fn json(&self, args: &[&str]) -> Result<Value, String> {
++            match args {
++                ["pane", "list"] => Ok(serde_json::json!({"result": {
++                    "panes": self.panes.lock().unwrap().clone()
++                }})),
++                ["tab", "list"] => Ok(serde_json::json!({"result": {
++                    "tabs": self.tabs.lock().unwrap().clone()
++                }})),
++                ["workspace", "list"] => Ok(serde_json::json!({"result": {
++                    "workspaces": self.workspaces.lock().unwrap().clone()
++                }})),
++                ["session", "list", "--json"] => {
++                    Ok(serde_json::json!({"sessions": self.sessions.lock().unwrap().clone()}))
++                }
++                ["agent", "list"] => Ok(serde_json::json!({"result":{"agents":[]}})),
++                _ => Ok(Value::Null),
++            }
++        }
++
++        fn quiet(&self, args: &[&str]) -> Result<(), String> {
++            let call: Vec<String> = args.iter().map(|arg| (*arg).into()).collect();
++            self.calls.lock().unwrap().push(call.clone());
++            if self.fail.lock().unwrap().as_ref() == Some(&call) {
++                return Err("injected failure".into());
++            }
++            if let ["pane", "close", id] = args {
++                self.panes
++                    .lock()
++                    .unwrap()
++                    .retain(|pane| pane.get("pane_id").and_then(Value::as_str) != Some(*id));
++            }
++            if let ["session", "stop", name] = args {
++                for session in self.sessions.lock().unwrap().iter_mut() {
++                    if session.get("name").and_then(Value::as_str) == Some(*name) {
++                        session["running"] = false.into();
++                    }
++                }
++            }
++            if let ["session", "delete", name] = args {
++                self.sessions
++                    .lock()
++                    .unwrap()
++                    .retain(|session| session.get("name").and_then(Value::as_str) != Some(*name));
++            }
++            Ok(())
++        }
++
++        fn text(&self, args: &[&str]) -> Result<String, String> {
++            Ok(format!("preview {}", args.get(2).unwrap_or(&"")))
++        }
++    }
++
++    fn runtime_app(executor: Arc<TestExecutor>, context: Option<LaunchContext>) -> App {
++        let mut config = Config::default();
++        config.jump_back.enabled = false;
++        config.notifications.enabled = false;
++        App::with_runtime(
++            config,
++            Theme::load(false),
++            executor,
++            context,
++            "default".into(),
++        )
++    }
+ 
+     fn entry(source: Source, path: &str, title: &str) -> Entry {
+         Entry {
+@@ -909,6 +1342,9 @@ mod tests {
+             workspace_id: None,
+             workspace_label: None,
+             agent_target: None,
++            preview_target: None,
++            session_running: false,
++            navigator_plugin_pane: false,
+             project: None,
+             action: EntryAction::FocusOrCreateDir,
+             source_label: None,
+@@ -962,6 +1398,9 @@ mod tests {
+             workspace_id: Some("wF".into()),
+             workspace_label: Some("Dotfiles".into()),
+             agent_target: Some("term_1".into()),
++            preview_target: None,
++            session_running: false,
++            navigator_plugin_pane: false,
+             project: None,
+             action: EntryAction::FocusAgent {
+                 target: "term_1".into(),
+@@ -1219,23 +1658,6 @@ mod tests {
+         assert_eq!(app.workspace_to_close(&dir), Some("w2".into()));
+     }
+ 
+-    #[test]
+-    fn refuses_to_close_picker_owning_workspace() {
+-        assert_eq!(
+-            close_current_workspace_error("w1", Some("w1")),
+-            Some("can't close the workspace that owns this picker; switch away first".into())
+-        );
+-        assert_eq!(close_current_workspace_error("w1", Some("w2")), None);
+-        assert_eq!(close_current_workspace_error("w1", None), None);
+-    }
+-
+-    #[test]
+-    fn restores_focus_to_picker_origin_after_closing_another_workspace() {
+-        assert_eq!(workspace_focus_to_restore("w2", Some("w1")), Some("w1"));
+-        assert_eq!(workspace_focus_to_restore("w1", Some("w1")), None);
+-        assert_eq!(workspace_focus_to_restore("w2", None), None);
+-    }
+-
+     #[test]
+     fn workspace_rows_are_not_deduped_by_path() {
+         let mut entries = Vec::new();
+@@ -1260,6 +1682,23 @@ mod tests {
+         assert_eq!(entries.len(), 2);
+     }
+ 
++    #[test]
++    fn tab_and_pane_rows_dedupe_and_pin_by_stable_id() {
++        let mut entries = Vec::new();
++        let mut seen = HashSet::new();
++        let mut first = pane_entry("w1:p1", "w1");
++        first.path = PathBuf::from("/same");
++        let mut duplicate = pane_entry("w1:p1", "w1");
++        duplicate.path = PathBuf::from("/other");
++        let mut second = pane_entry("w1:p2", "w1");
++        second.path = PathBuf::from("/same");
++        push_unique(&mut entries, &mut seen, vec![first, duplicate, second]);
++
++        assert_eq!(entries.len(), 2);
++        assert_eq!(pin_key(&entries[0]), "pane:w1:p1");
++        assert_eq!(pin_key(&entries[1]), "pane:w1:p2");
++    }
++
+     #[test]
+     fn jump_back_records_only_real_workspace_transitions() {
+         assert_eq!(
+@@ -1284,4 +1723,343 @@ mod tests {
+         assert_eq!(workspace_label(&json, "w1"), Some("one"));
+         assert_eq!(workspace_label(&json, "missing"), None);
+     }
++
++    fn context() -> Option<LaunchContext> {
++        Some(LaunchContext {
++            workspace_id: Some("launch-ws".into()),
++            tab_id: Some("launch-tab".into()),
++            pane_id: Some("launch-pane".into()),
++        })
++    }
++
++    fn pane_entry(id: &str, workspace_id: &str) -> Entry {
++        let mut value = entry(Source::Pane, "/tmp", id);
++        value.workspace_id = Some(workspace_id.into());
++        value.workspace_label = Some(workspace_id.into());
++        value.action = EntryAction::FocusPane { id: id.into() };
++        value.agent_target = None;
++        value
++    }
++
++    #[test]
++    fn tab_and_pane_focus_actions_dispatch_exact_commands() {
++        let executor = Arc::new(TestExecutor::default());
++        let mut app = runtime_app(executor.clone(), context());
++        let mut tab = entry(Source::Tab, "/tmp", "Code");
++        tab.action = EntryAction::FocusTab { id: "w2:t1".into() };
++        app.entries = vec![tab];
++        app.apply_filter();
++        app.open_selected(false).unwrap();
++
++        app.entries = vec![pane_entry("w2:p3", "w2")];
++        app.apply_filter();
++        app.open_selected(false).unwrap();
++
++        assert_eq!(
++            *executor.calls.lock().unwrap(),
++            vec![
++                vec!["tab", "focus", "w2:t1"],
++                vec!["pane", "zoom", "w2:p3", "--off"],
++            ]
++        );
++    }
++
++    #[test]
++    fn delete_confirmation_can_be_cancelled_without_dispatch() {
++        let executor = Arc::new(TestExecutor::default());
++        let mut app = runtime_app(executor.clone(), context());
++        app.entries = vec![pane_entry("w2:p1", "w2")];
++        app.apply_filter();
++
++        app.begin_delete_selected().unwrap();
++        assert_eq!(app.input_mode, InputMode::ConfirmDelete);
++        let prompt = &app.confirmation.as_ref().unwrap().prompt;
++        assert!(prompt.contains("close pane 'w2:p1'"));
++        assert!(prompt.contains("id: w2:p1"));
++        assert!(prompt.contains("workspace: w2 [w2]"));
++        app.cancel_delete();
++
++        assert_eq!(app.input_mode, InputMode::Normal);
++        assert!(app.confirmation.is_none());
++        assert!(executor.calls.lock().unwrap().is_empty());
++    }
++
++    #[test]
++    fn deletion_dispatches_in_order_and_stops_on_failure() {
++        let executor = Arc::new(TestExecutor::default());
++        let app = runtime_app(executor.clone(), context());
++        app.execute_delete(&DeletePlan::Session {
++            name: "work".into(),
++            running: true,
++        })
++        .unwrap();
++        assert_eq!(
++            *executor.calls.lock().unwrap(),
++            vec![
++                vec!["session", "stop", "work"],
++                vec!["session", "delete", "work"]
++            ]
++        );
++
++        executor.calls.lock().unwrap().clear();
++        *executor.fail.lock().unwrap() = Some(vec!["session".into(), "stop".into(), "bad".into()]);
++        assert!(app
++            .execute_delete(&DeletePlan::Session {
++                name: "bad".into(),
++                running: true,
++            })
++            .is_err());
++        assert_eq!(
++            *executor.calls.lock().unwrap(),
++            vec![vec!["session", "stop", "bad"]]
++        );
++    }
++
++    #[test]
++    fn deletion_dispatches_workspace_tab_and_pane_commands() {
++        let executor = Arc::new(TestExecutor::default());
++        let app = runtime_app(executor.clone(), context());
++        app.execute_delete(&DeletePlan::Workspace { id: "w2".into() })
++            .unwrap();
++        app.execute_delete(&DeletePlan::Tab { id: "w2:t1".into() })
++            .unwrap();
++        app.execute_delete(&DeletePlan::Pane { id: "w2:p1".into() })
++            .unwrap();
++
++        assert_eq!(
++            *executor.calls.lock().unwrap(),
++            vec![
++                vec!["workspace", "close", "w2"],
++                vec!["workspace", "focus", "launch-ws"],
++                vec!["tab", "close", "w2:t1"],
++                vec!["pane", "close", "w2:p1"],
++            ]
++        );
++    }
++
++    #[test]
++    fn session_delete_rechecks_running_state_before_dispatch() {
++        let executor = Arc::new(TestExecutor::default());
++        *executor.sessions.lock().unwrap() = vec![serde_json::json!({
++            "name":"work","running":false,"default":false,"session_dir":"/tmp/work"
++        })];
++        let app = runtime_app(executor.clone(), context());
++        app.execute_delete(&DeletePlan::Session {
++            name: "work".into(),
++            running: true,
++        })
++        .unwrap();
++        assert_eq!(
++            *executor.calls.lock().unwrap(),
++            vec![vec!["session", "delete", "work"]]
++        );
++    }
++
++    #[test]
++    fn partial_session_delete_failure_refreshes_to_stopped_state() {
++        let executor = Arc::new(TestExecutor::default());
++        *executor.sessions.lock().unwrap() = vec![serde_json::json!({
++            "name":"work","running":true,"default":false,"session_dir":"/tmp/work"
++        })];
++        *executor.fail.lock().unwrap() =
++            Some(vec!["session".into(), "delete".into(), "work".into()]);
++        let mut app = runtime_app(executor.clone(), context());
++        app.config.sources.open_workspaces = false;
++        app.config.sources.tabs = false;
++        app.config.sources.panes = false;
++        app.config.sources.herdr_plus_projects = false;
++        app.config.sources.zoxide = false;
++        app.config.sources.roots = false;
++        app.config.sources.agents = false;
++        app.config.sources.servers = false;
++        app.config.sources.sessions = true;
++        app.config.sources.herdr_plus_quick_actions = false;
++        app.refresh();
++
++        app.begin_delete_selected().unwrap();
++        assert_eq!(app.confirm_delete(), Err("injected failure".into()));
++
++        assert_eq!(
++            *executor.calls.lock().unwrap(),
++            vec![
++                vec!["session", "stop", "work"],
++                vec!["session", "delete", "work"],
++            ]
++        );
++        assert_eq!(app.entries.len(), 1);
++        assert!(!app.entries[0].session_running);
++        assert!(app.message.as_deref().unwrap().contains("Delete failed"));
++    }
++
++    #[test]
++    fn destructive_guards_cover_launch_context_plugin_pane_and_current_session() {
++        let executor = Arc::new(TestExecutor::default());
++        let app = runtime_app(executor.clone(), context());
++
++        let mut workspace = entry(Source::Workspace, "/tmp", "launch");
++        workspace.workspace_id = Some("launch-ws".into());
++        workspace.action = EntryAction::FocusWorkspace {
++            id: "launch-ws".into(),
++        };
++        assert!(app
++            .delete_plan(&workspace)
++            .unwrap_err()
++            .contains("launch workspace"));
++
++        let mut tab = entry(Source::Tab, "/tmp", "launch tab");
++        tab.workspace_id = Some("launch-ws".into());
++        tab.action = EntryAction::FocusTab {
++            id: "launch-tab".into(),
++        };
++        assert!(app.delete_plan(&tab).unwrap_err().contains("launch tab"));
++
++        let launch_pane = pane_entry("launch-pane", "launch-ws");
++        assert!(app
++            .delete_plan(&launch_pane)
++            .unwrap_err()
++            .contains("launch pane"));
++
++        let mut plugin = pane_entry("other-pane", "w2");
++        plugin.navigator_plugin_pane = true;
++        assert!(app
++            .delete_plan(&plugin)
++            .unwrap_err()
++            .contains("plugin pane"));
++
++        let mut agent = entry(Source::Agent, "/tmp", "agent");
++        agent.workspace_id = Some("w2".into());
++        agent.agent_target = Some("w2:p9".into());
++        assert_eq!(
++            app.delete_plan(&agent).unwrap(),
++            DeletePlan::Pane { id: "w2:p9".into() }
++        );
++        agent.navigator_plugin_pane = true;
++        assert!(app.delete_plan(&agent).unwrap_err().contains("plugin pane"));
++
++        let mut session = entry(Source::Session, "/tmp", "default");
++        session.action = EntryAction::AttachSession {
++            name: "default".into(),
++            remote: None,
++        };
++        assert!(app
++            .delete_plan(&session)
++            .unwrap_err()
++            .contains("current named session"));
++
++        for source in [Source::Server, Source::QuickAction, Source::Integration] {
++            assert!(app
++                .delete_plan(&entry(source, "/tmp", "unsupported"))
++                .unwrap_err()
++                .contains("cannot be deleted"));
++        }
++
++        let no_context = runtime_app(executor, None);
++        assert!(no_context
++            .delete_plan(&pane_entry("w2:p1", "w2"))
++            .unwrap_err()
++            .contains("context is unavailable"));
++    }
++
++    #[test]
++    fn parent_workspace_and_tab_reject_navigator_descendant_only() {
++        let executor = Arc::new(TestExecutor::default());
++        let mut app = runtime_app(executor, context());
++        let mut plugin_pane = pane_entry("w2:p1", "w2");
++        plugin_pane.navigator_plugin_pane = true;
++        plugin_pane.search_terms = vec!["w2:p1".into(), "w2:t2".into()];
++        app.entries = vec![plugin_pane];
++
++        let mut protected_workspace = entry(Source::Workspace, "/w2", "protected");
++        protected_workspace.workspace_id = Some("w2".into());
++        protected_workspace.action = EntryAction::FocusWorkspace { id: "w2".into() };
++        assert!(app
++            .delete_plan(&protected_workspace)
++            .unwrap_err()
++            .contains("workspace containing"));
++
++        let mut unrelated_workspace = entry(Source::Workspace, "/w3", "unrelated");
++        unrelated_workspace.workspace_id = Some("w3".into());
++        unrelated_workspace.action = EntryAction::FocusWorkspace { id: "w3".into() };
++        assert_eq!(
++            app.delete_plan(&unrelated_workspace).unwrap(),
++            DeletePlan::Workspace { id: "w3".into() }
++        );
++
++        let mut protected_tab = entry(Source::Tab, "/w2", "protected tab");
++        protected_tab.workspace_id = Some("w2".into());
++        protected_tab.action = EntryAction::FocusTab { id: "w2:t2".into() };
++        assert!(app
++            .delete_plan(&protected_tab)
++            .unwrap_err()
++            .contains("tab containing"));
++
++        let mut unrelated_tab = entry(Source::Tab, "/w2", "unrelated tab");
++        unrelated_tab.workspace_id = Some("w2".into());
++        unrelated_tab.action = EntryAction::FocusTab { id: "w2:t3".into() };
++        assert_eq!(
++            app.delete_plan(&unrelated_tab).unwrap(),
++            DeletePlan::Tab { id: "w2:t3".into() }
++        );
++    }
++
++    #[test]
++    fn successful_delete_refreshes_repairs_selection_and_invalidates_preview() {
++        let executor = Arc::new(TestExecutor::default());
++        *executor.panes.lock().unwrap() = vec![
++            serde_json::json!({"pane_id":"w2:p1","workspace_id":"w2","tab_id":"w2:t1","label":"one","cwd":"/tmp"}),
++            serde_json::json!({"pane_id":"w2:p2","workspace_id":"w2","tab_id":"w2:t1","label":"two","cwd":"/tmp"}),
++        ];
++        let mut app = runtime_app(executor.clone(), context());
++        app.config.sources.open_workspaces = false;
++        app.config.sources.tabs = false;
++        app.config.sources.panes = true;
++        app.config.sources.herdr_plus_projects = false;
++        app.config.sources.zoxide = false;
++        app.config.sources.roots = false;
++        app.config.sources.agents = false;
++        app.config.sources.servers = false;
++        app.config.sources.sessions = false;
++        app.config.sources.herdr_plus_quick_actions = false;
++        app.refresh();
++        app.selected = 1;
++
++        app.begin_delete_selected().unwrap();
++        app.confirm_delete().unwrap();
++
++        assert_eq!(app.entries.len(), 1);
++        assert_eq!(app.selected, 0);
++        assert_eq!(app.entries[0].title, "one · w2:t1 · w2");
++        assert_eq!(app.preview_status(), &PreviewStatus::Unavailable);
++        assert_eq!(
++            executor.calls.lock().unwrap()[0],
++            vec!["pane", "close", "w2:p2"]
++        );
++    }
++
++    #[test]
++    fn parses_direct_and_nested_launch_context_ids() {
++        let fixture: Value = serde_json::from_str(HERDR_PLUGIN_CONTEXT_FIXTURE).unwrap();
++        assert_eq!(
++            launch_context_from_json(&fixture),
++            Some(LaunchContext {
++                workspace_id: Some("w1".into()),
++                tab_id: Some("w1:t1".into()),
++                pane_id: Some("w1:p2".into()),
++            })
++        );
++        assert_eq!(
++            launch_context_from_json(&serde_json::json!({"pane_id":"legacy:p1"}))
++                .unwrap()
++                .pane_id
++                .as_deref(),
++            Some("legacy:p1")
++        );
++        assert_eq!(
++            launch_context_from_json(&serde_json::json!({"workspace":{"workspace_id":"w2"}}))
++                .unwrap()
++                .workspace_id
++                .as_deref(),
++            Some("w2")
++        );
++    }
+ }
+diff --git a/src/config.rs b/src/config.rs
+index 323d62c..0c03fda 100644
+--- a/src/config.rs
++++ b/src/config.rs
+@@ -90,6 +90,10 @@ pub(crate) struct SourcesConfig {
+     #[serde(default = "yes")]
+     pub(crate) open_workspaces: bool,
+     #[serde(default = "yes")]
++    pub(crate) tabs: bool,
++    #[serde(default = "yes")]
++    pub(crate) panes: bool,
++    #[serde(default = "yes")]
+     pub(crate) herdr_plus_projects: bool,
+     #[serde(default = "yes")]
+     pub(crate) zoxide: bool,
+@@ -109,6 +113,8 @@ impl SourcesConfig {
+     pub(crate) fn enabled(&self, source: &Source) -> bool {
+         match source {
+             Source::Workspace => self.open_workspaces,
++            Source::Tab => self.tabs,
++            Source::Pane => self.panes,
+             Source::Project => self.herdr_plus_projects,
+             Source::Zoxide => self.zoxide,
+             Source::Root => self.roots,
+@@ -197,6 +203,8 @@ fn default_engine() -> String {
+ fn default_source_order() -> Vec<String> {
+     [
+         "workspace",
++        "tab",
++        "pane",
+         "agent",
+         "project",
+         "session",
+@@ -228,7 +236,9 @@ fn default_filter_key(source: &Source) -> Option<char> {
+         Source::Server => Some('s'),
+         Source::QuickAction => Some('q'),
+         Source::Workspace => Some('w'),
+-        Source::Project => Some('p'),
++        Source::Tab => Some('t'),
++        Source::Pane => Some('p'),
++        Source::Project => None,
+         Source::Zoxide => Some('z'),
+         Source::Root => Some('r'),
+         Source::Session => Some('l'),
+@@ -337,6 +347,8 @@ impl Default for SourcesConfig {
+     fn default() -> Self {
+         Self {
+             open_workspaces: true,
++            tabs: true,
++            panes: true,
+             herdr_plus_projects: true,
+             zoxide: true,
+             roots: true,
+@@ -431,14 +443,16 @@ mod tests {
+     use super::*;
+ 
+     #[test]
+-    fn default_source_order_prioritizes_open_workspaces_then_agents() {
++    fn default_source_order_prioritizes_workspace_hierarchy_then_agents() {
+         let picker = PickerConfig::default();
+ 
+         assert_eq!(picker.source_rank(&Source::Workspace), 0);
+-        assert_eq!(picker.source_rank(&Source::Agent), 1);
+-        assert_eq!(picker.source_rank(&Source::Session), 3);
+-        assert_eq!(picker.source_rank(&Source::Root), 5);
+-        assert_eq!(picker.source_rank(&Source::Server), 6);
++        assert_eq!(picker.source_rank(&Source::Tab), 1);
++        assert_eq!(picker.source_rank(&Source::Pane), 2);
++        assert_eq!(picker.source_rank(&Source::Agent), 3);
++        assert_eq!(picker.source_rank(&Source::Session), 5);
++        assert_eq!(picker.source_rank(&Source::Root), 7);
++        assert_eq!(picker.source_rank(&Source::Server), 8);
+         assert!(picker.source_bonus(&Source::Root) > picker.source_bonus(&Source::Server));
+     }
+ 
+@@ -627,6 +641,29 @@ mod tests {
+         assert_eq!(config.picker.filter_key(&Source::Server), Some('g'));
+     }
+ 
++    #[test]
++    fn tab_and_pane_sources_and_filters_default_without_project_conflict() {
++        let config = Config::default();
++        assert!(config.sources.tabs);
++        assert!(config.sources.panes);
++        assert_eq!(Source::from_config("tabs"), Some(Source::Tab));
++        assert_eq!(Source::from_config("panes"), Some(Source::Pane));
++        assert_eq!(config.picker.filter_key(&Source::Tab), Some('t'));
++        assert_eq!(config.picker.filter_key(&Source::Pane), Some('p'));
++        assert_eq!(config.picker.filter_key(&Source::Project), None);
++
++        let disabled: Config = toml::from_str(
++            r#"
++            [sources]
++            tabs = false
++            panes = false
++            "#,
++        )
++        .unwrap();
++        assert!(!disabled.enabled_sources_in_order().contains(&Source::Tab));
++        assert!(!disabled.enabled_sources_in_order().contains(&Source::Pane));
++    }
++
+     #[test]
+     fn parses_agent_aliases() {
+         let config: Config = toml::from_str(
+diff --git a/src/herdr.rs b/src/herdr.rs
+index 2fbd9e3..8ed88dc 100644
+--- a/src/herdr.rs
++++ b/src/herdr.rs
+@@ -1,7 +1,9 @@
+ use std::{
+     env,
++    io::Read,
+     process::{Command, Stdio},
+-    thread,
++    thread::{self, JoinHandle},
++    time::{Duration, Instant},
+ };
+ 
+ use serde_json::Value;
+@@ -11,15 +13,152 @@ use crate::{config::NotificationsConfig, paths::expand_path};
+ pub(crate) fn herdr_bin() -> String {
+     env::var("HERDR_BIN_PATH").unwrap_or_else(|_| "herdr".into())
+ }
+-pub(crate) fn herdr_json<const N: usize>(args: [&str; N]) -> Result<Value, String> {
+-    let out = Command::new(herdr_bin())
++
++pub(crate) trait CommandExecutor: Send + Sync {
++    fn json(&self, args: &[&str]) -> Result<Value, String>;
++    fn quiet(&self, args: &[&str]) -> Result<(), String>;
++    fn text(&self, args: &[&str]) -> Result<String, String>;
++    fn text_timeout(&self, args: &[&str], timeout: Duration) -> Result<String, String> {
++        let _ = timeout;
++        self.text(args)
++    }
++}
++
++pub(crate) struct ProcessExecutor;
++
++impl CommandExecutor for ProcessExecutor {
++    fn json(&self, args: &[&str]) -> Result<Value, String> {
++        let output = command_output(args)?;
++        serde_json::from_slice(&output).map_err(|error| error.to_string())
++    }
++
++    fn quiet(&self, args: &[&str]) -> Result<(), String> {
++        let mut command = Command::new(herdr_bin());
++        command.args(args);
++        run_command_quiet(&mut command)
++    }
++
++    fn text(&self, args: &[&str]) -> Result<String, String> {
++        String::from_utf8(command_output(args)?).map_err(|error| error.to_string())
++    }
++
++    fn text_timeout(&self, args: &[&str], timeout: Duration) -> Result<String, String> {
++        String::from_utf8(process_output_timeout(&herdr_bin(), args, timeout)?)
++            .map_err(|error| error.to_string())
++    }
++}
++
++fn command_output(args: &[&str]) -> Result<Vec<u8>, String> {
++    let output = Command::new(herdr_bin())
+         .args(args)
+         .output()
+-        .map_err(|e| e.to_string())?;
+-    if !out.status.success() {
+-        return Err(String::from_utf8_lossy(&out.stderr).to_string());
++        .map_err(|error| error.to_string())?;
++    if output.status.success() {
++        Ok(output.stdout)
++    } else {
++        let error = String::from_utf8_lossy(&output.stderr).trim().to_string();
++        Err(if error.is_empty() {
++            format!("herdr exited with {}", output.status)
++        } else {
++            error
++        })
+     }
+-    serde_json::from_slice(&out.stdout).map_err(|e| e.to_string())
++}
++
++fn process_output_timeout(
++    program: &str,
++    args: &[&str],
++    timeout: Duration,
++) -> Result<Vec<u8>, String> {
++    let mut child = Command::new(program)
++        .args(args)
++        .stdout(Stdio::piped())
++        .stderr(Stdio::piped())
++        .spawn()
++        .map_err(|error| error.to_string())?;
++    let Some(stdout) = child.stdout.take() else {
++        let _ = child.kill();
++        let _ = child.wait();
++        return Err("failed to capture stdout".into());
++    };
++    let Some(stderr) = child.stderr.take() else {
++        let _ = child.kill();
++        let _ = child.wait();
++        return Err("failed to capture stderr".into());
++    };
++    let stdout_reader = match thread::Builder::new()
++        .name("herdr-preview-stdout".into())
++        .spawn(move || read_pipe(stdout))
++    {
++        Ok(reader) => reader,
++        Err(error) => {
++            let _ = child.kill();
++            let _ = child.wait();
++            return Err(error.to_string());
++        }
++    };
++    let stderr_reader = match thread::Builder::new()
++        .name("herdr-preview-stderr".into())
++        .spawn(move || read_pipe(stderr))
++    {
++        Ok(reader) => reader,
++        Err(error) => {
++            let _ = child.kill();
++            let _ = child.wait();
++            let _ = join_reader(stdout_reader);
++            return Err(error.to_string());
++        }
++    };
++    let deadline = Instant::now() + timeout;
++    let status = loop {
++        match child.try_wait() {
++            Ok(Some(status)) => break Ok(status),
++            Ok(None) => {}
++            Err(error) => {
++                let _ = child.kill();
++                let _ = child.wait();
++                break Err(error.to_string());
++            }
++        }
++        if Instant::now() >= deadline {
++            let _ = child.kill();
++            let _ = child.wait();
++            break Err("preview timed out".into());
++        }
++        thread::sleep(Duration::from_millis(10));
++    };
++    let stdout = join_reader(stdout_reader);
++    let stderr = join_reader(stderr_reader);
++    let stdout = stdout?;
++    let stderr = stderr?;
++    let status = status?;
++    if status.success() {
++        Ok(stdout)
++    } else {
++        let error = String::from_utf8_lossy(&stderr).trim().to_string();
++        Err(if error.is_empty() {
++            format!("herdr exited with {status}")
++        } else {
++            error
++        })
++    }
++}
++
++fn read_pipe(mut pipe: impl Read) -> std::io::Result<Vec<u8>> {
++    let mut output = Vec::new();
++    pipe.read_to_end(&mut output)?;
++    Ok(output)
++}
++
++fn join_reader(reader: JoinHandle<std::io::Result<Vec<u8>>>) -> Result<Vec<u8>, String> {
++    reader
++        .join()
++        .map_err(|_| "output reader thread panicked".to_string())?
++        .map_err(|error| error.to_string())
++}
++
++pub(crate) fn herdr_json<const N: usize>(args: [&str; N]) -> Result<Value, String> {
++    ProcessExecutor.json(&args)
+ }
+ pub(crate) fn run_herdr<const N: usize>(args: [&str; N]) -> Result<(), String> {
+     let status = Command::new(herdr_bin())
+@@ -33,12 +172,6 @@ pub(crate) fn run_herdr<const N: usize>(args: [&str; N]) -> Result<(), String> {
+     }
+ }
+ 
+-pub(crate) fn run_herdr_quiet<const N: usize>(args: [&str; N]) -> Result<(), String> {
+-    let mut command = Command::new(herdr_bin());
+-    command.args(args);
+-    run_command_quiet(&mut command)
+-}
+-
+ fn run_command_quiet(command: &mut Command) -> Result<(), String> {
+     let output = command.output().map_err(|error| error.to_string())?;
+     if output.status.success() {
+@@ -175,4 +308,23 @@ mod tests {
+ 
+         assert_eq!(run_command_quiet(&mut command), Err("failure".into()));
+     }
++
++    #[test]
++    fn timed_output_kills_a_hung_subprocess() {
++        let started = Instant::now();
++        let result = process_output_timeout("sleep", &["2"], Duration::from_millis(30));
++        assert_eq!(result, Err("preview timed out".into()));
++        assert!(started.elapsed() < Duration::from_secs(1));
++    }
++
++    #[test]
++    fn timed_output_drains_more_than_pipe_capacity() {
++        let output = process_output_timeout(
++            "dd",
++            &["if=/dev/zero", "bs=2097152", "count=1"],
++            Duration::from_secs(2),
++        )
++        .unwrap();
++        assert_eq!(output.len(), 2_097_152);
++    }
+ }
+diff --git a/src/integrations/command.rs b/src/integrations/command.rs
+index 0b41124..655a457 100644
+--- a/src/integrations/command.rs
++++ b/src/integrations/command.rs
+@@ -71,6 +71,9 @@ fn entry_from_item(integration: &IntegrationConfig, item: IntegrationItem) -> En
+         workspace_id: None,
+         workspace_label: None,
+         agent_target: None,
++        preview_target: None,
++        session_running: false,
++        navigator_plugin_pane: false,
+         project: None,
+         action: EntryAction::RunCommand {
+             command,
+diff --git a/src/integrations/herdr_plus.rs b/src/integrations/herdr_plus.rs
+index cc6f557..97e1b6a 100644
+--- a/src/integrations/herdr_plus.rs
++++ b/src/integrations/herdr_plus.rs
+@@ -35,6 +35,9 @@ pub(crate) fn collect_projects() -> Vec<Entry> {
+             workspace_id: None,
+             workspace_label: None,
+             agent_target: None,
++            preview_target: None,
++            session_running: false,
++            navigator_plugin_pane: false,
+             project: Some(project),
+             action: EntryAction::OpenProject,
+             source_label: None,
+@@ -79,6 +82,9 @@ pub(crate) fn quick_actions_entry() -> Entry {
+         workspace_id: None,
+         workspace_label: None,
+         agent_target: None,
++        preview_target: None,
++        session_running: false,
++        navigator_plugin_pane: false,
+         project: None,
+         action: EntryAction::InvokePluginAction {
+             action: "cloudmanic.herdr-plus.quick-actions".into(),
+diff --git a/src/integrations/sessions.rs b/src/integrations/sessions.rs
+index 44646b6..a5498c6 100644
+--- a/src/integrations/sessions.rs
++++ b/src/integrations/sessions.rs
+@@ -5,7 +5,7 @@ use serde_json::Value;
+ 
+ use crate::{
+     config::{Config, SessionEntryConfig},
+-    herdr::{herdr_bin, herdr_json},
++    herdr::{herdr_bin, CommandExecutor},
+     model::{Entry, EntryAction, Source},
+     paths::home,
+ };
+@@ -26,10 +26,10 @@ struct ListedSession {
+     session_dir: Option<String>,
+ }
+ 
+-pub(crate) fn collect_sessions(config: &Config) -> Vec<Entry> {
++pub(crate) fn collect_sessions(config: &Config, executor: &dyn CommandExecutor) -> Vec<Entry> {
+     let mut entries = Vec::new();
+     if config.sessions.local {
+-        entries.extend(collect_local_sessions());
++        entries.extend(collect_local_sessions(executor));
+     }
+     entries.extend(
+         config
+@@ -51,8 +51,10 @@ pub(crate) fn collect_remotes(config: &Config) -> Vec<Entry> {
+         .collect()
+ }
+ 
+-fn collect_local_sessions() -> Vec<Entry> {
+-    let json = herdr_json(["session", "list", "--json"]).unwrap_or(Value::Null);
++fn collect_local_sessions(executor: &dyn CommandExecutor) -> Vec<Entry> {
++    let json = executor
++        .json(&["session", "list", "--json"])
++        .unwrap_or(Value::Null);
+     let list: SessionList = serde_json::from_value(json.clone())
+         .or_else(|_| {
+             serde_json::from_value(json.pointer("/result").cloned().unwrap_or(Value::Null))
+@@ -61,6 +63,23 @@ fn collect_local_sessions() -> Vec<Entry> {
+     list.sessions.into_iter().map(local_session_entry).collect()
+ }
+ 
++pub(crate) fn session_running(
++    executor: &dyn CommandExecutor,
++    name: &str,
++) -> Result<Option<bool>, String> {
++    let json = executor.json(&["session", "list", "--json"])?;
++    let list: SessionList = serde_json::from_value(json.clone())
++        .or_else(|_| {
++            serde_json::from_value(json.pointer("/result").cloned().unwrap_or(Value::Null))
++        })
++        .map_err(|error| error.to_string())?;
++    Ok(list
++        .sessions
++        .into_iter()
++        .find(|session| session.name == name)
++        .map(|session| session.running))
++}
++
+ fn local_session_entry(session: ListedSession) -> Entry {
+     let mut flags = Vec::new();
+     if session.default {
+@@ -87,6 +106,9 @@ fn local_session_entry(session: ListedSession) -> Entry {
+         workspace_id: None,
+         workspace_label: None,
+         agent_target: None,
++        preview_target: None,
++        session_running: session.running,
++        navigator_plugin_pane: false,
+         project: None,
+         action: EntryAction::AttachSession {
+             name: session.name,
+@@ -111,6 +133,9 @@ fn manual_session_entry(config: &SessionEntryConfig) -> Entry {
+         workspace_id: None,
+         workspace_label: None,
+         agent_target: None,
++        preview_target: None,
++        session_running: false,
++        navigator_plugin_pane: false,
+         project: None,
+         action: EntryAction::AttachSession {
+             name: session.into(),
+@@ -134,6 +159,9 @@ fn remote_entry(config: &SessionEntryConfig) -> Option<Entry> {
+         workspace_id: None,
+         workspace_label: None,
+         agent_target: None,
++        preview_target: None,
++        session_running: false,
++        navigator_plugin_pane: false,
+         project: None,
+         action: EntryAction::OpenRemote { target },
+         source_label: None,
+@@ -183,6 +211,24 @@ fn herdr_attach_command() -> Command {
+ mod tests {
+     use super::*;
+ 
++    const HERDR_080_SESSION_LIST: &str = r#"{"sessions":[{"default":true,"name":"default","running":true,"session_dir":"/home/demo/.config/herdr","socket_path":"/home/demo/.config/herdr/herdr.sock"},{"default":false,"name":"work","running":false,"session_dir":"/home/demo/.config/herdr/sessions/work","socket_path":"/home/demo/.config/herdr/sessions/work/herdr.sock"}]}"#;
++
++    struct FixtureExecutor(Value);
++
++    impl CommandExecutor for FixtureExecutor {
++        fn json(&self, _: &[&str]) -> Result<Value, String> {
++            Ok(self.0.clone())
++        }
++
++        fn quiet(&self, _: &[&str]) -> Result<(), String> {
++            Ok(())
++        }
++
++        fn text(&self, _: &[&str]) -> Result<String, String> {
++            Ok(String::new())
++        }
++    }
++
+     #[test]
+     fn local_session_entry_attaches_by_name() {
+         let entry = local_session_entry(ListedSession {
+@@ -217,4 +263,16 @@ mod tests {
+             EntryAction::OpenRemote { ref target } if target == "prod-box"
+         ));
+     }
++
++    #[test]
++    fn parses_verbatim_herdr_080_session_fixture_and_running_state() {
++        let fixture: Value = serde_json::from_str(HERDR_080_SESSION_LIST).unwrap();
++        let list: SessionList = serde_json::from_value(fixture.clone()).unwrap();
++        assert_eq!(list.sessions.len(), 2);
++        assert!(list.sessions[0].running);
++        assert_eq!(
++            session_running(&FixtureExecutor(fixture), "work").unwrap(),
++            Some(false)
++        );
++    }
+ }
+diff --git a/src/keymap.rs b/src/keymap.rs
+index 820a8fe..8c81fff 100644
+--- a/src/keymap.rs
++++ b/src/keymap.rs
+@@ -18,7 +18,7 @@ pub(crate) enum Command {
+     DeleteChar,
+     DeleteWord,
+     Clear,
+-    CloseWorkspace,
++    DeleteSelected,
+     ToggleMark,
+     TogglePreview,
+     ToggleHelp,
+@@ -280,11 +280,14 @@ pub(crate) fn keybindings(app: &App) -> Vec<Keybind> {
+             None,
+         ),
+         binding(
+-            Command::CloseWorkspace,
+-            vec![key(KeyCode::Char('x'), KeyModifiers::CONTROL, "⌃X")],
+-            "close workspace",
++            Command::DeleteSelected,
++            vec![
++                key(KeyCode::Char('d'), KeyModifiers::CONTROL, "⌃D"),
++                key(KeyCode::Char('x'), KeyModifiers::CONTROL, "⌃X"),
++            ],
++            "delete selected safely",
+             "Actions",
+-            None,
++            Some("delete"),
+         ),
+         binding(
+             Command::ToggleMark,
+@@ -339,6 +342,8 @@ pub(crate) fn keybindings(app: &App) -> Vec<Keybind> {
+ fn source_help_label(source: &Source) -> &'static str {
+     match source {
+         Source::Workspace => "workspaces",
++        Source::Tab => "tabs",
++        Source::Pane => "panes",
+         Source::Project => "projects",
+         Source::Zoxide => "zoxide",
+         Source::Root => "roots",
+@@ -353,6 +358,8 @@ fn source_help_label(source: &Source) -> &'static str {
+ fn source_compact_label(source: &Source) -> &'static str {
+     match source {
+         Source::Workspace => "open",
++        Source::Tab => "tab",
++        Source::Pane => "pane",
+         Source::Project => "project",
+         Source::Zoxide => "zoxide",
+         Source::Root => "root",
+diff --git a/src/main.rs b/src/main.rs
+index f67dce5..e4e38a1 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -12,6 +12,7 @@ mod matcher;
+ mod model;
+ mod navigator_state;
+ mod paths;
++mod preview;
+ mod sources;
+ mod theme;
+ mod tui;
+diff --git a/src/model.rs b/src/model.rs
+index 44b8e7a..711c339 100644
+--- a/src/model.rs
++++ b/src/model.rs
+@@ -7,6 +7,8 @@ use crate::paths::canonical_str;
+ #[derive(Clone, Debug, PartialEq, Eq, Hash)]
+ pub(crate) enum Source {
+     Workspace,
++    Tab,
++    Pane,
+     Project,
+     Zoxide,
+     Root,
+@@ -21,6 +23,8 @@ impl Source {
+     pub(crate) fn label(&self) -> &'static str {
+         match self {
+             Source::Workspace => "open",
++            Source::Tab => "tab",
++            Source::Pane => "pane",
+             Source::Project => "project",
+             Source::Zoxide => "zoxide",
+             Source::Root => "root",
+@@ -35,6 +39,8 @@ impl Source {
+     pub(crate) fn from_config(value: &str) -> Option<Self> {
+         match value.trim().to_ascii_lowercase().as_str() {
+             "workspace" | "workspaces" | "open" | "open_workspaces" => Some(Source::Workspace),
++            "tab" | "tabs" => Some(Source::Tab),
++            "pane" | "panes" => Some(Source::Pane),
+             "project" | "projects" | "herdr_plus_projects" => Some(Source::Project),
+             "zoxide" | "z" => Some(Source::Zoxide),
+             "root" | "roots" | "scan" => Some(Source::Root),
+@@ -49,9 +55,11 @@ impl Source {
+         }
+     }
+ 
+-    pub(crate) fn all() -> [Source; 9] {
++    pub(crate) fn all() -> [Source; 11] {
+         [
+             Source::Workspace,
++            Source::Tab,
++            Source::Pane,
+             Source::Project,
+             Source::Server,
+             Source::Session,
+@@ -69,6 +77,12 @@ pub(crate) enum EntryAction {
+     FocusWorkspace {
+         id: String,
+     },
++    FocusTab {
++        id: String,
++    },
++    FocusPane {
++        id: String,
++    },
+     FocusAgent {
+         target: String,
+     },
+@@ -91,6 +105,12 @@ pub(crate) enum EntryAction {
+     },
+ }
+ 
++#[derive(Clone, Debug, PartialEq, Eq, Hash)]
++pub(crate) struct PaneTarget {
++    pub(crate) id: String,
++    pub(crate) revision: Option<String>,
++}
++
+ #[derive(Clone, Debug, PartialEq, Eq)]
+ pub(crate) enum WorkspaceKind {
+     Project,
+@@ -117,6 +137,9 @@ pub(crate) struct Entry {
+     pub(crate) workspace_id: Option<String>,
+     pub(crate) workspace_label: Option<String>,
+     pub(crate) agent_target: Option<String>,
++    pub(crate) preview_target: Option<PaneTarget>,
++    pub(crate) session_running: bool,
++    pub(crate) navigator_plugin_pane: bool,
+     pub(crate) project: Option<Project>,
+     pub(crate) action: EntryAction,
+     pub(crate) source_label: Option<String>,
+@@ -217,6 +240,9 @@ mod tests {
+             workspace_id: None,
+             workspace_label: None,
+             agent_target: None,
++            preview_target: None,
++            session_running: false,
++            navigator_plugin_pane: false,
+             project: None,
+             action: EntryAction::FocusOrCreateDir,
+             source_label: None,
+diff --git a/src/preview.rs b/src/preview.rs
+new file mode 100644
+index 0000000..b89e4ce
+--- /dev/null
++++ b/src/preview.rs
+@@ -0,0 +1,370 @@
++use std::{
++    collections::HashMap,
++    sync::{
++        mpsc::{self, Receiver},
++        Arc, Condvar, Mutex,
++    },
++    thread,
++    time::{Duration, Instant},
++};
++
++use crate::{herdr::CommandExecutor, model::PaneTarget};
++
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub(crate) enum PreviewStatus {
++    Unavailable,
++    Loading,
++    Ready(String),
++}
++
++struct Request {
++    generation: u64,
++    target: PaneTarget,
++}
++
++struct ResultMessage {
++    generation: u64,
++    target: PaneTarget,
++    result: Result<String, String>,
++}
++
++pub(crate) struct PreviewController {
++    requests: Arc<(Mutex<PendingRequest>, Condvar)>,
++    results: Receiver<ResultMessage>,
++    cache: HashMap<PaneTarget, CachedPreview>,
++    current: Option<PaneTarget>,
++    generation: u64,
++    status: PreviewStatus,
++    ttl: Duration,
++}
++
++#[derive(Default)]
++struct PendingRequest {
++    request: Option<Request>,
++    closed: bool,
++}
++
++struct CachedPreview {
++    value: String,
++    loaded_at: Instant,
++}
++
++const PREVIEW_TTL: Duration = Duration::from_secs(2);
++const PREVIEW_TIMEOUT: Duration = Duration::from_millis(750);
++const MAX_CACHE_ENTRIES: usize = 64;
++
++impl PreviewController {
++    pub(crate) fn new(executor: Arc<dyn CommandExecutor>) -> Self {
++        Self::with_ttl(executor, PREVIEW_TTL)
++    }
++
++    fn with_ttl(executor: Arc<dyn CommandExecutor>, ttl: Duration) -> Self {
++        let requests = Arc::new((Mutex::new(PendingRequest::default()), Condvar::new()));
++        let worker_requests = requests.clone();
++        let (result_tx, result_rx) = mpsc::channel::<ResultMessage>();
++        thread::spawn(move || loop {
++            let request = {
++                let (pending, ready) = &*worker_requests;
++                let mut pending = pending.lock().unwrap();
++                while pending.request.is_none() && !pending.closed {
++                    pending = ready.wait(pending).unwrap();
++                }
++                if pending.closed {
++                    return;
++                }
++                pending.request.take().unwrap()
++            };
++            let result = executor
++                .text_timeout(
++                    &[
++                        "pane",
++                        "read",
++                        &request.target.id,
++                        "--source",
++                        "recent-unwrapped",
++                        "--lines",
++                        "80",
++                    ],
++                    PREVIEW_TIMEOUT,
++                )
++                .map(normalize_output);
++            if result_tx
++                .send(ResultMessage {
++                    generation: request.generation,
++                    target: request.target,
++                    result,
++                })
++                .is_err()
++            {
++                return;
++            }
++        });
++        Self {
++            requests,
++            results: result_rx,
++            cache: HashMap::new(),
++            current: None,
++            generation: 0,
++            status: PreviewStatus::Unavailable,
++            ttl,
++        }
++    }
++
++    pub(crate) fn select(&mut self, target: Option<PaneTarget>) {
++        if self.current == target {
++            match (&target, &self.status) {
++                (Some(target), PreviewStatus::Ready(_))
++                    if self
++                        .cache
++                        .get(target)
++                        .is_some_and(|cached| cached.loaded_at.elapsed() >= self.ttl) => {}
++                _ => return,
++            }
++        }
++        self.generation = self.generation.wrapping_add(1);
++        self.current = target.clone();
++        let Some(target) = target else {
++            self.status = PreviewStatus::Unavailable;
++            return;
++        };
++        if let Some(cached) = self
++            .cache
++            .get(&target)
++            .filter(|cached| cached.loaded_at.elapsed() < self.ttl)
++        {
++            self.status = PreviewStatus::Ready(cached.value.clone());
++            return;
++        }
++        self.status = PreviewStatus::Loading;
++        let (pending, ready) = &*self.requests;
++        pending.lock().unwrap().request = Some(Request {
++            generation: self.generation,
++            target,
++        });
++        ready.notify_one();
++    }
++
++    pub(crate) fn poll(&mut self) {
++        while let Ok(message) = self.results.try_recv() {
++            if message.generation != self.generation
++                || self.current.as_ref() != Some(&message.target)
++            {
++                continue;
++            }
++            self.status = match message.result {
++                Ok(value) => {
++                    if self.cache.len() >= MAX_CACHE_ENTRIES {
++                        if let Some(stale) = self
++                            .cache
++                            .keys()
++                            .find(|target| Some(*target) != self.current.as_ref())
++                            .cloned()
++                        {
++                            self.cache.remove(&stale);
++                        }
++                    }
++                    self.cache.insert(
++                        message.target,
++                        CachedPreview {
++                            value: value.clone(),
++                            loaded_at: Instant::now(),
++                        },
++                    );
++                    PreviewStatus::Ready(value)
++                }
++                Err(_) => PreviewStatus::Unavailable,
++            };
++        }
++    }
++
++    pub(crate) fn status(&self) -> &PreviewStatus {
++        &self.status
++    }
++
++    pub(crate) fn invalidate(&mut self) {
++        self.generation = self.generation.wrapping_add(1);
++        self.current = None;
++        self.cache.clear();
++        self.status = PreviewStatus::Unavailable;
++    }
++}
++
++impl Drop for PreviewController {
++    fn drop(&mut self) {
++        let (pending, ready) = &*self.requests;
++        pending.lock().unwrap().closed = true;
++        ready.notify_one();
++    }
++}
++
++fn normalize_output(value: String) -> String {
++    let Ok(json) = serde_json::from_str::<serde_json::Value>(&value) else {
++        return value;
++    };
++    [
++        "/result/content",
++        "/result/text",
++        "/result/output",
++        "/content",
++        "/text",
++        "/output",
++    ]
++    .into_iter()
++    .find_map(|path| json.pointer(path).and_then(serde_json::Value::as_str))
++    .unwrap_or(&value)
++    .to_string()
++}
++
++#[cfg(test)]
++mod tests {
++    use std::{
++        sync::{Arc, Condvar, Mutex},
++        time::Duration,
++    };
++
++    use serde_json::Value;
++
++    use super::*;
++
++    struct BlockingExecutor {
++        calls: Mutex<Vec<String>>,
++        ready: Condvar,
++    }
++
++    impl CommandExecutor for BlockingExecutor {
++        fn json(&self, _: &[&str]) -> Result<Value, String> {
++            Ok(Value::Null)
++        }
++
++        fn quiet(&self, _: &[&str]) -> Result<(), String> {
++            Ok(())
++        }
++
++        fn text(&self, args: &[&str]) -> Result<String, String> {
++            let mut calls = self.calls.lock().unwrap();
++            calls.push(args[2].into());
++            self.ready.notify_all();
++            if args[2] == "old" {
++                std::thread::sleep(Duration::from_millis(30));
++            }
++            Ok(format!("preview {}", args[2]))
++        }
++    }
++
++    fn target(id: &str, revision: &str) -> PaneTarget {
++        PaneTarget {
++            id: id.into(),
++            revision: Some(revision.into()),
++        }
++    }
++
++    #[test]
++    fn cache_keys_include_revision_and_stale_results_are_rejected() {
++        let executor = Arc::new(BlockingExecutor {
++            calls: Mutex::new(Vec::new()),
++            ready: Condvar::new(),
++        });
++        let mut previews = PreviewController::new(executor.clone());
++        previews.select(Some(target("old", "1")));
++        let calls = executor.calls.lock().unwrap();
++        let _ = executor
++            .ready
++            .wait_timeout_while(calls, Duration::from_secs(1), |calls| calls.is_empty())
++            .unwrap();
++        previews.select(Some(target("middle", "1")));
++        previews.select(Some(target("new", "1")));
++        std::thread::sleep(Duration::from_millis(60));
++        previews.poll();
++        assert_eq!(
++            previews.status(),
++            &PreviewStatus::Ready("preview new".into())
++        );
++
++        previews.select(Some(target("new", "2")));
++        assert_eq!(previews.status(), &PreviewStatus::Loading);
++        std::thread::sleep(Duration::from_millis(20));
++        previews.poll();
++        assert_eq!(
++            previews.status(),
++            &PreviewStatus::Ready("preview new".into())
++        );
++        assert_eq!(executor.calls.lock().unwrap().len(), 3);
++        assert!(!executor.calls.lock().unwrap().contains(&"middle".into()));
++    }
++
++    #[test]
++    fn cached_preview_refreshes_after_ttl() {
++        let executor = Arc::new(BlockingExecutor {
++            calls: Mutex::new(Vec::new()),
++            ready: Condvar::new(),
++        });
++        let mut previews = PreviewController::with_ttl(executor.clone(), Duration::from_millis(5));
++        let selected = target("current", "1");
++        previews.select(Some(selected.clone()));
++        std::thread::sleep(Duration::from_millis(10));
++        previews.poll();
++        assert!(matches!(previews.status(), PreviewStatus::Ready(_)));
++
++        std::thread::sleep(Duration::from_millis(6));
++        previews.select(Some(selected));
++        assert_eq!(previews.status(), &PreviewStatus::Loading);
++        std::thread::sleep(Duration::from_millis(10));
++        previews.poll();
++        assert_eq!(executor.calls.lock().unwrap().len(), 2);
++    }
++
++    #[test]
++    fn preview_output_accepts_plain_text_and_json_envelopes() {
++        assert_eq!(normalize_output("plain".into()), "plain");
++        assert_eq!(
++            normalize_output(r#"{"result":{"content":"terminal output"}}"#.into()),
++            "terminal output"
++        );
++    }
++
++    #[test]
++    fn preview_worker_generates_exact_pane_read_command() {
++        struct RecordingExecutor(Mutex<Vec<Vec<String>>>);
++
++        impl CommandExecutor for RecordingExecutor {
++            fn json(&self, _: &[&str]) -> Result<Value, String> {
++                Ok(Value::Null)
++            }
++
++            fn quiet(&self, _: &[&str]) -> Result<(), String> {
++                Ok(())
++            }
++
++            fn text(&self, args: &[&str]) -> Result<String, String> {
++                self.0
++                    .lock()
++                    .unwrap()
++                    .push(args.iter().map(|arg| (*arg).into()).collect());
++                Ok("output".into())
++            }
++        }
++
++        let executor = Arc::new(RecordingExecutor(Mutex::new(Vec::new())));
++        let mut previews = PreviewController::new(executor.clone());
++        previews.select(Some(target("w2:p3", "9")));
++        for _ in 0..20 {
++            if !executor.0.lock().unwrap().is_empty() {
++                break;
++            }
++            std::thread::sleep(Duration::from_millis(5));
++        }
++        previews.poll();
++        assert_eq!(
++            *executor.0.lock().unwrap(),
++            vec![vec![
++                "pane",
++                "read",
++                "w2:p3",
++                "--source",
++                "recent-unwrapped",
++                "--lines",
++                "80",
++            ]]
++        );
++    }
++}
+diff --git a/src/sources.rs b/src/sources.rs
+index 7943837..8d09b4c 100644
+--- a/src/sources.rs
++++ b/src/sources.rs
+@@ -10,42 +10,134 @@ use serde_json::Value;
+ 
+ use crate::{
+     config::Config,
+-    herdr::herdr_json,
+-    model::{Entry, EntryAction, Source, WorkspaceRef},
++    herdr::CommandExecutor,
++    model::{Entry, EntryAction, PaneTarget, Source, WorkspaceRef},
+     navigator_state::NavigatorSnapshot,
+     paths::{basename, canonical_str, expand_path, home},
+ };
+ 
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub(crate) struct PaneInfo {
++    pub(crate) id: String,
++    pub(crate) workspace_id: String,
++    pub(crate) tab_id: String,
++    pub(crate) label: String,
++    pub(crate) cwd: String,
++    pub(crate) foreground_cwd: String,
++    pub(crate) revision: Option<String>,
++    pub(crate) focused: bool,
++    pub(crate) navigator_plugin: bool,
++}
++
++impl PaneInfo {
++    fn target(&self) -> PaneTarget {
++        PaneTarget {
++            id: self.id.clone(),
++            revision: self.revision.clone(),
++        }
++    }
++}
++
++fn revision(value: &Value) -> String {
++    value
++        .as_str()
++        .map(str::to_string)
++        .unwrap_or_else(|| value.to_string())
++}
++
++fn pane_label(pane: &Value) -> &str {
++    [
++        "label",
++        "title",
++        "terminal_title_stripped",
++        "terminal_title",
++        "display_agent",
++        "agent",
++    ]
++    .into_iter()
++    .find_map(|key| {
++        pane.get(key)
++            .and_then(Value::as_str)
++            .filter(|value| !value.is_empty())
++    })
++    .unwrap_or("pane")
++}
++
++pub(crate) fn pane_infos_from_json(value: &Value) -> Vec<PaneInfo> {
++    value
++        .pointer("/result/panes")
++        .and_then(Value::as_array)
++        .into_iter()
++        .flatten()
++        .filter_map(|pane| {
++            let id = pane.get("pane_id")?.as_str()?.to_string();
++            let cwd = pane
++                .get("cwd")
++                .and_then(Value::as_str)
++                .unwrap_or("/")
++                .to_string();
++            let label = pane_label(pane).to_string();
++            let plugin_id = ["plugin_id", "plugin"]
++                .into_iter()
++                .find_map(|key| pane.get(key).and_then(Value::as_str))
++                .or_else(|| pane.pointer("/plugin/id").and_then(Value::as_str))
++                .unwrap_or("");
++            Some(PaneInfo {
++                id,
++                workspace_id: pane
++                    .get("workspace_id")
++                    .and_then(Value::as_str)
++                    .unwrap_or("")
++                    .to_string(),
++                tab_id: pane
++                    .get("tab_id")
++                    .and_then(Value::as_str)
++                    .unwrap_or("")
++                    .to_string(),
++                label: label.clone(),
++                foreground_cwd: pane
++                    .get("foreground_cwd")
++                    .and_then(Value::as_str)
++                    .unwrap_or(&cwd)
++                    .to_string(),
++                cwd,
++                revision: pane.get("revision").map(revision),
++                focused: pane
++                    .get("focused")
++                    .and_then(Value::as_bool)
++                    .unwrap_or(false),
++                navigator_plugin: plugin_id == "herdr-navigator"
++                    || matches!(label.as_str(), "Herdr Navigator" | "Navigator Side"),
++            })
++        })
++        .collect()
++}
++
+ pub(crate) fn collect_workspaces(
++    executor: &dyn CommandExecutor,
++    panes: &[PaneInfo],
+     snapshot: &mut NavigatorSnapshot,
+ ) -> (Vec<Entry>, HashMap<String, Vec<WorkspaceRef>>, bool, bool) {
+-    let ws_json = herdr_json(["workspace", "list"]).unwrap_or(Value::Null);
+-    let pane_json = herdr_json(["pane", "list"]).unwrap_or(Value::Null);
++    let ws_json = executor.json(&["workspace", "list"]).unwrap_or(Value::Null);
+     let mut cwd_by_ws: HashMap<String, String> = HashMap::new();
+-    if let Some(panes) = pane_json
+-        .pointer("/result/panes")
+-        .and_then(|v| v.as_array())
+-    {
+-        for p in panes {
+-            let Some(ws) = p.get("workspace_id").and_then(|v| v.as_str()) else {
+-                continue;
+-            };
+-            let cwd = p
+-                .get("foreground_cwd")
+-                .or_else(|| p.get("cwd"))
+-                .and_then(|v| v.as_str())
+-                .unwrap_or("");
+-            if !cwd.is_empty() {
+-                cwd_by_ws.entry(ws.into()).or_insert(cwd.into());
++    for pane in panes {
++        let ws = &pane.workspace_id;
++        let cwd = &pane.foreground_cwd;
++        if !cwd.is_empty() {
++            if pane.focused {
++                cwd_by_ws.insert(ws.clone(), cwd.clone());
++            } else {
++                cwd_by_ws.entry(ws.clone()).or_insert(cwd.clone());
+             }
+         }
+     }
+-    workspaces_from_json(&ws_json, &cwd_by_ws, snapshot)
++    workspaces_from_json(&ws_json, &cwd_by_ws, panes, snapshot)
+ }
+ 
+ fn workspaces_from_json(
+     ws_json: &Value,
+     cwd_by_ws: &HashMap<String, String>,
++    panes: &[PaneInfo],
+     snapshot: &mut NavigatorSnapshot,
+ ) -> (Vec<Entry>, HashMap<String, Vec<WorkspaceRef>>, bool, bool) {
+     let has_live_workspace_list = ws_json
+@@ -103,6 +195,13 @@ fn workspaces_from_json(
+                 workspace_id: Some(id.into()),
+                 workspace_label: Some(label.into()),
+                 agent_target: None,
++                preview_target: panes
++                    .iter()
++                    .find(|pane| pane.workspace_id == id && pane.focused)
++                    .or_else(|| panes.iter().find(|pane| pane.workspace_id == id))
++                    .map(PaneInfo::target),
++                session_running: false,
++                navigator_plugin_pane: false,
+                 project: None,
+                 action: EntryAction::FocusWorkspace { id: id.into() },
+                 source_label: None,
+@@ -114,17 +213,148 @@ fn workspaces_from_json(
+     (entries, map, snapshot_changed, has_live_workspace_list)
+ }
+ 
++pub(crate) fn collect_tabs_and_panes(
++    tab_json: &Value,
++    panes: &[PaneInfo],
++    workspaces: &[Entry],
++) -> (Vec<Entry>, Vec<Entry>) {
++    let workspace_labels: HashMap<&str, &str> = workspaces
++        .iter()
++        .filter_map(|entry| Some((entry.workspace_id.as_deref()?, entry.title.as_str())))
++        .collect();
++    let tabs = tabs_from_json(tab_json, panes, &workspace_labels);
++    let tab_labels: HashMap<&str, &str> = tabs
++        .iter()
++        .filter_map(|entry| match &entry.action {
++            EntryAction::FocusTab { id } => Some((id.as_str(), entry.title.split(" · ").next()?)),
++            _ => None,
++        })
++        .collect();
++    let pane_entries = panes
++        .iter()
++        .map(|pane| {
++            let workspace_label = workspace_labels
++                .get(pane.workspace_id.as_str())
++                .copied()
++                .unwrap_or(&pane.workspace_id);
++            let tab_label = tab_labels
++                .get(pane.tab_id.as_str())
++                .copied()
++                .unwrap_or(&pane.tab_id);
++            let path = PathBuf::from(&pane.foreground_cwd);
++            Entry {
++                source: Source::Pane,
++                title: format!("{} · {tab_label} · {workspace_label}", pane.label),
++                subtitle: format!("{} · {}", pane.id, pane.foreground_cwd),
++                path,
++                workspace_id: (!pane.workspace_id.is_empty()).then(|| pane.workspace_id.clone()),
++                workspace_label: Some(workspace_label.into()),
++                agent_target: None,
++                preview_target: Some(pane.target()),
++                session_running: false,
++                navigator_plugin_pane: pane.navigator_plugin,
++                project: None,
++                action: EntryAction::FocusPane {
++                    id: pane.id.clone(),
++                },
++                source_label: None,
++                search_terms: vec![
++                    pane.id.clone(),
++                    pane.tab_id.clone(),
++                    tab_label.into(),
++                    pane.workspace_id.clone(),
++                    workspace_label.into(),
++                    pane.cwd.clone(),
++                    pane.foreground_cwd.clone(),
++                ],
++                canonical: OnceLock::new(),
++            }
++        })
++        .collect();
++    (tabs, pane_entries)
++}
++
++fn tabs_from_json(
++    value: &Value,
++    panes: &[PaneInfo],
++    workspace_labels: &HashMap<&str, &str>,
++) -> Vec<Entry> {
++    value
++        .pointer("/result/tabs")
++        .and_then(Value::as_array)
++        .into_iter()
++        .flatten()
++        .filter_map(|tab| {
++            let id = tab.get("tab_id")?.as_str()?;
++            let workspace_id = tab
++                .get("workspace_id")
++                .and_then(Value::as_str)
++                .or_else(|| {
++                    panes
++                        .iter()
++                        .find(|pane| pane.tab_id == id)
++                        .map(|pane| pane.workspace_id.as_str())
++                })
++                .unwrap_or("");
++            let workspace_label = workspace_labels
++                .get(workspace_id)
++                .copied()
++                .unwrap_or(workspace_id);
++            let label = ["label", "title", "name"]
++                .into_iter()
++                .find_map(|key| tab.get(key).and_then(Value::as_str))
++                .unwrap_or(id);
++            let tab_panes: Vec<_> = panes.iter().filter(|pane| pane.tab_id == id).collect();
++            let active_pane_id = tab.get("active_pane_id").and_then(Value::as_str);
++            let preview = tab_panes
++                .iter()
++                .find(|pane| Some(pane.id.as_str()) == active_pane_id)
++                .or_else(|| tab_panes.iter().find(|pane| pane.focused))
++                .copied()
++                .or_else(|| tab_panes.first().copied());
++            let path = preview
++                .map(|pane| PathBuf::from(&pane.foreground_cwd))
++                .unwrap_or_else(|| PathBuf::from("/"));
++            Some(Entry {
++                source: Source::Tab,
++                title: format!("{label} · {workspace_label}"),
++                subtitle: format!("{id} · {} panes", tab_panes.len()),
++                path,
++                workspace_id: (!workspace_id.is_empty()).then(|| workspace_id.into()),
++                workspace_label: Some(workspace_label.into()),
++                agent_target: None,
++                preview_target: preview.map(|pane| pane.target()),
++                session_running: false,
++                navigator_plugin_pane: false,
++                project: None,
++                action: EntryAction::FocusTab { id: id.into() },
++                source_label: None,
++                search_terms: vec![
++                    id.into(),
++                    label.into(),
++                    workspace_id.into(),
++                    workspace_label.into(),
++                ],
++                canonical: OnceLock::new(),
++            })
++        })
++        .collect()
++}
++
+ pub(crate) fn collect_agents(
++    executor: &dyn CommandExecutor,
+     workspaces: &[Entry],
++    panes: &[PaneInfo],
+     aliases: &[crate::config::AgentAliasConfig],
+ ) -> Vec<Entry> {
+-    let agent_json = herdr_json(["agent", "list"]).unwrap_or(Value::Null);
+-    agents_from_json(&agent_json, workspaces, aliases)
++    let agent_json = executor.json(&["agent", "list"]).unwrap_or(Value::Null);
++    agents_from_json(&agent_json, workspaces, panes, aliases)
+ }
+ 
+ fn agents_from_json(
+     agent_json: &Value,
+     workspaces: &[Entry],
++    panes: &[PaneInfo],
+     aliases: &[crate::config::AgentAliasConfig],
+ ) -> Vec<Entry> {
+     let workspace_labels: HashMap<&str, &str> = workspaces
+@@ -145,6 +375,7 @@ fn agents_from_json(
+             let term = p.get("terminal_id").and_then(|v| v.as_str()).unwrap_or("");
+             // Herdr's `agent focus` accepts pane IDs, not terminal IDs.
+             let target = pane;
++            let pane_info = panes.iter().find(|pane_info| pane_info.id == pane);
+             let cwd = p.get("cwd").and_then(|v| v.as_str()).unwrap_or("/");
+             let foreground_cwd = p
+                 .get("foreground_cwd")
+@@ -192,6 +423,14 @@ fn agents_from_json(
+                 workspace_id: (!workspace_id.is_empty()).then(|| workspace_id.into()),
+                 workspace_label: Some(workspace_label.into()),
+                 agent_target: Some(target.into()),
++                preview_target: pane_info.map(PaneInfo::target).or_else(|| {
++                    Some(PaneTarget {
++                        id: pane.into(),
++                        revision: p.get("revision").map(revision),
++                    })
++                }),
++                session_running: false,
++                navigator_plugin_pane: pane_info.is_some_and(|pane| pane.navigator_plugin),
+                 project: None,
+                 action: EntryAction::FocusAgent {
+                     target: target.into(),
+@@ -264,6 +503,9 @@ pub(crate) fn collect_zoxide() -> Vec<Entry> {
+                 workspace_id: None,
+                 workspace_label: None,
+                 agent_target: None,
++                preview_target: None,
++                session_running: false,
++                navigator_plugin_pane: false,
+                 project: None,
+                 action: EntryAction::FocusOrCreateDir,
+                 source_label: None,
+@@ -297,6 +539,9 @@ fn walk_dirs(path: &Path, depth: usize, out: &mut Vec<Entry>) {
+             workspace_id: None,
+             workspace_label: None,
+             agent_target: None,
++            preview_target: None,
++            session_running: false,
++            navigator_plugin_pane: false,
+             project: None,
+             action: EntryAction::FocusOrCreateDir,
+             source_label: None,
+@@ -318,14 +563,21 @@ fn walk_dirs(path: &Path, depth: usize, out: &mut Vec<Entry>) {
+ mod tests {
+     use super::*;
+ 
++    const HERDR_080_PANE_LIST: &str = r#"{"id":"cli:pane:list","result":{"panes":[{"agent":"claude","agent_status":"working","cwd":"/work/demo","focused":true,"foreground_cwd":"/work/demo","pane_id":"w1:p1","revision":12,"scroll":{"max_offset_from_bottom":0,"offset_from_bottom":0,"viewport_rows":34},"tab_id":"w1:t1","terminal_id":"term_1","terminal_title":"✳ Claude Code","terminal_title_stripped":"Claude Code","workspace_id":"w1"}],"type":"pane_list"}}"#;
++    const HERDR_080_TAB_LIST: &str = r#"{"id":"cli:tab:list","result":{"tabs":[{"agent_status":"working","focused":true,"label":"Code","number":1,"pane_count":1,"tab_id":"w1:t1","workspace_id":"w1"}],"type":"tab_list"}}"#;
++
+     // ponytail: fixtures captured verbatim from `herdr workspace list` / `herdr agent list` on 0.7.3
+     #[test]
+     fn parses_herdr_workspace_and_agent_list_json() {
+         let ws_json = serde_json::json!({"id":"cli:workspace:list","result":{"type":"workspace_list","workspaces":[
+             {"active_tab_id":"w41:t1","agent_status":"unknown","focused":false,"label":"~","number":1,"pane_count":1,"tab_count":1,"workspace_id":"w41"},
+             {"active_tab_id":"w43:t1","agent_status":"working","focused":true,"label":"dir: picker","number":3,"pane_count":1,"tab_count":1,"workspace_id":"w43"}]}});
+-        let (entries, _, _, _) =
+-            workspaces_from_json(&ws_json, &HashMap::new(), &mut NavigatorSnapshot::default());
++        let (entries, _, _, _) = workspaces_from_json(
++            &ws_json,
++            &HashMap::new(),
++            &[],
++            &mut NavigatorSnapshot::default(),
++        );
+         assert_eq!(entries.len(), 2);
+         assert_eq!(entries[0].subtitle, "agent:unknown · w41 tabs:1 panes:1");
+         assert!(entries[0].search_terms.contains(&"unknown".to_string()));
+@@ -337,7 +589,7 @@ mod tests {
+             {"agent":"claude","agent_session":{"agent":"claude","kind":"id","source":"herdr:claude","value":"58f4-session"},
+              "agent_status":"working","cwd":"/tmp","focused":true,"foreground_cwd":"/tmp","pane_id":"w43:p1",
+              "revision":0,"tab_id":"w43:t1","terminal_id":"term_1","workspace_id":"w43"}]}});
+-        let agents = agents_from_json(&agent_json, &entries, &[]);
++        let agents = agents_from_json(&agent_json, &entries, &[], &[]);
+         assert_eq!(agents.len(), 1);
+         assert_eq!(agents[0].agent_target.as_deref(), Some("w43:p1"));
+         assert!(matches!(
+@@ -349,6 +601,100 @@ mod tests {
+         assert!(agents[0].subtitle.starts_with("working"));
+     }
+ 
++    #[test]
++    fn parses_tabs_and_all_panes_with_hierarchy_metadata() {
++        let pane_json = serde_json::json!({"result":{"panes":[
++            {"pane_id":"w1:p1","workspace_id":"w1","tab_id":"w1:t1","label":"shell","cwd":"/tmp","foreground_cwd":"/tmp/project","revision":7,"focused":true},
++            {"pane_id":"w1:p2","workspace_id":"w1","tab_id":"w1:t1","label":"Herdr Navigator","cwd":"/tmp","focused":false}
++        ]}});
++        let panes = pane_infos_from_json(&pane_json);
++        assert_eq!(panes.len(), 2);
++        assert_eq!(panes[0].revision.as_deref(), Some("7"));
++        assert!(panes[1].navigator_plugin);
++
++        let workspace_json = serde_json::json!({"result":{"workspaces":[
++            {"workspace_id":"w1","label":"Demo","tab_count":1,"pane_count":2}
++        ]}});
++        let (workspaces, _, _, _) = workspaces_from_json(
++            &workspace_json,
++            &HashMap::from([("w1".into(), "/tmp/project".into())]),
++            &panes,
++            &mut NavigatorSnapshot::default(),
++        );
++        let tabs_json = serde_json::json!({"result":{"tabs":[
++            {"tab_id":"w1:t1","workspace_id":"w1","label":"Code"}
++        ]}});
++        let (tabs, pane_entries) = collect_tabs_and_panes(&tabs_json, &panes, &workspaces);
++
++        assert_eq!(tabs.len(), 1);
++        assert_eq!(tabs[0].title, "Code · Demo");
++        assert_eq!(tabs[0].preview_target.as_ref().unwrap().id, "w1:p1");
++        assert!(matches!(tabs[0].action, EntryAction::FocusTab { ref id } if id == "w1:t1"));
++        assert_eq!(pane_entries.len(), 2);
++        assert_eq!(pane_entries[0].title, "shell · Code · Demo");
++        assert!(pane_entries[0].subtitle.contains("/tmp/project"));
++        assert!(
++            matches!(pane_entries[0].action, EntryAction::FocusPane { ref id } if id == "w1:p1")
++        );
++        assert!(pane_entries[1].navigator_plugin_pane);
++        assert_eq!(workspaces[0].preview_target.as_ref().unwrap().id, "w1:p1");
++    }
++
++    #[test]
++    fn parses_verbatim_herdr_080_pane_and_tab_fixtures() {
++        let pane_json: Value = serde_json::from_str(HERDR_080_PANE_LIST).unwrap();
++        let panes = pane_infos_from_json(&pane_json);
++        assert_eq!(panes[0].label, "Claude Code");
++        assert_eq!(panes[0].revision.as_deref(), Some("12"));
++
++        let workspace_json = serde_json::json!({"result":{"workspaces":[
++            {"workspace_id":"w1","label":"Demo","tab_count":1,"pane_count":1}
++        ]}});
++        let (workspaces, _, _, _) = workspaces_from_json(
++            &workspace_json,
++            &HashMap::from([("w1".into(), "/work/demo".into())]),
++            &panes,
++            &mut NavigatorSnapshot::default(),
++        );
++        let tab_json: Value = serde_json::from_str(HERDR_080_TAB_LIST).unwrap();
++        let (tabs, pane_entries) = collect_tabs_and_panes(&tab_json, &panes, &workspaces);
++        assert_eq!(tabs[0].title, "Code · Demo");
++        assert_eq!(pane_entries[0].title, "Claude Code · Code · Demo");
++    }
++
++    #[test]
++    fn pane_label_uses_actual_herdr_fallback_order() {
++        let value = serde_json::json!({
++            "label": null,
++            "title": "",
++            "terminal_title_stripped": "stripped",
++            "terminal_title": "terminal",
++            "display_agent": "display",
++            "agent": "agent"
++        });
++        assert_eq!(pane_label(&value), "stripped");
++        assert_eq!(pane_label(&serde_json::json!({"agent":"codex"})), "codex");
++        assert_eq!(pane_label(&serde_json::json!({})), "pane");
++    }
++
++    #[test]
++    fn agent_inherits_navigator_plugin_pane_protection() {
++        let panes = pane_infos_from_json(&serde_json::json!({"result":{"panes":[{
++            "pane_id":"w1:p1","workspace_id":"w1","tab_id":"w1:t1",
++            "label":"Herdr Navigator","cwd":"/tmp"
++        }]}}));
++        let agents = agents_from_json(
++            &serde_json::json!({"result":{"agents":[{
++                "agent":"claude","pane_id":"w1:p1","tab_id":"w1:t1",
++                "workspace_id":"w1","cwd":"/tmp"
++            }]}}),
++            &[],
++            &panes,
++            &[],
++        );
++        assert!(agents[0].navigator_plugin_pane);
++    }
++
+     #[test]
+     fn persisted_workspace_kind_survives_label_changes_and_legacy_labels_migrate() {
+         let ws_json = serde_json::json!({"result":{"workspaces":[
+@@ -360,7 +706,7 @@ mod tests {
+         snapshot.record("w1", crate::model::WorkspaceKind::Dir);
+ 
+         let (_, workspaces, migrated, live) =
+-            workspaces_from_json(&ws_json, &cwd_by_ws, &mut snapshot);
++            workspaces_from_json(&ws_json, &cwd_by_ws, &[], &mut snapshot);
+ 
+         assert!(live);
+ 
+diff --git a/src/tui.rs b/src/tui.rs
+index d6aa266..7c46aa0 100644
+--- a/src/tui.rs
++++ b/src/tui.rs
+@@ -26,6 +26,7 @@ use crate::{
+     keymap::{keybindings, Command},
+     model::{Entry, EntryAction, Source},
+     paths::home,
++    preview::PreviewStatus,
+     sources::status_icon_at,
+     theme::Theme,
+ };
+@@ -51,9 +52,17 @@ pub(crate) fn tui_loop(
+                 Err(TryRecvError::Empty) => {}
+             }
+         }
++        app.update_preview();
+         terminal.draw(|f| list_hits = draw(f, app))?;
+         let animate = has_working_entry(app);
+-        if (animate || update_check.is_some()) && !event::poll(Duration::from_millis(125))? {
++        let preview_loading = matches!(app.preview_status(), PreviewStatus::Loading);
++        let preview_active = app.preview
++            && app
++                .selected_entry()
++                .is_some_and(|entry| entry.preview_target.is_some());
++        if (animate || preview_loading || preview_active || update_check.is_some())
++            && !event::poll(Duration::from_millis(125))?
++        {
+             if animate {
+                 app.spinner_tick = app.spinner_tick.wrapping_add(1);
+             }
+@@ -108,14 +117,6 @@ pub(crate) fn tui_loop(
+                 )?;
+                 terminal.clear()?;
+             }
+-            Action::CloseWorkspace => {
+-                if let Err(e) = app.close_selected_workspace() {
+-                    crate::herdr::notify_error(
+-                        &format!("Close failed: {e}"),
+-                        &app.config.notifications,
+-                    );
+-                }
+-            }
+         }
+     };
+     cleanup_terminal(&mut terminal)?;
+@@ -155,7 +156,6 @@ enum Action {
+     Open,
+     OpenTemplate,
+     Update,
+-    CloseWorkspace,
+ }
+ 
+ #[derive(Default)]
+@@ -165,7 +165,9 @@ struct ListHits {
+ }
+ 
+ fn handle_mouse(app: &mut App, mouse: MouseEvent, hits: &ListHits) -> Action {
+-    if app.input_mode == InputMode::Help || !hits.area.contains((mouse.column, mouse.row).into()) {
++    if matches!(app.input_mode, InputMode::Help | InputMode::ConfirmDelete)
++        || !hits.area.contains((mouse.column, mouse.row).into())
++    {
+         return Action::Continue;
+     }
+ 
+@@ -191,6 +193,16 @@ fn handle_mouse(app: &mut App, mouse: MouseEvent, hits: &ListHits) -> Action {
+ }
+ 
+ fn handle_key(app: &mut App, key: KeyEvent) -> Action {
++    if app.input_mode == InputMode::ConfirmDelete {
++        if confirms_delete(key) {
++            if let Err(error) = app.confirm_delete() {
++                app.message = Some(format!("Delete failed: {error}"));
++            }
++        } else if cancels_delete(key) {
++            app.cancel_delete();
++        }
++        return Action::Continue;
++    }
+     let command = keybindings(app)
+         .into_iter()
+         .find(|binding| binding.matches(app, key))
+@@ -223,6 +235,17 @@ fn handle_key(app: &mut App, key: KeyEvent) -> Action {
+     Action::Continue
+ }
+ 
++fn confirms_delete(key: KeyEvent) -> bool {
++    matches!(key.code, KeyCode::Char('y' | 'Y'))
++        && key.modifiers.difference(KeyModifiers::SHIFT).is_empty()
++}
++
++fn cancels_delete(key: KeyEvent) -> bool {
++    key.code == KeyCode::Esc
++        || matches!(key.code, KeyCode::Char('n' | 'N'))
++            && key.modifiers.difference(KeyModifiers::SHIFT).is_empty()
++}
++
+ fn execute_command(app: &mut App, command: Command, key: KeyEvent) -> Action {
+     match command {
+         Command::Back => {
+@@ -271,7 +294,12 @@ fn execute_command(app: &mut App, command: Command, key: KeyEvent) -> Action {
+             app.apply_filter();
+             Action::Continue
+         }
+-        Command::CloseWorkspace => Action::CloseWorkspace,
++        Command::DeleteSelected => {
++            if let Err(error) = app.begin_delete_selected() {
++                app.message = Some(error);
++            }
++            Action::Continue
++        }
+         Command::ToggleMark => {
+             if let Err(error) = app.toggle_selected_pin() {
+                 crate::herdr::notify_error(
+@@ -357,6 +385,13 @@ fn draw(f: &mut Frame, app: &App) -> ListHits {
+             format!("filter:{filter}"),
+             Style::default().fg(app.theme.accent),
+         ),
++        Span::styled(
++            app.message
++                .as_ref()
++                .map(|message| format!("   {message}"))
++                .unwrap_or_default(),
++            Style::default().fg(app.theme.yellow),
++        ),
+     ]))
+     .block(
+         Block::default()
+@@ -386,9 +421,41 @@ fn draw(f: &mut Frame, app: &App) -> ListHits {
+     if app.input_mode == InputMode::Help {
+         draw_keybindings_help(f, app, area);
+     }
++    if app.input_mode == InputMode::ConfirmDelete {
++        draw_delete_confirmation(f, app, area);
++    }
+     list_hits
+ }
+ 
++fn draw_delete_confirmation(f: &mut Frame, app: &App, area: Rect) {
++    let Some(confirmation) = &app.confirmation else {
++        return;
++    };
++    let width = (confirmation.prompt.chars().count() as u16 + 4)
++        .min(area.width.saturating_sub(2))
++        .max(3);
++    let inner_width = width.saturating_sub(2).max(1);
++    let line_count = (confirmation.prompt.chars().count() as u16).div_ceil(inner_width);
++    let height = line_count
++        .saturating_add(2)
++        .min(area.height.saturating_sub(2))
++        .max(3);
++    let popup = area.centered(Constraint::Length(width), Constraint::Length(height));
++    f.render_widget(Clear, popup);
++    f.render_widget(
++        Paragraph::new(confirmation.prompt.as_str())
++            .style(Style::default().fg(app.theme.text).bg(app.theme.panel_bg))
++            .wrap(Wrap { trim: false })
++            .block(
++                Block::default()
++                    .title(" Confirm delete ")
++                    .borders(Borders::ALL)
++                    .border_style(Style::default().fg(app.theme.red)),
++            ),
++        popup,
++    );
++}
++
+ fn draw_key_hints(f: &mut Frame, app: &App, area: Rect) {
+     let mut command_spans = Vec::new();
+     let mut filter_spans = Vec::new();
+@@ -920,6 +987,8 @@ fn preview_text(app: &App, e: &Entry) -> String {
+     lines.push("".into());
+     let action: &str = match &e.action {
+         EntryAction::FocusWorkspace { .. } => "focus existing workspace",
++        EntryAction::FocusTab { .. } => "focus tab",
++        EntryAction::FocusPane { .. } => "focus exact pane",
+         EntryAction::FocusAgent { .. } => "focus agent pane",
+         EntryAction::OpenRemote { .. } => "open remote Herdr",
+         EntryAction::AttachSession { .. } => "attach Herdr session",
+@@ -936,6 +1005,16 @@ fn preview_text(app: &App, e: &Entry) -> String {
+         EntryAction::FocusOrCreateDir => "create dir workspace",
+     };
+     lines.push(format!("enter: {action}"));
++    if e.preview_target.is_some() {
++        lines.push(String::new());
++        lines.push("recent output:".into());
++        lines.push(match app.preview_status() {
++            PreviewStatus::Loading => "Loading…".into(),
++            PreviewStatus::Unavailable => "Preview unavailable".into(),
++            PreviewStatus::Ready(value) if value.trim().is_empty() => "Preview unavailable".into(),
++            PreviewStatus::Ready(value) => value.clone(),
++        });
++    }
+     if let Some(template) = app.directory_template_for_selected() {
+         lines.push(format!(
+             "{}: apply template {template}",
+@@ -948,6 +1027,8 @@ fn preview_text(app: &App, e: &Entry) -> String {
+ fn source_color(theme: &Theme, source: &Source) -> Color {
+     match source {
+         Source::Workspace => theme.green,
++        Source::Tab => theme.peach,
++        Source::Pane => theme.blue,
+         Source::Project => theme.mauve,
+         Source::Zoxide => theme.blue,
+         Source::Root => theme.teal,
+@@ -981,6 +1062,9 @@ mod tests {
+             workspace_id: None,
+             workspace_label: None,
+             agent_target: None,
++            preview_target: None,
++            session_running: false,
++            navigator_plugin_pane: false,
+             project: None,
+             action: EntryAction::FocusOrCreateDir,
+             source_label: None,
+@@ -1370,6 +1454,57 @@ mod tests {
+         assert_eq!(app.input_mode, InputMode::Normal);
+     }
+ 
++    #[test]
++    fn delete_confirmation_renders_and_n_cancels_in_tui() {
++        let mut app = App::new(Config::default(), Theme::load(false));
++        app.input_mode = InputMode::ConfirmDelete;
++        app.confirmation = Some(crate::app::DeleteConfirmation {
++            prompt: "close pane 'shell · Code · Demo' [id: w2:p1; workspace: Demo [w2]]? [y/N]"
++                .into(),
++            plan: crate::app::DeletePlan::Pane { id: "w2:p1".into() },
++        });
++        let backend = TestBackend::new(70, 12);
++        let mut terminal = Terminal::new(backend).unwrap();
++        terminal
++            .draw(|frame| {
++                draw(frame, &app);
++            })
++            .unwrap();
++        assert!(buffer_text(&terminal).contains("id: w2:p1"));
++
++        handle_key(
++            &mut app,
++            KeyEvent::new(KeyCode::Char('y'), KeyModifiers::CONTROL),
++        );
++        assert_eq!(app.input_mode, InputMode::ConfirmDelete);
++        handle_key(
++            &mut app,
++            KeyEvent::new(KeyCode::Char('y'), KeyModifiers::ALT),
++        );
++        assert_eq!(app.input_mode, InputMode::ConfirmDelete);
++
++        handle_key(&mut app, key(KeyCode::Char('n')));
++        assert_eq!(app.input_mode, InputMode::Normal);
++        assert!(app.confirmation.is_none());
++    }
++
++    #[test]
++    fn only_plain_or_shift_y_confirms_delete() {
++        assert!(confirms_delete(key(KeyCode::Char('y'))));
++        assert!(confirms_delete(KeyEvent::new(
++            KeyCode::Char('Y'),
++            KeyModifiers::SHIFT
++        )));
++        assert!(!confirms_delete(KeyEvent::new(
++            KeyCode::Char('y'),
++            KeyModifiers::CONTROL
++        )));
++        assert!(!confirms_delete(KeyEvent::new(
++            KeyCode::Char('y'),
++            KeyModifiers::ALT
++        )));
++    }
++
+     #[test]
+     fn registry_reports_active_toggle_state() {
+         let mut app = App::new(Config::default(), Theme::load(false));
+@@ -1403,6 +1538,21 @@ mod tests {
+             .matches(&app, KeyEvent::new(KeyCode::Enter, KeyModifiers::NONE)));
+     }
+ 
++    #[test]
++    fn ctrl_d_and_legacy_ctrl_x_share_confirmed_delete_command() {
++        let app = App::new(Config::default(), Theme::load(false));
++        let delete = keybindings(&app)
++            .into_iter()
++            .find(|binding| binding.command == Command::DeleteSelected)
++            .unwrap();
++        for key in ['d', 'x'] {
++            assert!(delete.matches(
++                &app,
++                KeyEvent::new(KeyCode::Char(key), KeyModifiers::CONTROL)
++            ));
++        }
++    }
++
+     #[test]
+     fn disabled_sources_are_absent_from_filter_bindings_and_footer() {
+         let mut app = App::new(Config::default(), Theme::load(false));

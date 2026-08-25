@@ -1,0 +1,60 @@
+[picker]
+reuse_existing = true
+create_missing = true
+prefix_workspace_labels = false
+engine = "nucleo"
+source_order = ["workspace", "tab", "pane", "agent", "session", "zoxide", "root"]
+source_priority_boost = 5
+agent_sort = "herdr"
+preview = true
+detailed_rows = true
+check_updates = false
+vim_mode = true
+
+[picker.filter_keys]
+workspace = "ctrl-w"
+tab = "ctrl-t"
+pane = "ctrl-p"
+agent = "ctrl-a"
+session = "ctrl-l"
+zoxide = "ctrl-z"
+root = "ctrl-r"
+
+[notifications]
+enabled = true
+audio = false
+
+[jump_back]
+enabled = true
+pin_previous = true
+
+[sources]
+open_workspaces = true
+tabs = true
+panes = true
+agents = true
+herdr_plus_projects = false
+herdr_plus_quick_actions = false
+sessions = true
+servers = false
+zoxide = true
+roots = true
+
+[[roots]]
+path = "~/dotfiles"
+max_depth = 2
+
+[[roots]]
+path = "~/personal"
+max_depth = 2
+
+[[roots]]
+path = "~/work"
+max_depth = 2
+
+[[roots]]
+path = "~/Dev"
+max_depth = 2
+
+[sessions]
+local = true

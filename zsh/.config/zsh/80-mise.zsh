@@ -13,16 +13,21 @@ if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi
 
-for _mise_completion_tool in opencode codex; do
+for _mise_completion_tool in opencode codex herdr; do
   _mise_completion_bin="$(whence -p "$_mise_completion_tool")"
   _mise_completion_file="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/_$_mise_completion_tool"
   if [[ -n "$_mise_completion_bin" && ( ! -s "$_mise_completion_file" || "$_mise_completion_bin" -nt "$_mise_completion_file" ) ]]; then
     mkdir -p "${_mise_completion_file:h}"
-    command "$_mise_completion_tool" completion zsh >"$_mise_completion_file" 2>/dev/null
+    _mise_completion_tmp=$(mktemp "$_mise_completion_file.XXXXXX")
+    if command "$_mise_completion_tool" completion zsh >"$_mise_completion_tmp" 2>/dev/null && [[ -s "$_mise_completion_tmp" ]]; then
+      mv -f "$_mise_completion_tmp" "$_mise_completion_file"
+    else
+      rm -f "$_mise_completion_tmp"
+    fi
   fi
   [[ -s "$_mise_completion_file" ]] && source "$_mise_completion_file"
 done
-unset _mise_completion_tool _mise_completion_bin _mise_completion_file
+unset _mise_completion_tool _mise_completion_bin _mise_completion_file _mise_completion_tmp
 
 # Bun completions. The ~/.bun/_bun file shipped by bun's own installer is gone,
 # so cache them from whichever bun mise resolves. Invalidated against the global

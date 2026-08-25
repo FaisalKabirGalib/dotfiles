@@ -17,20 +17,21 @@ help = "prefix+?"
 settings = "prefix+shift+s"
 detach = "prefix+d"
 reload_config = "prefix+r"
-workspace_picker = "prefix+s"
+workspace_picker = ""
 goto = "prefix+w"
 new_workspace = "prefix+shift+c"
 rename_workspace = "prefix+shift+r"
 close_workspace = "prefix+shift+k"
 previous_workspace = "alt+up"
 next_workspace = "alt+down"
+switch_workspace = "prefix+shift+1..9"
 new_worktree = "prefix+shift+g"
 new_tab = "prefix+c"
 rename_tab = "prefix+comma"
 previous_tab = "alt+left"
 next_tab = ["prefix+n", "alt+right"]
 switch_tab = "prefix+1..9"
-close_tab = "prefix+ampersand"
+close_tab = "prefix+shift+x"
 copy_mode = ["prefix+u", "prefix+["]
 edit_scrollback = "prefix+e"
 focus_pane_left = ""
@@ -38,6 +39,7 @@ focus_pane_down = ""
 focus_pane_up = ""
 focus_pane_right = ""
 cycle_pane_next = "prefix+o"
+cycle_pane_previous = "prefix+shift+o"
 last_pane = "prefix+;"
 split_vertical = "prefix+|"
 split_horizontal = "prefix+minus"
@@ -123,6 +125,12 @@ command = "herdr-splits.resize-right"
 description = "Vim-aware resize right"
 
 [[keys.command]]
+key = "prefix+s"
+type = "plugin_action"
+command = "herdr-navigator.open"
+description = "workspace navigator"
+
+[[keys.command]]
 key = "prefix+p"
 type = "popup"
 command = "exec /usr/bin/zsh -l"
@@ -132,6 +140,8 @@ height = "80%"
 
 [ui]
 accent = "blue"
+sidebar_start_collapsed = false
+sidebar_collapsed_mode = "compact"
 pane_gaps = false
 pane_outer_borders = false
 pane_scrollbars = false
