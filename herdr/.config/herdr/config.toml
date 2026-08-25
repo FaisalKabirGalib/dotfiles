@@ -125,12 +125,6 @@ command = "herdr-splits.resize-right"
 description = "Vim-aware resize right"
 
 [[keys.command]]
-key = "prefix+s"
-type = "plugin_action"
-command = "herdr-navigator.open"
-description = "workspace navigator"
-
-[[keys.command]]
 key = "prefix+p"
 type = "popup"
 command = "exec /usr/bin/zsh -l"
