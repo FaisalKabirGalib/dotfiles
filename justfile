@@ -43,6 +43,10 @@ tools-upgrade:
 tools-outdated:
     @mise outdated
 
+# Restore herdr plugins + agent integrations declared in scripts/setup-herdr.sh
+herdr:
+    bash scripts/setup-herdr.sh
+
 # Health check: stow conflicts, broken symlinks, missing PACKAGE.md markers
 doctor:
     @bash scripts/doctor.sh

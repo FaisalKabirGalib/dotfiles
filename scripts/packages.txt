@@ -47,3 +47,8 @@ intel-media-driver
 # android-tools supplies adb.
 scrcpy
 android-tools
+
+# Terminal workspace manager. Ships from the omarchy pacman repo (already
+# configured system-wide via /etc/pacman.conf on Omarchy). Plugins and agent
+# integrations restore via `just herdr` — see herdr/PACKAGE.md.
+herdr

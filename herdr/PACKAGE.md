@@ -6,13 +6,14 @@ Persistent terminal workspace manager configured with tmux-compatible bindings.
 
 ```bash
 ./stowup herdr bin
-herdr plugin install lmilojevicc/herdr-splits.nvim \
-  --ref 94f30cf4e9ac76ddf185a3acd0977be728fa4106 --yes
-
-for integration in omp claude codex opencode antigravity-cli; do
-  herdr integration install "$integration"
-done
+just herdr
 ```
+
+`just herdr` (`scripts/setup-herdr.sh`) restores plugins and agent integrations
+(`omp claude codex opencode antigravity-cli`) idempotently. Plugins are
+declared in `~/.config/herdr/plugins.list` (stowed from
+`herdr/.config/herdr/plugins.list`), not in the script — add a line there,
+then run `just herdr`.
 
 The `hp` project picker requires `fd`, `fzf`, and `jq`.
 

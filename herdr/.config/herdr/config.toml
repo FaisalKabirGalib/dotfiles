@@ -17,7 +17,7 @@ help = "prefix+?"
 settings = "prefix+shift+s"
 detach = "prefix+d"
 reload_config = "prefix+r"
-workspace_picker = ""
+workspace_picker = "prefix+s"
 goto = "prefix+w"
 new_workspace = "prefix+shift+c"
 rename_workspace = "prefix+shift+r"
@@ -45,7 +45,7 @@ split_vertical = "prefix+|"
 split_horizontal = "prefix+minus"
 close_pane = "prefix+x"
 zoom = ["prefix+m", "prefix+z"]
-resize_mode = ""
+resize_mode = "prefix+shift+m"
 resize_pane_left = "prefix+left"
 resize_pane_down = "prefix+down"
 resize_pane_up = "prefix+up"
@@ -77,30 +77,6 @@ command = "herdr-splits.nav-right"
 description = "Vim-aware pane right"
 
 [[keys.command]]
-key = "prefix+h"
-type = "plugin_action"
-command = "herdr-splits.nav-left"
-description = "Vim-aware pane left"
-
-[[keys.command]]
-key = "prefix+j"
-type = "plugin_action"
-command = "herdr-splits.nav-down"
-description = "Vim-aware pane down"
-
-[[keys.command]]
-key = "prefix+k"
-type = "plugin_action"
-command = "herdr-splits.nav-up"
-description = "Vim-aware pane up"
-
-[[keys.command]]
-key = "prefix+l"
-type = "plugin_action"
-command = "herdr-splits.nav-right"
-description = "Vim-aware pane right"
-
-[[keys.command]]
 key = "alt+h"
 type = "plugin_action"
 command = "herdr-splits.resize-left"
@@ -123,6 +99,12 @@ key = "alt+l"
 type = "plugin_action"
 command = "herdr-splits.resize-right"
 description = "Vim-aware resize right"
+
+[[keys.command]]
+key = "prefix+space"
+type = "plugin_action"
+command = "sd2k.thumbs.pick"
+description = "Hint-pick text on screen"
 
 [[keys.command]]
 key = "prefix+p"
