@@ -90,5 +90,5 @@ This repo manages config for several coding agents, each its own stow package:
 
 - `nvim/` — LazyVim-based Neovim. Plugins in `lua/plugins/`, pinned via `lazy-lock.json`. Multi-language: TS, Go, Dart/Flutter, Python, Lua.
 - `zsh/` — Zinit plugin manager, Powerlevel10k (`p10k/`), FZF (`Ctrl+R`/`Ctrl+T`), Zoxide.
-- `tmux/` — prefix `C-a`.
+- `tmux/` — prefix `C-Space`.
 - `obsidian/` — shared `.obsidian` config templates + vault lifecycle scripts in `bin/` (`obsidian-vault-init`, `obsidian-sync-config`, `obsidian-backup`). Notes live in separate repos; only config is tracked here.

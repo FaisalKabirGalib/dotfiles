@@ -17,6 +17,10 @@ Machine-wide instructions for Claude Code. Project-level `CLAUDE.md` overrides a
 - Don't install packages, run migrations, or touch anything outside the repo without saying so first.
 - Prefer `rg` over `grep`, `fd` over `find`.
 
+## Skills
+
+- When ponytail's minimalism conflicts with a `mattpocock-skills:*` skill's process (interview, spec, tickets, review), **follow the Matt Pocock skill**. Ponytail still governs the code it produces — write the least code that satisfies the spec.
+
 ## Output
 
 - Answer the question asked. Skip preambles, summaries of what you just did, and lists of options you aren't taking.

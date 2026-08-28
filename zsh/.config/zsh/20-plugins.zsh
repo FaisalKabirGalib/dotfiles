@@ -37,7 +37,9 @@ zinit snippet OMZP::command-not-found
 
 # Tools
 zinit snippet OMZP::zoxide
-zinit snippet OMZP::tmux
+# OMZP::tmux deliberately omitted: its `tmux` wrapper starts tmux with
+# `-f .../tmux.extra.conf`, a file zinit never fetches (snippets pull only
+# the .plugin.zsh) — bare `tmux` then loads no config and no plugins.
 zinit snippet OMZP::ssh
 zinit snippet OMZP::rsync
 zinit snippet OMZP::ansible

@@ -16,7 +16,7 @@ stowup tmux
 
 ## Key Features
 
-- Prefix: `C-a` (instead of default `C-b`)
+- Prefix: `C-Space` (instead of default `C-b`)
 - Session management script: `tmux-se`
 - Clipboard integration
 - Vim-style navigation

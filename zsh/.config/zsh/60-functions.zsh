@@ -171,29 +171,17 @@ scrcpy-wireless() {
   if [ -n "$mac_ip" ]; then
     local subnet=$(echo "$mac_ip" | cut -d. -f1-3)
     echo "🔍 Scanning subnet $subnet.* for phone..."
-    
-    # Create a temp file to store findings
-    local temp_file=$(mktemp)
-    local pids=()
-    
-    # Scan the full subnet range in parallel (2..254) with 1s timeout
-    for i in {2..254}; do
-      (
-        if nc -z -w 1 "$subnet.$i" 5555 2>/dev/null; then
-          echo "$subnet.$i" > "$temp_file"
-        fi
-      ) &
-      pids+=($!)
-    done
-    
-    # Wait for scan to finish (max 1.2s)
-    sleep 1.2
-    
-    # Kill only the scan processes
-    kill "${pids[@]}" 2>/dev/null
-    
-    found_ip=$(cat "$temp_file" | head -n 1)
-    rm -f "$temp_file"
+
+    # Scan the full subnet in parallel; nomonitor keeps job notices out of the
+    # interactive shell, wait lets each nc use its full 1s timeout
+    found_ip=$(
+      setopt nomonitor nonotify
+      for i in {2..254}; do
+        (nc -z -G 1 -w 1 "$subnet.$i" 5555 2>/dev/null && echo "$subnet.$i") &
+      done
+      wait
+    )
+    found_ip=${found_ip%%$'\n'*}
   fi
 
 

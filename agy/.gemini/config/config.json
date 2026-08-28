@@ -1,4 +1,9 @@
 {
+  "plugins": {
+    "custom-agents": {
+      "enabled": true
+    }
+  },
   "userSettings": {
     "remoteControlHostname": "galibs-mac-mini-local-lunar-halo"
   }
