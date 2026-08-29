@@ -1,0 +1,7 @@
+# herdr plugins, one per line: owner/repo [ref]
+# ref is optional (omit for the plugin's default branch). Restored via `just herdr`.
+lmilojevicc/herdr-splits.nvim 94f30cf4e9ac76ddf185a3acd0977be728fa4106
+# ponytail: herdr-thumbs needs a Rust toolchain to build (cargo). Not installed
+# on this machine. Install rustup, then uncomment and re-run `just herdr`; also
+# restore the `prefix+space` -> sd2k.thumbs.pick binding in config.toml.
+# sd2k/herdr-thumbs 81552dea2a8ca58fcc43b542b40321ff692aca99

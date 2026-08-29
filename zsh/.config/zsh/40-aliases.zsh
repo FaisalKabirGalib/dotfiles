@@ -8,6 +8,7 @@ alias ls='eza --color=always --long --git --no-permissions --no-user --no-time  
 alias v='nvim .'
 alias vi='nvim'
 alias t='tmux-se'
+alias hp='herdr-se'
 alias c='clear'
 alias fv='nvim $(fd . -H ~ | fzf --algo=v1 -m --preview="bat --color=always {}")'
 alias fp='tmux-se'

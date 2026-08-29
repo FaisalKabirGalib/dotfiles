@@ -21,6 +21,10 @@ unstow *pkgs:
 sync *pkgs:
     bin/.local/bin/dotfiles-sync {{pkgs}}
 
+# Restore Herdr plugins (plugins.list) and agent integrations
+herdr:
+    bash scripts/setup-herdr.sh
+
 # Install pacman packages from scripts/packages.txt (Arch/omarchy branches only;
 # on macOS use the myansible repo's `just mac` instead)
 packages:

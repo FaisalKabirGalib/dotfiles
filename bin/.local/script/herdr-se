@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -gt 1 ]]; then
+	printf 'usage: herdr-se [project-path]\n' >&2
+	exit 2
+elif [[ $# -eq 1 ]]; then
+	selected=$1
+else
+	roots=("$HOME")
+	for root in "$HOME/personal" "$HOME/work" "$HOME/Dev"; do
+		[[ -d $root ]] && roots+=("$root")
+	done
+	IFS= read -r -d '' selected < <(
+		fd --type d --min-depth 1 --max-depth 1 --print0 . "${roots[@]}" |
+			sort -zu |
+			fzf --read0 --print0
+	) || exit 1
+fi
+
+[[ -n ${selected:-} && -d $selected ]] || exit 1
+selected=$(realpath "$selected")
+selected_name=$(basename "$selected" | tr . _)
+selected_name=${selected_name^}
+project_id=$(printf %s "$selected" | shasum -a 256 | cut -d ' ' -f 1)
+
+server_running() {
+	herdr status server 2>/dev/null | rg -q 'status: running'
+}
+
+if ! server_running; then
+	nohup herdr server >/dev/null 2>&1 &
+	server_pid=$!
+	for _ in {1..50}; do
+		server_running && break
+		sleep 0.1
+	done
+	server_running || {
+		kill "$server_pid" 2>/dev/null || true
+		exit 1
+	}
+fi
+
+# macOS has no flock(1); a mkdir spinlock is the portable critical section.
+lock_dir="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/herdr-se-$UID.lock"
+while ! mkdir "$lock_dir" 2>/dev/null; do sleep 0.05; done
+trap 'rmdir "$lock_dir" 2>/dev/null || true' EXIT
+
+workspace_id=$(herdr api snapshot | jq -r --arg cwd "$selected" --arg project_id "$project_id" '
+  [
+    (.result.snapshot.workspaces[]? | select(.tokens.project_id == $project_id) | .workspace_id),
+    (.result.snapshot.panes[]? | select(.cwd == $cwd) | .workspace_id)
+  ][0] // empty
+')
+
+if [[ -n $workspace_id ]]; then
+	herdr workspace focus "$workspace_id" >/dev/null
+else
+	workspace_id=$(herdr workspace create --cwd "$selected" --label "$selected_name" --focus |
+		jq -r '.result.workspace.workspace_id')
+fi
+
+herdr workspace report-metadata "$workspace_id" \
+	--source user:herdr-se --token "project_id=$project_id" >/dev/null
+rmdir "$lock_dir" 2>/dev/null || true
+trap - EXIT
+
+if [[ ${HERDR_ENV:-} != 1 && ${HERDR_SE_NO_ATTACH:-} != 1 ]]; then
+	exec herdr
+fi

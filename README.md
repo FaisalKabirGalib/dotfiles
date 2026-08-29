@@ -28,6 +28,7 @@ Or install individual packages:
 | `bin` | `~/.local/bin/` | Custom scripts and CLI tools |
 | `claude-code` | `~/.claude/` | Claude Code agent config |
 | `ghostty` | `~/.config/ghostty/` | Ghostty terminal |
+| `herdr` | `~/.config/herdr/` | Herdr agent-aware terminal workspaces (prefix C-Space; `hp` picker) |
 | `nvim` | `~/.config/nvim/` | Neovim (LazyVim) |
 | `obsidian` | `~/.obsidian/` | Obsidian vault templates & scripts |
 | `opencode` | `~/.config/opencode/` | Opencode CLI config |
