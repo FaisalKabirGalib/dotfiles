@@ -16,50 +16,6 @@ prefix = "ctrl+space"
 help = "prefix+?"
 settings = "prefix+shift+s"
 detach = "prefix+d"
-reload_config = "prefix+r"
-workspace_picker = "prefix+w"
-goto = "prefix+s"
-new_workspace = "prefix+shift+c"
-rename_workspace = "prefix+shift+r"
-close_workspace = "prefix+shift+k"
-previous_workspace = "alt+up"
-next_workspace = "alt+down"
-switch_workspace = "prefix+shift+1..9"
-new_worktree = "prefix+shift+g"
-new_tab = "prefix+c"
-rename_tab = "prefix+comma"
-previous_tab = "alt+left"
-next_tab = ["prefix+n", "alt+right"]
-switch_tab = "prefix+1..9"
-close_tab = "prefix+shift+x"
-copy_mode = ["prefix+u", "prefix+["]
-edit_scrollback = "prefix+shift+e"
-focus_pane_left = "prefix+h"
-focus_pane_down = "prefix+j"
-focus_pane_up = "prefix+k"
-focus_pane_right = "prefix+l"
-cycle_pane_next = "prefix+o"
-cycle_pane_previous = "prefix+shift+o"
-last_pane = "prefix+;"
-split_vertical = "prefix+|"
-split_horizontal = "prefix+minus"
-close_pane = "prefix+x"
-zoom = "prefix+z"
-resize_mode = "prefix+shift+m"
-resize_pane_left = "prefix+left"
-resize_pane_down = "prefix+down"
-resize_pane_up = "prefix+up"
-resize_pane_right = "prefix+right"
-toggle_sidebar = "prefix+b"
-
-[[keys.command]]
-key = "ctrl+h"
-type = "plugin_action"
-command = "herdr-splits.nav-left"
-description = "Vim-aware pane left"
-
-[[keys.command]]
-key = "ctrl+j"
 type = "plugin_action"
 command = "herdr-splits.nav-down"
 description = "Vim-aware pane down"
@@ -166,4 +122,5 @@ directory = "~/Dev/herdr-worktrees"
 scrollback_limit_bytes = 20000000
 
 [experimental]
+kitty_graphics = true
 pane_history = false
