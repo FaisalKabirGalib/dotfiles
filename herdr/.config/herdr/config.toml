@@ -33,7 +33,7 @@ next_tab = ["prefix+n", "alt+right"]
 switch_tab = "prefix+1..9"
 close_tab = "prefix+shift+x"
 copy_mode = ["prefix+u", "prefix+["]
-edit_scrollback = "prefix+e"
+edit_scrollback = "prefix+shift+e"
 focus_pane_left = ""
 focus_pane_down = ""
 focus_pane_up = ""
@@ -114,12 +114,31 @@ description = "scratch terminal"
 width = "80%"
 height = "80%"
 
+[[keys.command]]
+key = "prefix+e"
+type = "plugin_action"
+command = "herdr-nvim.toggle"
+description = "toggle Neovim sidebar"
+
+[[keys.command]]
+key = "prefix+f"
+type = "plugin_action"
+command = "herdr-nvim.pick-file"
+description = "open file from agent output"
+
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "cmc.plugins.open"
+description = "manage plugins"
+
 [ui]
 accent = "blue"
 sidebar_start_collapsed = false
 sidebar_collapsed_mode = "compact"
 pane_gaps = false
 pane_outer_borders = false
+show_agent_labels_on_pane_borders = true
 pane_scrollbars = true
 confirm_close = true
 prompt_new_tab_name = false
