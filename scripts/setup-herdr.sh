@@ -33,6 +33,16 @@ else
 	done
 fi
 
+LOCAL_PJ_PLUGIN="${XDG_CONFIG_HOME:-$HOME/.config}/herdr/local-plugins/pj"
+if [ -f "$LOCAL_PJ_PLUGIN/herdr-plugin.toml" ]; then
+	# PJ's fzf preview is patched locally to use absolute paths for its tree
+	# tools. This avoids fzf's preview shell losing command lookup on Herdr.
+	herdr plugin unlink pj >/dev/null 2>&1 || true
+	herdr plugin uninstall pj >/dev/null 2>&1 || true
+	echo "Linking local Herdr plugin: pj"
+	herdr plugin link "$LOCAL_PJ_PLUGIN"
+fi
+
 echo "Restoring agent integrations..."
 for integration in omp claude codex opencode antigravity-cli; do
 	herdr integration install "$integration"
