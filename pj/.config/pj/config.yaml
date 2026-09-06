@@ -1,0 +1,8 @@
+# Roots searched by pj and the Herdr PJ picker.
+search_paths:
+  - ~/personal
+  - ~/work
+  - ~/Dev
+
+# Keep Git worktrees discoverable alongside their parent repositories.
+worktrees: true
