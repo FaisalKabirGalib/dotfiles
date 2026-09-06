@@ -132,6 +132,30 @@ type = "plugin_action"
 command = "cmc.plugins.open"
 description = "manage plugins"
 
+[[keys.command]]
+key = "prefix+shift+b"
+type = "plugin_action"
+command = "structupath.browser.open"
+description = "open shared agent browser"
+
+[[keys.command]]
+key = "prefix+enter"
+type = "plugin_action"
+command = "herdr-spawn.open"
+description = "launch agent in worktree"
+
+[[keys.command]]
+key = "prefix+shift+enter"
+type = "plugin_action"
+command = "herdr-spawn.done"
+description = "clean up agent worktrees"
+
+[[keys.command]]
+key = "prefix+g"
+type = "plugin_action"
+command = "pj.open-picker"
+description = "open project workspace picker"
+
 [ui]
 accent = "blue"
 sidebar_start_collapsed = false
