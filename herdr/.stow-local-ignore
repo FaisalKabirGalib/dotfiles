@@ -4,3 +4,9 @@ LICENSE
 \.git
 \.stow-local-ignore
 \.gitignore
+^/\.config/herdr/\.plugins\.lock
+^/\.config/herdr/plugins/
+^/\.config/herdr/plugins\.json
+^/\.config/herdr/.*\.log
+^/\.config/herdr/release-notes\.json
+^/\.config/herdr/session\.json

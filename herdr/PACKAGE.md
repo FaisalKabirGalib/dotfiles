@@ -11,7 +11,7 @@ just herdr
 ```
 
 `just herdr` (`scripts/setup-herdr.sh`) restores plugins and agent integrations
-(`omp claude opencode antigravity-cli`) idempotently. Plugins are
+(`omp claude codex opencode antigravity-cli`) idempotently. Plugins are
 declared in `~/.config/herdr/plugins.list` (stowed from
 `herdr/.config/herdr/plugins.list`), not in the script — add a line there,
 then run `just herdr`.

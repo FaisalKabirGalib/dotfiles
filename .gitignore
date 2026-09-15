@@ -80,3 +80,11 @@ agy/.gemini/antigravity-cli/*
 # Agent runtime state that lands in the repo root (session json, taste cache)
 .commandcode/
 .antigravitycli/
+
+# Herdr runtime state. Only config.toml and plugins.list are declarative.
+herdr/.config/herdr/.plugins.lock
+herdr/.config/herdr/plugins/
+herdr/.config/herdr/plugins.json
+herdr/.config/herdr/*.log
+herdr/.config/herdr/release-notes.json
+herdr/.config/herdr/session.json

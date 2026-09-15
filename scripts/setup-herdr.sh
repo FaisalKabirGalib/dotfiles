@@ -5,9 +5,7 @@ set -euo pipefail
 # ~/.config/herdr/plugins.list (stowed from herdr/.config/herdr/plugins.list).
 # herdr has no config-driven plugin restore of its own (plugin state lives only
 # in ~/.config/herdr/plugins.json, written by `herdr plugin install`), so this
-# script is the TPM-equivalent: plugins.list is the declared source of truth
-# (like tmux.conf's `@plugin` lines), this script is the generic installer
-# (like tpm/bin/install_plugins).
+# script is the generic installer for the declared plugin list.
 
 if ! command -v herdr &>/dev/null; then
 	echo "herdr not found. Install it first: brew install herdr"
@@ -34,7 +32,7 @@ else
 fi
 
 echo "Restoring agent integrations..."
-for integration in omp claude opencode antigravity-cli; do
+for integration in omp claude codex opencode antigravity-cli; do
 	herdr integration install "$integration"
 done
 
