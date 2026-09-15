@@ -64,6 +64,7 @@ pi/.pi/agent/blobs/
 pi/.pi/gpu_cache.json
 pi/.pi/logs/
 pi/.pi/natives/
+pi/.pi/agent/skills
 
 
 
