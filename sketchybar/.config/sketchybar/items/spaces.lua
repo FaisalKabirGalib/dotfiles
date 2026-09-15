@@ -1,7 +1,13 @@
 -- Workspace/window overview bar. Adapted from github.com/falleco/dotfiles
 -- (sketchybar/items/spaces.lua), recolored into Catppuccin Mocha and changed
--- to a FIXED 10-slot loop (see items/aerospace.lua for why) instead of
--- upstream's dynamic get_workspaces().
+-- to a FIXED 20-slot loop (see items/aerospace.lua for why) instead of
+-- upstream's dynamic get_workspaces(). The 20 slots are split across two
+-- monitors to match the aerospace dual-monitor scheme
+-- (aerospace/.config/aerospace/aerospace.toml): slots 1-10 render on the
+-- PRIMARY/built-in display (sketchybar display 1), 11-20 on the EXTERNAL
+-- BenQ (display 2). The bar itself has no `display` set (bar.lua) so it draws
+-- on all monitors; pinning each item's `display` is what puts the right
+-- range on each bar.
 local colors = require("colors")
 local settings = require("settings")
 local app_icons = require("helpers.app_icons")
@@ -22,11 +28,15 @@ local function build_label(apps)
   return icon_line
 end
 
-for i = 1, 10 do
+for i = 1, 20 do
   local selected = tostring(i) == current_workspace
-  local accent = colors.rainbow[i]
+  -- rainbow has 10 slots; wrap so 11-20 reuse the same accent rotation as 1-10.
+  local accent = colors.rainbow[((i - 1) % 10) + 1]
+  -- 1-10 -> primary/built-in (display 1); 11-20 -> external BenQ (display 2).
+  local space_display = i <= 10 and 1 or 2
 
   local space = sbar.add("item", "space." .. i, {
+    display = space_display,
     icon = {
       string = tostring(i),
       font = { family = settings.font, style = "Bold" },
@@ -82,7 +92,7 @@ end
 
 -- Catches windows opening/closing without a workspace switch. Deliberately
 -- not adding AeroSpace's on-focus-changed hook for this (see PACKAGE.md) --
--- a single hidden poller repainting all 10 items in one pass is simpler and
+-- a single hidden poller repainting all 20 items in one pass is simpler and
 -- matches the old bash version's exact two-trigger design (hook + 2s poll),
 -- just relocated from one shell script into Lua item subscriptions.
 local space_poller = sbar.add("item", "space.poller", {
@@ -92,7 +102,7 @@ local space_poller = sbar.add("item", "space.poller", {
 })
 
 space_poller:subscribe("routine", function(_)
-  for i = 1, 10 do
+  for i = 1, 20 do
     sbar.exec("aerospace list-windows --workspace " .. i .. " --json", function(apps)
       spaces[i]:set({ label = build_label(apps) })
     end)

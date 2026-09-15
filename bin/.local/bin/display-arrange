@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# display-arrange — restore the preferred dual-monitor layout on this Mac:
+# the external monitor stacked on TOP, the built-in (primary/main) display on
+# the BOTTOM, horizontally centered under it. macOS usually remembers screen
+# arrangements on its own, but occasionally forgets them (OS updates, cable
+# swaps) — this re-applies it in one command.
+#
+# Pairs with the AeroSpace dual-monitor scheme
+# (aerospace/.config/aerospace/aerospace.toml): workspaces 1-10 live on the
+# built-in, 11-20 on the external.
+#
+# Dependency (macOS only): displayplacer — `brew install displayplacer`.
+set -euo pipefail
+
+if [[ "$(uname)" != "Darwin" ]]; then
+  echo "display-arrange: macOS only (this is $(uname)), nothing to do." >&2
+  exit 0
+fi
+
+if ! command -v displayplacer >/dev/null 2>&1; then
+  echo "display-arrange: displayplacer not found. Install it with:" >&2
+  echo "  brew install displayplacer" >&2
+  exit 1
+fi
+
+list="$(displayplacer list)"
+
+# Map each screen's persistent id to its type/resolution/hz/color_depth/scaling
+# by walking the per-screen blocks. The built-in is identified by its Type
+# ("...built in..."); the first other enabled screen is treated as the external.
+builtin_id=""; builtin_res=""; builtin_hz=""; builtin_depth=""; builtin_scaling=""
+ext_id="";     ext_res="";     ext_hz="";     ext_depth="";     ext_scaling=""
+
+cur_id=""; cur_type=""; cur_res=""; cur_hz=""; cur_depth=""; cur_scaling=""; cur_enabled=""
+commit_block() {
+  [[ -z "$cur_id" || "$cur_enabled" != "true" ]] && return
+  if [[ "$cur_type" == *"built in"* ]]; then
+    builtin_id="$cur_id"; builtin_res="$cur_res"; builtin_hz="$cur_hz"
+    builtin_depth="$cur_depth"; builtin_scaling="$cur_scaling"
+  elif [[ -z "$ext_id" ]]; then
+    ext_id="$cur_id"; ext_res="$cur_res"; ext_hz="$cur_hz"
+    ext_depth="$cur_depth"; ext_scaling="$cur_scaling"
+  fi
+}
+
+while IFS= read -r line; do
+  case "$line" in
+    "Persistent screen id: "*)
+      commit_block
+      cur_id="${line#Persistent screen id: }"
+      cur_type=""; cur_res=""; cur_hz=""; cur_depth=""; cur_scaling=""; cur_enabled="" ;;
+    "Type: "*)        cur_type="${line#Type: }" ;;
+    "Resolution: "*)  cur_res="${line#Resolution: }" ;;
+    "Hertz: "*)       cur_hz="${line#Hertz: }" ;;
+    "Color Depth: "*) cur_depth="${line#Color Depth: }" ;;
+    "Scaling: "*)     cur_scaling="${line#Scaling: }" ;;
+    "Enabled: "*)     cur_enabled="${line#Enabled: }" ;;
+  esac
+done <<< "$list"
+commit_block
+
+if [[ -z "$builtin_id" || -z "$ext_id" ]]; then
+  echo "display-arrange: expected a built-in + one external display, but couldn't" >&2
+  echo "  find both (built-in='${builtin_id:-none}', external='${ext_id:-none}')." >&2
+  echo "  Connect the external monitor, or run 'displayplacer list' to inspect." >&2
+  exit 1
+fi
+
+# External stacked on top of the built-in, centered horizontally.
+builtin_w="${builtin_res%x*}"
+ext_w="${ext_res%x*}"
+ext_h="${ext_res#*x}"
+ext_x=$(( (builtin_w - ext_w) / 2 ))
+ext_y=$(( -ext_h ))
+
+echo "display-arrange: built-in ${builtin_res} main at (0,0); external ${ext_res} on top at (${ext_x},${ext_y})."
+displayplacer \
+  "id:${builtin_id} res:${builtin_res} hz:${builtin_hz} color_depth:${builtin_depth} enabled:true scaling:${builtin_scaling} origin:(0,0) degree:0" \
+  "id:${ext_id} res:${ext_res} hz:${ext_hz} color_depth:${ext_depth} enabled:true scaling:${ext_scaling} origin:(${ext_x},${ext_y}) degree:0"

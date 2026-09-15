@@ -40,23 +40,23 @@ doctor:
 
 # Lint all shell scripts with shellcheck (no-op if not installed)
 lint:
-    @command -v shellcheck >/dev/null 2>&1 \
-        && git ls-files '*.sh' stowup stowDown install.sh bin/ | xargs -r shellcheck \
-        && echo "shellcheck: clean" \
-        || echo "shellcheck not installed (brew install shellcheck)"
+    @if ! command -v shellcheck >/dev/null 2>&1; then \
+        echo "shellcheck not installed (brew install shellcheck)"; exit 0; fi; \
+    git ls-files '*.sh' stowup stowDown install.sh bin/ | xargs shellcheck \
+        && echo "shellcheck: clean"
 
 # Format all shell scripts with shfmt (tabs, no-op if not installed)
 fmt:
-    @command -v shfmt >/dev/null 2>&1 \
-        && shfmt -w -i 0 $(git ls-files '*.sh' stowup stowDown install.sh) \
-        && echo "shfmt: formatted" \
-        || echo "shfmt not installed (brew install shfmt)"
+    @if ! command -v shfmt >/dev/null 2>&1; then \
+        echo "shfmt not installed (brew install shfmt)"; exit 0; fi; \
+    shfmt -w -i 0 $(git ls-files '*.sh' stowup stowDown install.sh) \
+        && echo "shfmt: formatted"
 
 # Scan working tree for committed secrets (no-op if gitleaks not installed)
 secrets:
-    @command -v gitleaks >/dev/null 2>&1 \
-        && gitleaks detect --no-banner --source . \
-        || echo "gitleaks not installed (brew install gitleaks)"
+    @if ! command -v gitleaks >/dev/null 2>&1; then \
+        echo "gitleaks not installed (brew install gitleaks)"; exit 0; fi; \
+    gitleaks detect --no-banner --source .
 
 # Install the pre-commit hook (gitleaks + shellcheck) into .git/hooks
 install-hooks:
