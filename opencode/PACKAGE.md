@@ -21,7 +21,17 @@ source opencode/mcp-env.sh  # Load API keys
 - `zai-mcp-server` — Z.AI services
 - `web-search-prime` — Web search
 - `web-reader` — Web content reading
+- `agent-browser` — Browser automation
+- `opensrc` — Package source lookup skill
 
 ## Note
 
 API keys stored in `mcp-env.sh` (private, not committed to git).
+
+## Additional Setup
+
+```bash
+npm install -g agent-browser opensrc
+agent-browser install
+npx skills add vercel-labs/opensrc --global --agent opencode --skill opensrc --yes
+```

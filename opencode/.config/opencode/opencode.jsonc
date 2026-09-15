@@ -9,10 +9,6 @@
   "default_agent": "plan",
   "autoupdate": true,
   "share": "manual",
-  "plugin": [
-    "@tarquinen/opencode-dcp@latest",
-    "@plannotator/opencode@latest"
-  ],
   "mcp": {
     "context7": {
       "type": "local",
@@ -54,6 +50,24 @@
         "Authorization": "Bearer {env:ZAI_WEB_SEARCH_KEY}"
       },
       "enabled": true
+    },
+    "agent-browser": {
+      "type": "local",
+      "command": [
+        "agent-browser",
+        "mcp"
+      ],
+      "enabled": true
+    },
+    "codegraph": {
+      "type": "local",
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "enabled": true,
+      "timeout": 30000
     }
   }
 }

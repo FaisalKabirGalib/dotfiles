@@ -1,7 +1,6 @@
 ---
 description: Context management specialist for multi-agent workflows and long-running tasks. Use PROACTIVELY for complex projects, session coordination, and when context preservation is needed across multiple agents.
 mode: subagent
-model: anthropic/claude-opus-4
 tools:
   read: true
   write: true

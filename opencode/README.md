@@ -8,7 +8,8 @@ OpenCode is a terminal-based AI coding assistant. This configuration includes:
 
 - **9 Specialized Agents**: fullstack-developer, code-reviewer, debugger, error-detective, ai-engineer, ui-ux-designer, context-manager, prompt-engineer, search-specialist
 - **7 Custom Commands**: code-review, architecture-review, create-feature, create-prd, refactor-code, explain-code, todo
-- **MCP Server Configuration**: Structure ready for adding Model Context Protocol servers
+- **MCP Server Configuration**: Context7, Z.AI, web search, web reader, and Agent Browser
+- **OpenSrc Skill**: Package source lookup for dependency inspection
 - **Global Settings**: Theme, model preferences, and autoupdate configuration
 
 ## Installation
@@ -198,6 +199,16 @@ Store sensitive data in environment variables, reference them with `{env:VAR_NAM
 export GITHUB_PERSONAL_TOKEN="your-token-here"
 export API_TOKEN="your-api-token"
 ```
+
+### Agent Browser and OpenSrc
+
+```bash
+npm install -g agent-browser opensrc
+agent-browser install
+npx skills add vercel-labs/opensrc --global --agent opencode --skill opensrc --yes
+```
+
+`agent-browser` is configured as an MCP server for browser automation. OpenSrc is a CLI and OpenCode skill that caches package source code for inspection; it is not an MCP server.
 
 ## Configuration Options
 

@@ -6,7 +6,6 @@
       "Bash(brew search *)"
     ]
   },
-  "model": "opus",
   "hooks": {
     "PostToolUse": [
       {

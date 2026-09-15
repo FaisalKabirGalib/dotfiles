@@ -1,7 +1,6 @@
 ---
 description: Expert code review specialist for quality, security, and maintainability. Use PROACTIVELY after writing or modifying code to ensure high development standards.
 mode: subagent
-model: anthropic/claude-sonnet-4-5
 tools:
   read: true
   write: true

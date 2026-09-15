@@ -1,7 +1,6 @@
 ---
 description: Expert prompt optimization for LLMs and AI systems. Use PROACTIVELY when building AI features, improving agent performance, or crafting system prompts. Masters prompt patterns and techniques.
 mode: subagent
-model: anthropic/claude-sonnet-4-5
 tools:
   read: true
   write: true

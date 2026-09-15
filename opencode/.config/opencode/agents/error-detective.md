@@ -1,7 +1,6 @@
 ---
 description: Log analysis and error pattern detection specialist. Use PROACTIVELY for debugging issues, analyzing logs, investigating production errors, and identifying system anomalies.
 mode: subagent
-model: anthropic/claude-sonnet-4-5
 tools:
   read: true
   write: true
